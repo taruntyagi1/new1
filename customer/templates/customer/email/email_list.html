@@ -1,0 +1,77 @@
+{% extends "customer/profile/profile.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load display_tags %}
+{% load currency_filters %}
+
+{% block profile_breadcrumbs %}
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Email History</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>
+                    <!-- <li><a href="{% url 'customer:summary' %}">Profile</a></li> -->
+                    <li>Email History</li>
+                </ul>
+            </div>                                     
+        </div>
+    </div>  
+    </section>
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+
+ 
+        <div class="edt_form">
+            <div class="edt_head">
+                <div class="eh_name"><h3 class="ttl_name">Email History</h3></div>
+                <div class="eh_btn">
+                    <!-- <a class="address_btn" href="javascript:void(0);"> <span>+</span>Add Address</a> -->
+                    <!-- <a class="orderno" href="javascript:void(0);"><b>10048</b></a>                                                                 -->
+                   
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                
+                {% include "oscar/partials/alert_messages.html" %}
+
+                {% if emails %}
+                <table class="table emailtab table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>{% trans 'Subject' %}</th>
+                            <th>{% trans 'Date sent' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for email in emails %}
+                            <tr>
+                                <td>
+                                    <a style="color:black" href="{% url 'customer:email-detail' email_id=email.id %}">{{ email.subject }}</a>
+                                </td>
+                                <td>{{ email.date_sent }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% include "partials/pagination.html" %}
+        {% else %}
+        <div class="norecordbx">
+            <p><img class="img-fluid" src="{% static 'website/images/no_record.png' %}" alt=""></p>
+            <h3>{% trans 'No emails found' %}</h3>        
+        </div>
+        {% endif %}
+
+                </div>
+            </div>
+        </div>
+ 
+
+
+
+
+{% endblock profile_content %}

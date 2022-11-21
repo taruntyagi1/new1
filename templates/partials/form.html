@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load static %}
+{% now "Y-m-d" as today_str %}
+
+<form  id="profile_forms" enctype="multipart/form-data" method="{{ method|default:"post" }}" {% if action %}action="{{ action }}"{% endif %}>
+
+<div class="">
+   
+  
+
+    
+    {% if not method == "get" %}{% csrf_token %}{% endif %}
+    
+    <div class="edt_form_list">
+       
+        <div class="form-group">
+            <label class="ttl-n">First Name</label>
+
+            <input type="text" class="form-control" placeholder="First Name" name="first_name" value="{{ user.first_name }}">
+        </div>
+        <div class="form-group">
+            <label class="ttl-n">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="{{ user.last_name }}">
+        </div>
+        <div class="form-group">
+            <label class="ttl-n">Email Address</label>
+            <input type="text" class="form-control" placeholder="Enter email" name="email" value="{{ user.email }}">
+        </div>
+        <div class="form-group">
+            <label class="ttl-n">Mobile Number</label>
+            <input type="text" class="form-control" placeholder="Mobile Number" name="mobile_number" id="id_mobile_number" maxlength="13" value="{{ user.mobile_number }}">
+        </div>
+        <div class="form-group">
+            <label class="ttl-n">DOB</label>
+            <input type="date" class="form-control" data-date-format="DD MMMM YYYY" name="dob" placeholder="DOB" value="{{ user.dob|date:'Y-m-d'}}" max="{{today_str}}">
+        </div>
+        <div class="form-group">
+            <label class="ttl-n">Male/Female</label>
+            <select id="gender" name="gender"  class="form-control">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+        
+        </div>
+        <div class="form-group custom-file">            
+            {%if request.user.profile_picture %}
+            <a data-fancybox="gallery" data-src="{{request.user.profile_picture.url}}" href="javascript:void(0);" style="position: absolute;right: 0px;color: #0661DC;font-size: 12px;font-weight: 500;">
+                <i class="fa fa-eye"></i> View
+            </a>
+            {%endif%}
+            <label class="ttl-n custom-file-label">Select Profile </label>
+            {%if request.user.profile_picture %}
+            <input type="file" class="form-control custom-file-input" name="profile_picture" id="profile_picture" value="{{request.user.profile_picture}}"  accept="image/png, image/jpeg image/jpg"   onchange=" return fileValidation()" >  
+            {%else%}
+            <input type="file" class="form-control custom-file-input" name="profile_picture" id="profile_picture" value="{{request.user.profile_picture}}"  accept="image/png, image/jpeg image/jpg"  onchange=" return fileValidation()" >  
+           
+            {%endif%}
+            <span id="pf-msg" style="color: #ef5f5f;font-size: 12px;font-style: italic;font-weight: 500;">Please Upload a file in jpg, jpeg, png format only</span>    
+            <div id="pf-error" class="d-none" style="color:red">Please Upload a file in jpg, jpeg, png format only</div>
+                                    
+          
+        </div>
+        <div class="form-group"></div>
+        <div class="add_attr d-flex justify-content-left">
+            <button class="btn btn-primary save-button" type="submit" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>
+            <a href="#" class="btn btn-outline-dark cancel-button" onclick="window.history.go(-1);return false">Cancel</a>
+        </div>
+       
+          
+    </div>
+    
+</div>
+</form>
+
+
+<script>
+    
+
+    function fileValidation() {
+        var fileInput =
+            document.getElementById('profile_picture');
+         
+        var filePath = fileInput.value;
+     
+        // Allowing file type
+        var allowedExtensions =
+                /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+         
+        if (!allowedExtensions.exec(filePath)) {
+            $('#pf-error').removeClass('d-none')
+            $('#pf-msg').addClass('d-none')
+            fileInput.value = '';
+            return false;
+        }
+        else
+        {
+         
+            // Image preview
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(
+                        'imagePreview').innerHTML =
+                        '<img src="' + e.target.result
+                        + '"/>';
+                };
+                 
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    }
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>

@@ -1,0 +1,39 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block profile_breadcrumbs %}
+    <section class="breadcrumb-list mt-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0">
+                    <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                    <li class="breadcrumb-item active">Wishlist Delete</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+    {% block profile_heading %}
+        <h3>{{ wishlist.name }}</h3>
+    {% endblock %}
+
+    {% include "oscar/partials/alert_messages.html" %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            {% blocktrans with name=wishlist.name %}
+                Are you sure you want to delete {{ name }}?
+            {% endblocktrans %}
+        </p>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-red" data-loading-text="{% trans 'Deleting...' %}">{% trans 'Delete' %}</button> {% trans 'or' %} <a href="{% url 'customer:wishlists-list' %}">{% trans 'cancel' %}</a>
+        </div>
+    </form>
+
+{% endblock profile_content %}

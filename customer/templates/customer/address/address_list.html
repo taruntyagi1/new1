@@ -1,0 +1,226 @@
+{% extends "customer/profile/profile.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block profile_breadcrumbs %}
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Shipping</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>
+                    <li><a href="javascript:void(0);">Shipping</a></li>
+                    
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+<div class="edt_form">
+
+    <!-- {% include "oscar/partials/alert_messages.html" %} -->
+    <div class="edt_head">
+        <div class="eh_name"><h3 class="ttl_name">Shipping Address</h3></div>
+        <div class="eh_btn">
+            <a class="address_btn" href="{% url 'customer:address-create' %}"> + Add Address</a>         
+        </div>
+    </div>
+
+    <div class="addr_dtl">
+        
+            <div class="row">
+                <!-- {% include "oscar/partials/alert_messages.html" %} -->
+                {% if addresses %}
+                {% for address in addresses %}
+                <div class="col-md-4 mb-4">
+                        <div class="card" >
+                            <div class="card-body">
+                            <h5 class="card-title">
+                                {{address.first_name}}
+                                {{address.last_name}}
+                                <!-- {{forloop.counter}} -->
+                            </h5>
+                            <p>
+                                {{address.phone_number}}
+                            </p>
+                            <!-- <p>
+                                {{address.addres}}
+                            </p> -->
+                                <div class="addr_info">
+                                    {% for field in address.active_address_fields %}
+                                    {{ field }}
+                                   
+                                {% endfor %}
+                                {{address.phone_number}}
+                                <!-- <p>{{request.user.mobile_number}}</p> -->
+                                <!-- <p> 7/4 gwatior Madhya Pardesh 45678</p>
+                                <p>987654321</p> -->
+                                    
+                            </div>
+                            </div>
+                            <div class="card-footer">
+                            <a href="{% url 'customer:address-detail' pk=address.id %}" class="card-link"><i class="ri-edit-2-fill"></i> Edit</a>
+                            <a class="address-delete-btn card-link delbtn" href="javascript:void(0);" data-address="{{address.id}}"><i class="ri-delete-bin-5-fill"></i> Delete</a>
+                            <!-- <a href="{% url 'customer:address-delete' pk=address.id %}" class="card-link delbtn"><i class="ri-delete-bin-5-fill"></i> Delete</a> -->
+                            </div>
+                            
+                        </div>
+                </div>
+                {% endfor %}
+                {% include "oscar/partials/pagination.html" %}
+                {% else %}
+                <div class="norecordbx">
+                    <p><img class="img-fluid" src="/static/website/images/no_record.png" alt=""></p>
+                    <h3>{% trans 'There are no addresses in your address book.' %}</h3>        
+                </div> 
+                {%endif%}
+            </div>
+        
+    </div>
+</div>
+
+
+<!-- 
+<div class="modal fade"  id="delete-adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">      
+        <div class="modal-body" id="popup-message-text">
+            <form class="dltadrfrm" method="post">
+                {% csrf_token %}
+                <p>{% trans 'Are you sure you want to delete this address?' %}</p>
+        
+                <p class="fs-6 fw-normal">{{ object.summary }}</p>
+        
+                <div class="form-group form-actions">
+                    <button type="submit" class="btn btn-danger" data-loading-text="{% trans 'Deleting...' %}">{% trans 'Delete' %}</button> 
+                   
+                    <a class="btncncl" href="{% url 'customer:address-list' %}">{% trans 'cancel' %}</a>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+<div class="itmremvdbx add_message_pop" id="deletaddress">
+    <div class="itmmdlbx">
+        {% csrf_token %}
+
+        <div class="css-h2i4hf">
+            <h4 class="css-1aseh1t">
+                <span class="css-uq1bvn">
+                    <span role="img" aria-label="danger icon" class="sc-bwzfXH ufyYh">
+                        <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+                            <g fill-rule="evenodd">
+                                <path d="M13.416 4.417a2.002 2.002 0 0 0-2.832 0l-6.168 6.167a2.002 2.002 0 0 0 0 2.833l6.168 6.167a2.002 2.002 0 0 0 2.832 0l6.168-6.167a2.002 2.002 0 0 0 0-2.833l-6.168-6.167z" fill="currentColor"></path><path d="M12 14a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2" fill="inherit"></path>
+                            </g>
+                        </svg>
+                    </span>
+                </span>
+                <span class="css-vjdnif">Delete ?</span>
+            </h4>
+        </div>
+
+        <div class="rmvdatabx"><span id="added-product_name"> </span> &nbsp; {% trans 'Are you sure to delete this address?' %}</div>
+        <!-- <p class="fs-6 fw-normal">{{ object.summary }}</p> -->
+        <!-- Are you sure want to remove this product. -->
+        <div class="btn-group">
+            <a href="{% url 'customer:address-list' %}" class="btn_r not-remove-item">No Thanks</a>
+            <a class="btn_r remove-citem del-adrs btn btn-danger" href="javascript:void(0);" data-addr="">{% trans 'Delete' %}</a>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="dltadrsbx delete-addrs d-none">
+    <form class="dltadrfrm">
+        
+        <p></p>
+
+        
+
+        <div class="form-group form-actions">
+            <a class="del-adrs btn btn-danger" href="javascript:void(0);" data-addr="">{% trans 'Delete' %}</a>
+             {% trans 'or' %}  -->
+            <!-- <a class="btncncl" href="{% url 'customer:address-list' %}">{% trans 'cancel' %}</a>
+        </div>
+    </form>
+</div> --> 
+
+{% endblock profile_content %}
+
+
+
+
+{% block custombodyend %}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+          
+            $('.address-delete-btn').click(function(){
+                var address = $(this).data("address")
+                console.log('hey');
+                $(".delete-addrs").removeClass('d-none');
+                $("#deletaddress").addClass('active');
+                $(".del-adrs").data('addr', address);                
+            });
+
+            $('.del-adrs').click(function(){
+                var addres = $(this.id);
+                var address = $(this).data("addr")
+                console.log(address)
+                $.ajax({
+                    type : "delete",
+                    headers: {
+                        'X-CSRFToken': '{{csrf_token}}'
+                    },
+                    url : `${location.origin}/accounts/api/v1/customer-address/${address}`,
+                    
+                    success : function(response) {
+                       console.log('success');
+                       location.reload();
+                    
+                    },
+
+                    error: function (error) {
+                            console.error(error);
+                        
+                    }
+                
+                });
+            });
+            
+            setTimeout(function(){                                
+                $("#profile-adcrtmdl").removeClass("active");
+                $('#profile-adcrtmdl').hide();
+                // $("#deletaddress").removeClass('active');
+            },2500);
+
+            
+            $('.add-address').addClass('btn-red');
+
+            
+
+        });
+    </script>
+{% endblock %}

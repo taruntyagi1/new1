@@ -1,0 +1,599 @@
+{% load static %}
+{% load image_tags %}
+{% load go_to_cart_product %}
+{% load purchase_info_tags %}
+<html>
+<head>
+    {% block seo %}
+        <title>InstaEats</title>
+    {% endblock %}
+    <meta name="theme-color" content="#16be48" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=12; IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)">
+    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+
+    <title>India's 1st Personalized & Most Healthist Superfood Mix | 100% Natural Health Nutrition Online | Instaeats</title>
+    <link rel="canonical" href="https://instaeats.in">
+    <meta property="og:site_name" content="InstaEats">
+    <meta property="og:url" content="https://instaeats.in" />    
+    <meta property="og:title" content="India's 1st Personalized & Most Healthist Superfood Mix | 100% Natural Health Nutrition Online | Instaeats" />
+    <meta property="og:type" content="website" />
+    <meta name="description" content="100% Natural Health Nutrition Online | Get The Healthiest, Specific, Quantified And Easy To Carry Superfood Mix For Daily Nutrition & Lifestyle Disease Management | Get Set & Shop Online Now.">
+    <meta property="og:description" content="100% Natural Health Nutrition Online | Get The Healthiest, Specific, Quantified And Easy To Carry Superfood Mix For Daily Nutrition & Lifestyle Disease Management | Get Set & Shop Online Now." />
+    
+    <meta property="og:image" content="https://instaeats.in/static/website/images/thumshare.jpg?v=106" />
+    <meta property="og:image:secure_url" content="https://instaeats.in/static/website/images/thumshare.jpg?v=106"/>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'new_templates_assets/images/favicon.png' %}">   
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/owl.carousel.css' %}" />        
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/font-awesome.min.css' %}">
+
+    <!-- https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/old_site_css/style.css' %}?v=0.3" />
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/stylesheet.css' %}?v=0.3" />    
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/full_site-responsive.css' %}?v=0.3" />
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/slider/slick.css' %}" />    
+
+    <!-- <link rel="preload" as="style"  onload="this.onload=null;this.rel='stylesheet'" href="{% static 'website/css/stylesheet.css' %}">
+    <link rel="preload" as="style"  onload="this.onload=null;this.rel='stylesheet'" href="{% static 'website/css/responsive.css' %}"> -->
+    
+    
+    
+    
+
+
+
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NTS6QND');</script>
+        <!-- End Google Tag Manager -->
+    <!-- Nc3@gh%kkGMk!@ -->
+    <!-- Onet@2023$!M -->
+    <!-- Mahender  -->
+    
+    
+    
+
+
+    {% block customheadend %}{% endblock %}
+</head>
+<body>
+    {% block content %}
+
+    {% endblock %}
+
+    {% if messages %}
+    <div class="modal fade" id="adcrtmdl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="popup-message-text">
+                    {% for message in messages %}
+                    {% if 'safe' in message.tags %}
+
+                    {{ message|safe }}
+
+                    {% else %}
+
+                    {{ message }}
+
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="modal fade" id="adcrtmdl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="popup-message-text">
+                    {% for message in messages %}
+                    {% if 'safe' in message.tags %}
+
+                    {{ message|safe }}
+
+                    {% else %}
+
+                    {{ message }}
+
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <div class="AFyd3c add_message_pop" id="success-adcrtmdl">
+        <div class="_1EA4La" id="popup-success-message">
+            <div class="_1-baVo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+            </div>
+            <div class="JAUzCh"><span id="added-product_name"></span> Item Added Successfully.</div>
+            <div class="_2BPjzq">
+                <a href="{% url 'basket:summary' %}" class="_2AkmmA VID7GA">Go To Cart</a>            
+            </div>
+        </div>
+    </div> 
+ 
+  
+ 
+    <div class="modal fade csmtvideomdl" id="videomdl" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">          
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="hide-dietitions" aria-label="Close"><i class="ri-close-fill"></i></button>
+                </div>
+                <div class="modal-body dietician-mdl">
+                    <iframe class="ifrmvideo" id="ifrmvideo" src="https://www.youtube.com/embed/zv-Sjzvhwrc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+
+    <script src="{% static 'new_templates_assets/js/jquery.min.js' %}"></script>	
+	<script src="{% static 'new_templates_assets/js/custom_jquery.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/owl.carousel.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'new_templates_assets/slider/jquery-migrate-1.2.1.min.js' %} "></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/slider/slick.min.js' %} "></script>
+    
+    
+    <a href="javascript:void(0);" class="scrollTop scrollup" style="display: none;">
+        <i class="ri-arrow-up-s-line"></i>        
+    </a>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTS6QND"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    {% block custombodyend %}{% endblock %}
+
+<script>         
+    $(document).ready(function () {     
+        
+        
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+                $('.scrollup').fadeIn();
+            } else {
+                $('.scrollup').fadeOut();
+            }
+        });
+        $('a.scrollTop').click(function () {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 600);
+            return false;
+        });
+
+
+
+        $(".nv_button").click(function(){
+            $("body").toggleClass("overflow-hidden");
+            $(".menu-link").toggleClass("open");
+            $("#navbarNavDropdown").toggleClass("active");                
+        });
+
+        $("#id_user_mobile_number").keyup(function(e){                    
+            var dd_phone_number = $('#id_user_mobile_number').val();
+            if (dd_phone_number.length < 1) {
+                    $('#id_user_mobile_number').addClass('invalid');
+            }else{
+                    $('#id_user_mobile_number').removeClass('invalid');
+            }
+            if(e.keyCode==13){
+                $('#lgnankbtn').click();
+            }
+        });
+
+        $("#id_otp").keyup(function(e){                    
+            if(e.keyCode==13){
+                $('#usr-verify-otp').click();
+            }
+        });
+
+        $("#id_user_register_mobile_number").keyup(function(e){                    
+            if($("#id_user_register_mobile_number").val() && e.keyCode==13){
+                $('#id_frst_name').trigger('focus');
+            }
+        });
+
+        $("#id_frst_name").keyup(function(e){                    
+            if($("#id_user_register_mobile_number").val() && $("#id_user_register_mobile_number").val() && e.keyCode==13){
+                $('#id_register_email').trigger('focus')
+            }
+        });
+
+        $("#id_register_email").keyup(function(e){                    
+            if(e.keyCode==13){
+                $('.signup_validation').click();
+                
+            }
+        });
+
+        $("#id_register_otp").keyup(function(e){                    
+            if(e.keyCode==13){
+                $('.user-register-verify-otp').click();
+                
+            }
+        });
+        // $('.preloader').fadeOut('slow')
+
+        $('#clsbtnm').on('shown.bs.modal', function () {
+            $('#lgnflowmodal').trigger('focus');                
+        })
+
+
+        $('#clsbtnm').click(function () {                
+            $('#lgnflowmodal').modal('toggle')
+            $('.modal-backdrop').hide();                
+            $('#otpmdl_register').hide();
+            $('body').removeClass('modal-open');                
+        });
+
+
+        $('#lgnankbtn').click(function () { 
+            $('#name_errmsg').html('');
+            $('#errmsg').html('');
+            if ($('#id_user_mobile_number').val().length == 10){
+                OtpGenerate();
+                var moNumber = $('#id_user_mobile_number').val()
+                $('#id_user_login_mobile_number').val(""+moNumber)
+                // $('#otpmdl_n').show();
+                // $('#lgn_mdl').hide();    
+                $('#id_frst_name').val('');
+                $('#id_register_email').val('');
+
+
+            }
+            else if ($('#id_user_mobile_number').val().length > 1 & $('#id_user_mobile_number').val().length < 10 ){
+                $('#mbb-error').removeClass('d-none');
+                $('#mb-error').addClass('d-none');
+                $('#errmssg').html('');
+            }
+            else if ($('#id_user_mobile_number').val().length < 1){
+                $('#mbb-error').addClass('d-none');
+                $('#mb-error').removeClass('d-none');
+                $('#errmssg').html('');
+            }
+        });
+
+        $('.edtbtn').click(function () {
+            // debugger;
+            $('#lgn_mdl').show();
+            $('#otpmdl_n').hide();
+            $('#crtmdl_n').hide();
+            $('#otpmdl_register').hide();
+            $('#id_otp').val('');
+            $('#otperrmsg').text('');
+            $('#mbb-error').addClass('d-none');
+            $('#mb-error').addClass('d-none'); 
+        });
+
+        $('#crtantank').click(function () {
+            console.log('hey');
+            $('#id_user_register_mobile_number').focus();
+            $('#crtmdl_n').show();
+            $('#otpmdl_n').hide();
+            $('#lgn_mdl').hide();
+        });
+
+        $('#crtantankk').click(function () {
+            console.log('hey')
+            $('#crtmdl_n').show();
+            $('#otpmdl_n').hide();
+            $('#lgn_mdl').hide();
+        });
+
+        $('#crtantankkk').click(function () {
+            console.log('hey')
+            $('#crtmdl_n').show();
+            $('#otpmdl_n').hide();
+            $('#lgn_mdl').hide();
+        });
+
+        $('#lgnmdl_n').click(function () {
+            $('#crtmdl_n').hide();
+            $('#otpmdl_n').hide();
+            $('#lgn_mdl').show();
+            $('#crtmdl_n').hide();  
+            $('#mbb-error').addClass('d-none');
+            $('#mb-error').addClass('d-none');              
+        });
+
+
+        var lgnflowEl = document.getElementById('lgnflowmodal');
+        if (lgnflowEl){
+            // $('#id_user_mobile_number').trigger('focus');
+            lgnflowEl.addEventListener('hidden.bs.modal', function (event) {
+                $('#id_user_login_mobile_number').val('');
+                $('#crtmdl_n').hide();
+                $('#errmsgg').text(``);
+                $('#errmsg').text(``);
+                $('#popup-form').get(0).reset();
+                $('#otpmdl_n').hide();
+                $('#lgn_mdl').show();    
+                $('#mbb-error').addClass('d-none');
+                $('#mb-error').addClass('d-none');  
+                $('#otperrmsg').text(''); 
+                $('#errmesg').text('');
+                $('#name_errmsg').text('');
+            
+                // $('.user-verify-otp').hide();
+            });
+        }
+
+    // {% if messages %}
+    // setTimeout(function () {
+    //     $('#staticBackdrop').modal('show');
+    // }, 100);
+
+    // {% endif %}
+
+        $('a#closepopup').click(function () {
+            $('.add-popup').hide();
+        });
+
+        $('.nav-small-cart-btn').click(function () {
+            console.log('hello');
+            $('.add-popup').show();
+        });
+
+        $('#resend-otp-btn').click(function () {
+            OtpGenerate();
+        });
+
+        var OtpGenerate = function(){
+            $('#user-login-model').removeClass('d-none');
+            $('#lgnankbtn').addClass('d-none');
+            var dd_phone_number = "+91"+$('#id_user_mobile_number').val();
+            var res_phone_number = $('#id_user_mobile_number').val();
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/generate-otp.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_user_mobile_number').val(),
+                    "purpose": "login"
+                    },
+                success : function(success) {
+                    $('#user-login-model').addClass('d-none');
+                    $('#lgnankbtn').removeClass('d-none');
+                    $('#lgn_mdl').hide();
+                
+                    $('#errmssg').html('');
+                    $('#mb-error').html('');
+                    console.log(success)
+                    
+                    if(success.status==true){
+                        $('#otpmdl_n').show();
+                        $('input#id_otp').focus();                        
+                        console.log("success");
+                        $('#custom_error').html('');
+                        $('#custom_text').html(`${success.text}`);
+                    
+                        $('#password-block').addClass("d-none");
+                        $('#otp-btn').addClass("d-none");
+                    }
+                    else if(success.text == "There is no account with this mobile number"){
+                        $('#id_user_register_mobile_number').val(res_phone_number);
+                        registerCustomer();
+                    }
+
+                    else{
+
+                        $('#id_first_name').show();
+                        $('#id_email').show();
+                        $('.register_submit').show();
+                        $('.login_submit').hide();
+                        $('#custom_error').html(`${success.text}`);
+                        $('#custom_text').html('');
+
+                    }
+                },
+                error: function(error) {
+                    $('#user-login-model').addClass('d-none');
+                    $('#lgnankbtn').removeClass('d-none');
+                    console.log(error)
+                    $('#mb-error').html('');
+                    $('#otpmdl_n').hide();
+                    $('#lgn_mdl').show();
+                    if(error.responseJSON && error.responseJSON.mobile_number){
+                        $('#errmssg').html(error.responseJSON.mobile_number[0]);
+                    }    
+                },
+            });
+
+        } 
+
+        $('.user-verify-otp').click(function(){
+            otpValidate();
+        });
+
+
+        var otpValidate = function(){
+            $('#user-vf-login-model').removeClass('d-none');
+            $('#usr-verify-otp').addClass('d-none');
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/validate-otp.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_user_mobile_number').val(),
+                    "otp":$('#id_otp').val(),
+                    // "purpose": "login"
+                    },
+                success : function(success) {
+                    $('#user-vf-login-model').addClass('d-none');
+                    $('#usr-verify-otp').removeClass('d-none');
+                    if(success.status){
+                        
+                        console.log("success");
+                    
+                        location.reload()
+                    
+                    }
+                
+                },
+                error: function(error) {
+                    $('#user-vf-login-model').addClass('d-none');
+                    $('#usr-verify-otp').removeClass('d-none');
+                    console.log(error);
+                    // console.log(error.responseJSON.otp[0])
+                    // console.log(error.responseJSON)
+                    // console.log(error.responseJSON.text)
+                    if(error.responseJSON.detail){
+                        $('#otperrmsg').html(`${error.responseJSON.detail}`);
+                    }
+                    else if(error.responseJSON.text){
+                        $('#otperrmsg').html(`${error.responseJSON.text}`);
+                    }
+                    else if(error.responseJSON.otp[0]){
+                        $('#otperrmsg').html(`${error.responseJSON.otp[0]}`);
+                    }
+                    else{
+                        $('#otperrmsg').html(``);
+                    }
+                    // $('#otperrmsg').html(error.responseJSON.detail)            
+                },
+            });
+        }
+
+        var registerCustomer = function(){
+            $('#user-vf-signup-model').removeClass('d-none');
+            $('#user_signup_validation').addClass('d-none');
+            var mobN = "+91"+$('#id_user_register_mobile_number').val();
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/user-add.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_user_register_mobile_number').val(),
+                    // "first_name":$('#id_frst_name').val(),
+                    // "email":$('#id_register_email').val(),
+                
+                    },
+                success : function(response) {
+                    $('#user-vf-signup-model').addClass('d-none');
+                    $('#user_signup_validation').removeClass('d-none');
+                    $('#crtmdl_n').hide();
+                    $('#otpmdl_register').show();
+                    $('#id_user_r_mobile_number').val(mobN)
+                
+                },
+
+                error: function(error) {
+                    $('#user-vf-signup-model').addClass('d-none');
+                    $('#user_signup_validation').removeClass('d-none');
+                    console.log(error)
+                    console.log(error.responseJSON.mobile_number);
+                    console.log(error.responseJSON.email);
+
+                    if(error.responseJSON.email){
+                        $('#errmsg').html(error.responseJSON.email);
+                    }
+                    if(error.responseJSON.first_name){
+                        $('#name_errmsg').html(error.responseJSON.first_name);
+                    }
+                    console.log(mobN.length)
+                    if(mobN.length < 4){
+                        $('#errmsgg').text("This field may not be blank.");
+                    }
+                
+                    else {
+                        $('#errmsgg').html(error.responseJSON.mobile_number);
+                    }
+                
+                
+                },
+            });
+        }
+
+
+        $('.user-register-verify-otp').click(function(){
+            otpRegisterValidate();
+        });
+
+
+        var otpRegisterValidate = function(){
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/validate-otp.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_user_register_mobile_number').val(),
+                    "otp":$('#id_register_otp').val(),
+                    // "purpose": "login"
+                    },
+                success : function(success) {
+                    if(success.status){
+
+                        console.log("success");
+                    
+                        location.reload()
+                        location.href = `${location.origin}`
+                    
+                    }
+                
+                },
+                error: function(error) {
+                    console.log(error);
+                    if(error.responseJSON.detail){
+                        $('#errmesg').html(`${error.responseJSON.detail}`);
+                    }
+                    else if(error.responseJSON.text){
+                        $('#errmesg').html(`${error.responseJSON.text}`);
+                    }
+                    else if(error.responseJSON.otp[0]){
+                        $('#errmesg').html(`${error.responseJSON.otp[0]}`);
+                    }
+                    else{
+                        $('#errmesg').html(``);
+                    }
+                    // $('#errmesg').html('')
+                    
+                },
+            });
+        }
+
+    });
+</script>
+
+</body>
+</html>

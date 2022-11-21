@@ -1,0 +1,55 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block profile_breadcrumbs %}
+    <section class="breadcrumb-list mt-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0">
+                    <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                    <li class="breadcrumb-item active">Delete Address</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+<section class="ordrhstybx">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                {% include "oscar/partials/alert_messages.html" %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="dltadrsbx">
+    <form class="dltadrfrm" method="post">
+        {% csrf_token %}
+        <p>{% trans 'Are you sure you want to delete this address?' %}</p>
+
+        <p class="fs-6 fw-normal">{{ object.summary }}</p>
+
+        <div class="form-group form-actions">
+            <button type="submit" class="btn btn-danger" data-loading-text="{% trans 'Deleting...' %}">{% trans 'Delete' %}</button> 
+            <!-- {% trans 'or' %}  -->
+            <a class="btncncl" href="{% url 'customer:address-list' %}">{% trans 'cancel' %}</a>
+        </div>
+    </form>
+</div>
+
+{% endblock profile_content %}
+
+{% block custombodyend %}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+            $('button').addClass('btn-red');
+            $('button').removeClass('btn-lg');
+        });
+    </script>
+{% endblock %}

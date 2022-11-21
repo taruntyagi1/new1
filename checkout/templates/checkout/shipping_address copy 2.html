@@ -1,0 +1,505 @@
+{% extends "website/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+
+{% block customheadend %}
+<style>   
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+    /* header.header{display: none !important;}
+    #navbarCollapse{display: none !important;} 
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;} */
+</style>
+{% endblock %}
+{% block page-content %}
+
+
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Payment</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>
+                    <li><a href="{%url 'basket:summary'%}">Cart</a></li>
+        
+                    <li><a href="javascript:void(0);">Shipping</a></li>
+                   
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+
+
+<section class="payment_section">
+    <div class="container">
+        <div class="pmnt_box">
+            <div class="pmnt_frm">
+                <div class="pmnthead">
+                    <h3>Shipping Address</h3>
+                    <div class="pmntbnt">
+                        <a href="javascript:void(0);" id="addnadrs">+ Add New Address</a>
+                        <a href="javascript:void(0);" id="closenadrs" style="display: none">Close</a>
+                    </div>
+                </div>
+                
+
+                <div id="spng_adrsbx">
+                    {% if user.is_authenticated %}
+                    {% if addresses %}
+                    {% for address in addresses %}
+                    
+                <div class="ship-details-meth">
+                    <ul class="cont_ship">
+                        <li><p> Contact<span>{{user.email}}</span></p>
+                            <!-- <p><a href="#">Edit</a></p></li> -->
+                        {% block select_address_form %}
+                        <li><p> Ship to<span>{% block select_address_fields %}
+                          
+                                {{ address.line1}}, {{address.postcode}}, {{address.state}}, {{address.country}}
+                           
+                            {% endblock %}</span></p>
+                            {% endblock %}
+                           
+                            <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                {% csrf_token %}
+                                <div class="ckdbtnbx">
+                                  <input type="hidden" name="action" value="ship_to" />
+                                  <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                  <p><a href="{% url 'checkout:user-address-update' pk=address.id %}">Edit</a>
+                                    {% if address.is_default_for_shipping %}
+                                    <button type="submit" style="color:green" data-loading-text="{% trans 'Saving...' %}"></button>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-primary" style="font-size: 14px;margin-left: 15px;"  data-loading-text="{% trans 'Saving...' %}">{% trans "Continue & Ship" %}</button>
+                                    {% endif %}
+                                </p>
+                                    
+                                    <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a href="{% url 'checkout:user-address-delete' pk=address.id %}" class="dropdown-item btn-remove-address">{% trans "Delete" %}</a>
+                                    </div> -->
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+
+                    
+                </div> 
+                {%endfor%}
+                {%endif%}
+                {%endif%}
+                    <div class="cont_btn">
+                        <a href="{% url 'basket:summary' %}">Back to cart</a>
+                    </div>                    
+                </div>
+                
+                 
+                <form method="post" id="new_shipping_address_form" style="display: none"  action="{% url 'checkout:shipping-address' %}">
+                    {% csrf_token %}
+                    <div class="user-detail-form">                   
+                        
+                           <div class="row">
+                            
+                                <!-- <div class="col-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="first_name" placeholder="Name" value="{{ first_name }}">
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="last_name" placeholder="Second Name" value="{{ last_name }}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" name="line1" class="form-control" placeholder="Address" value="{{ line1 }}" >
+                                            
+                                    </div>
+                                </div> -->
+                                {% if form.first_name %}
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <!-- {{ form.first_name }} -->
+                                            <input type="text" class="form-control" name="first_name" placeholder="Name" value="">
+                                        </div>
+                                        {% if form.first_name.help_text %}
+                                        <small class="form-text text-muted">{{ form.first_name.help_text|safe }}</small>
+                                        {% endif %}
+                                        {% if form.first_name.errors %}
+                                        <small class="form-text text-danger">{{ form.first_name.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
+                                {% if form.last_name %}
+                                <div class="form-group col-6">
+                                    <div class="form-group">
+                                      
+                                        <!-- {{ form.last_name }} -->
+                                        <input type="text" class="form-control" name="last_name" placeholder="Second Name" value="{{ last_name }}">
+                                    </div>
+                                    {% if form.last_name.help_text %}
+                                    <small class="form-text text-muted">{{ form.last_name.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.last_name.errors %}
+                                    <small class="form-text text-danger">{{ form.last_name.errors }}</small>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                {% if form.line1 %}
+                                <div class="col-6">
+                                    <div class="form-group">
+
+                                        <!-- {{ form.line1 }} -->
+                                        <input type="text" name="line1" class="form-control" placeholder="Address" value="{{ line1 }}" >
+                                      
+                                    </div>
+                                    {% if form.line1.help_text %}
+                                    <small class="form-text text-muted">{{ form.line1.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.line1.errors %}
+                                    <small class="form-text text-danger">{{ form.line1.errors }}</small>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                <!-- <div class="col-6">
+                                    <div class="form-group">
+                                      
+                                        <input type="text" name="phone_number" maxlength="128" class="form-control" id="id_phone_number" value="+91">
+                                    </div>
+                                </div> -->
+
+                                {% if form.phone_number %}
+                                    <div class="form-group col-6">
+                                        <div class="form-group">
+                                            <!-- {{ form.phone_number }} -->
+
+                                      
+                                        <input type="text" name="phone_number" maxlength="128" class="form-control" id="id_phone_number" value="+91">
+                                        </div>
+                                        {% if form.phone_number.help_text %}
+                                        <small class="form-text text-muted">{{ form.phone_number.help_text|safe }}</small>
+                                        {% endif %}
+                                        {% if form.phone_number.errors %}
+                                        <small class="form-text text-danger">{{ form.phone_number.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <!-- <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="notes" placeholder="Shipping note (optional)" value="{{ notes }}" required="false">
+                                        
+                                    </div>
+                                </div> -->
+                                {% if form.notes %}
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="notes" placeholder="Shipping note (optional)" value="{{ notes }}" required="false">
+                                        
+                                            <!-- {{ form.notes }} -->
+                                        </div>
+                                        {% if form.notes.help_text %}
+                                        <small class="form-text text-muted">{{ form.notes.help_text|safe }}</small>
+                                        {% endif %}
+                                        {% if form.notes.errors %}
+                                        <small class="form-text text-danger">{{ form.notes.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <!-- <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="line4" placeholder="City" value="{{ line4 }}" required="false" >
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="postcode" placeholder="Postal Code" value="{{ postcode }}" required="false">
+                                                  
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                               
+                                                <input type="text" class="form-control" name="state" placeholder="State" value="{{ state }}" required="false">
+                                           
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                               
+                                {% if form.line4 %}
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="line4" placeholder="City" value="{{ line4 }}" required="false" >
+                                        </div>
+                                        {% if form.line4.help_text %}
+                                        <small class="form-text text-muted">{{ form.line4.help_text|safe }}</small>
+                                        {% endif %}
+                                        {% if form.line4.errors %}
+                                        <small class="form-text text-danger">{{ form.line4.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                        
+                                    
+                    
+                                {% endif %}
+
+                                {% if form.state %}
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        
+                                    <input type="text" class="form-control" name="state" placeholder="State" value="{{ state }}" required="false">
+                                
+                                    </div>
+                                    {% if form.state.help_text %}
+                                    <small class="form-text text-muted">{{ form.state.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.state.errors %}
+                                    <small class="form-text text-danger">{{ form.state.errors }}</small>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                {% if form.postcode %}
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="postcode" placeholder="Postal Code" value="{{ postcode }}" required="false">
+                                        
+                                    </div>
+                                    {% if form.postcode.help_text %}
+                                    <small class="form-text text-muted">{{ form.postcode.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.postcode.errors %}
+                                    <small class="form-text text-danger">{{ form.postcode.errors }}</small>
+                                    {% endif %}
+                                </div>
+
+                                {% endif %}
+                                       
+                                {% if form.country %}
+                                <div class="col-6">
+                                    <div class="form-group form-floating">                                            
+                                            {{ form.country }}
+                                        </div>
+                                       
+                                        {% if form.country.help_text %}
+                                        <small class="form-text text-muted">{{ form.country.help_text|safe }}</small>
+                                        {% endif %}
+                                        {% if form.country.errors %}
+                                        <small class="form-text text-danger">{{ form.country.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            
+                    
+                    <div class="cont_btn d-flex align-items-center justify-content-between">
+                        <a href="{% url 'basket:summary' %}">Back to cart</a>
+                        <div class="">
+                            <a href="javascript:void(0);" id="" class="btn_lgn_common shipping-form-submit">Continue to Shopping </a>
+                        </div>
+                    </div>
+                            </div>                 
+                    </div>
+                </form>
+
+
+                
+
+            </div>
+            <div class="pmnt_adrs">
+                <div class="adrsbx prmcodebx">                                
+                    <div id="probtnlnk" class="">
+                        <label for=""><i class="ri-coupon-3-fill"></i> Apply a promo code</label>
+                        <a class="aplyclck" href="javascript:void();">Apply</a>
+                    </div>                                
+                    <div class="form-group" id="procodebx" style="display: none;">
+                            {% block vouchers %}
+                                <form class="rd-form rd-mailform rd-form-inline rd-form-coupon aplycpnbx" action="{% url 'basket:vouchers-add' %}" method="post" id="voucher_form">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control col-3" placeholder="Enter Promo Code"><br>
+                                    <a href="{% url 'checkout:shipping-address' %}" class="cpnaplyed"><button class="d-none" type="submit"></button>Apply Code</a>
+                                </form>
+                                {% endblock vouchers %} 
+                    </div>
+                    <div id="prmocrdaplyd" style="display: none;">
+                        <div class="appliedcpnbx">
+                            <span><i class="ri-check-line"></i></span>
+                            <label class="ltl" for="">Frenzy30 <span>Applied</span></label>
+                            <a class="resetclk" href="javascript:void(0);">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="adrsbx">
+                    <h3 class="adr_ttl">Order Summary</h3>
+                    <div class="total-amout-wrapper pb-3 border-bottom mb-3">
+                        <h2>
+                            <span>Subtotal</span>
+                            <span>&#8377;{{ request.basket.total_excl_tax }}</span>
+                        </h2>
+                        <h2>
+                            <span>Shipping </span>
+                            <span>Calculated at the next step</span>
+                        </h2>
+                    </div>
+                    <div class="total-amount">
+                        <h2>
+                            <span>Total</span>
+                            <span>&#8377;{{ request.basket.total_excl_tax}}</span>
+                        </h2>                        
+                        <p><span>Including &#8377;{{ request.basket.total_incl_tax}} in taxes</span></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</div>
+  
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+
+        $('#addnadrs').click(function(){
+            $("#new_shipping_address_form").show();
+            $("#spng_adrsbx").hide();
+            $("#addnadrs").hide();    
+            $("#closenadrs").show();                    
+        });
+
+        $('#closenadrs').click(function(){
+            $("#new_shipping_address_form").hide();
+            $("#spng_adrsbx").show();
+            $("#addnadrs").show();    
+            $("#closenadrs").hide();            
+        });
+        $('.aplyclck').click(function(){
+            $("#procodebx").show();
+            $("#probtnlnk").hide();
+        });
+        $('.cpnaplyed').click(function(){
+            $("#probtnlnk").hide();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").show();
+        });
+        $('.resetclk').click(function(){
+            $("#probtnlnk").show();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").hide();
+        });
+
+
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+
+        
+        $("#id_country").addClass("form-control");
+        $("#new_shipping_address .form-control").addClass("form-input");
+        $("#new_shipping_address label").addClass("form-label");
+        $("#new_shipping_address .form-group").addClass("form-wrap col-lg-6");
+        $("#new_shipping_address div.col-sm-7").removeClass("col-sm-7");
+        $("#new_shipping_address .form-wrap").find('div').addClass("col-12 pl-3");
+        $("#new_shipping_address span.help-block").addClass("checkbox-inline text-transform-capitalize");
+        $("#new_shipping_address label.control-label").removeClass("col-sm-4");
+        $("#new_shipping_address label.control-label").addClass("col-12");
+        $("#new_shipping_address .form-control").focus(function(){
+            $(this).parents(".form-wrap").find('label').addClass('d-none');
+        });
+        // $("#new_shipping_address label.control-label").css("opacity","0");
+        $("#new_shipping_address #id_first_name").attr('placeholder', 'First Name');
+        $("#new_shipping_address #id_last_name").attr('placeholder', 'Last Name');
+        $("#new_shipping_address #id_line1").attr('placeholder', 'First line of address');
+        $("#new_shipping_address #id_line2").attr('placeholder', 'Second line of address');
+        $("#new_shipping_address #id_line3").attr('placeholder', 'Third line of address');
+        $("#new_shipping_address #id_line4").attr('placeholder', 'City');
+        $("#new_shipping_address #id_state").attr('placeholder', 'State');
+        $("#new_shipping_address #id_postcode").attr('placeholder', 'Post / Zip-code');
+        $("#new_shipping_address #id_phone_number").attr('placeholder', 'Phone number');
+        $("#new_shipping_address #id_notes").attr('placeholder', 'Instructions');
+        $("#id_title").hide();
+        $("#id_title").parents(".form-group.form-wrap").hide();
+        /*$("#new_shipping_address .form-control").focusout(function(){
+            $(this).parents(".form-wrap").find('label').removeClass('focus');
+        });*/
+        $('#new_shipping_address .form-control').blur(function() {
+            if ($('input:text').val().length == 0) { // zero-length string AFTER a trim                
+                $(this).parents(".form-wrap").find('label').addClass('focus');
+            }
+        });
+        $('#id_country').val('IN');
+        $("#id_phone_number").attr("value", "+91");
+
+        $('.shipping-form-submit').click(function () {
+            $('#new_shipping_address_form').submit();
+            console.log('abc');
+        });
+
+
+//     $('.shipping-form-submit').click (function (e) {  
+//         e.preventDefault();  
+//         var first_name = $('#first_name').val();  
+//         var last_name = $('#last_name').val();  
+//         var email = $('#email').val();  
+//         var password = $('#password').val();  
+//         var number = $('#number').val();  
+
+//         $(".error").remove(); 
+//         if (first_name.length < 1) {  
+//             $('#first_name').after('<span class="error">This field is required</span>');  
+//         }  
+//         if (number.length < 1) {  
+//             $('#number').after('<span class="error">This field is required</span>');  
+//             }  
+//             if (last_name.length < 1) {  
+//             $('#last_name').after('<span class="error">This field is required</span>');  
+//             }  
+//             if (email.length < 1) {  
+//             $('#email').after('<span class="error">This field is required</span>');  
+//             } else {  
+//             var regEx = /^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;  
+//             var validEmail = regEx.test(email);  
+//             if (!validEmail) {  
+//                 $('#email').after('<span class="error">Enter a valid email</span>');  
+//             }  
+//             }  
+//             if (password.length < 8) {  
+//             $('#password').after('<span class="error">Password must be at least 8 characters long</span>');  
+//             }  
+//   });  
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+</script>
+{% endblock %}

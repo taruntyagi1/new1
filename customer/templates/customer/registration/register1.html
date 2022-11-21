@@ -1,0 +1,219 @@
+{% extends "frame.html" %}
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+
+{% block page-content %}
+{% block customheadend %}
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @media screen and (max-width:789px){
+            .signup-content {
+                height: 100%;
+                align-items: center;
+                margin: auto;
+            }
+            .signup-img {
+                    order:1;
+            }
+        }
+    </style>
+    
+{% endblock %}
+    
+      <!--+breadcrumbs-->
+    <section class="breadcrumbs-custom">
+    <div class="parallax-container" data-parallax-img="{% static 'images/120687531-various-nuts-in-bowls-on-white-background-top-view-banner-nuts-assortment-pecans-hazelnuts-walnuts-p.jpg'%}">
+        <div class="breadcrumbs-custom-body parallax-content context-dark">
+        <div class="container">
+            <h2 class="text-transform-capitalize breadcrumbs-custom-title">Sign Up</h2>
+            <h5 class="breadcrumbs-custom-text">Nutritive food solutions for health, lifestyle and disease management.</h5>
+        </div>
+        </div>
+    </div>
+    <div class="breadcrumbs-custom-footer">
+        <div class="container">
+        <ul class="breadcrumbs-custom-path">
+            <li><a href="index.html">Home</a></li>
+            <li class="active">Sign Up</li>
+        </ul>
+        </div>
+    </div>
+    </section>
+
+    <div class="main">
+        <div class="container-fluid p-0">
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="{% static 'images/signup-img.png'%}" alt="">
+                </div>
+                <div class="signup-form">
+                    <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well register-form">
+                        <h2>{% trans 'Sign Up' %}</h2>
+                        <p>If you already a customer of InstaEats app. then you can login by its registered mobile number</p>
+                        {% csrf_token %}
+                        {% if registration_form.non_field_errors %}
+                            {% for err in registration_form.non_field_errors %}
+                            <div class="form-text text-danger">
+                                {{ err }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% for field in registration_form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
+                        <div class="form-row">
+                            <div class="form-group m-auto">
+                                {{ registration_form.first_name.label_tag }}
+                                {{ registration_form.first_name }}
+                            </div>
+                            {% if registration_form.first_name.help_text %}
+                            <small class="form-text text-muted">{{ registration_form.first_name.help_text|safe }}</small>
+                            {% endif %}
+                            {% if registration_form.first_name.errors %}
+                            <small class="form-text text-danger">{{ registration_form.first_name.errors }}</small>
+                            {% endif %}
+                            <div class="form-group">
+                                <div class="form-input">
+                                    {{ registration_form.last_name.label_tag }}
+                                    {{ registration_form.last_name }}
+                                </div>
+                                {% if registration_form.last_name.help_text %}
+                                <small class="form-text text-muted">{{ registration_form.last_name.help_text|safe }}</small>
+                                {% endif %}
+                                {% if registration_form.last_name.errors %}
+                                <small class="form-text text-danger">{{ registration_form.last_name.errors }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input">
+                                {{ registration_form.email.label_tag }}
+                                {{ registration_form.email }}
+                            </div>
+                            {% if registration_form.email.help_text %}
+                            <small class="form-text text-muted">{{ registration_form.email.help_text|safe }}</small>
+                            {% endif %}
+                            {% if registration_form.email.errors %}
+                            <small class="form-text text-danger">{{ registration_form.email.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input">
+                                {{ registration_form.mobile_number.label_tag }}
+                                {{ registration_form.mobile_number }}
+                                <span id="timer"></span>
+                            </div>
+                            <small class="form-text text-success" id="custom_text"></small>
+                            <small class="form-text text-danger" id="custom_error"></small>
+                            <p class="my-0 text-right">
+                                <span id="resend-otp-btn">Resend OTP</span>
+                            </p>
+                            {% if registration_form.mobile_number.help_text %}
+                            <small class="form-text text-muted">{{ registration_form.mobile_number.help_text|safe }}</small>
+                            {% endif %}
+                            {% if registration_form.mobile_number.errors %}
+                            <small class="form-text text-danger">{{ registration_form.mobile_number.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input">
+                                {{ registration_form.otp.label_tag }}
+                                {{ registration_form.otp }}
+                            </div>
+                            {% if registration_form.otp.help_text %}
+                           
+                            <small class="form-text text-muted">{{ registration_form.otp.help_text|safe }}</small>
+                            {% endif %}
+                            {% if registration_form.otp.errors %}
+                            <small class="form-text text-danger">{{ registration_form.otp.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input d-flex">
+                                {{ registration_form.terms_and_conditions.label_tag }}
+                                {{ registration_form.terms_and_conditions }}
+                            </div>
+                            {% if registration_form.terms_and_conditions.help_text %}
+                            <small class="form-text text-muted">{{ registration_form.terms_and_conditions.help_text|safe }}</small>
+                            {% endif %}
+                            {% if registration_form.terms_and_conditions.errors %}
+                            <small class="form-text text-danger">{{ registration_form.terms_and_conditions.errors }}</small>
+                            {% endif %}
+                        </div>
+                    <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-primary" data-loading-text="{% trans " Registering... " %}">{% trans 'Register' %}</button>
+                    <p class="login-font mt-2"><a href="{% url 'customer:login' %}">{% trans "If already has an account" %}</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock page-content %}
+
+ {% block custombodyend %}
+    <!-- JS -->
+    <script src="{% static 'js/register.js'%}"></script>
+    <script>
+
+    var timerBtn = document.querySelector('#timer');
+
+    var sendOtp = function(){
+        $.ajax({
+            type : "post",
+            url : "/accounts/api/v1/generate-otp.json",
+            data : {
+                "mobile_number":$('#id_registration-mobile_number').val(),
+                "purpose": "signup"
+                },
+            success : function(success) {
+                if(success.status){
+                    startTimer(60, timerBtn);
+                    $('#custom_error').html('');
+                    $('#custom_text').html(`${success.text}`);
+                    $('#otp-block').removeClass("d-none");
+                    $('#password-block').addClass("d-none");
+                    $('#otp-btn').addClass("d-none");
+                }
+                else{
+                    $('#custom_error').html(`${success.text}`);
+                    $('#custom_text').html('');
+
+                }
+            },
+            error: function(error) {
+                $('#custom_error').html(`${error.text}`);
+                $('#custom_text').html('')
+            },
+        });
+    }
+
+    $(document).ready(function() {
+        $('#id_registration-mobile_number').change(function(){
+            if ($(this).val().length == 13){
+                sendOtp();
+            }
+            else{
+                $('#custom_text').html('');
+                $('#custom_error').html('Please Enter Valid Mobile Number');
+            }
+        });
+        $('#resend-otp-btn').click(function(){
+            sendOtp();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+{% endblock %}
+
+

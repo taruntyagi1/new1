@@ -1,0 +1,374 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+
+
+{% block customheadend %}
+
+{% endblock %}
+{% block page-content %}
+    <section class="breadcrumbs-custom">
+        <div class="parallax-container" data-parallax-img="{% static 'images/about-us-5.png'%}">
+            <div class="breadcrumbs-custom-body parallax-content context-dark">
+                <div class="container">
+                    <h2 class="text-transform-capitalize breadcrumbs-custom-title">My Shopping Cart</h2>
+                    <h5 class="breadcrumbs-custom-text">Review your shortlisted items and proceed towards shipping and billing section.<br class="d-none d-md-block">If you have a discount code, use it now!</h5>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumbs-custom-footer">
+            <div class="container">
+                <ul class="breadcrumbs-custom-path">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="grid-shop.html">Shop</a></li>
+                    <li class="active">Cart Page</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart-->
+    <section class="section section-xl bg-default">
+        <div class="container">
+            <!-- shopping-cart-->
+            {% block basket_form_main %}
+            <div class="table-custom-responsive">
+                <form method="post" class="basket_summary py-2 px-2" id="basket_formset">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                <table class="table-custom table-cart">
+                    <thead>
+                    <tr class="cart-page-heading">
+                        <th>Product name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for form in formset %}
+                    {% with line=form.instance product=form.instance.product %}
+                    {% purchase_info_for_line request line as session %}
+                    <tr>
+                        <td>
+                            {{ form.id }}
+                            <a class="table-cart-figure" href="{{ product.get_absolute_url }}">
+                                <img src="{{ MEDIA_URL }}{{ product.primary_image.original }}" alt="{{ product.get_title }}" width="146" height="132"/>
+                            </a>
+                            <a class="table-cart-link" href="{{ product.get_absolute_url }}">{{ line.description }}</a>
+                        </td>
+                        <td>
+                            {% if not line.unit_price_incl_tax and not line.unit_tax_excl_tax %}
+                                <p class="align-right">&mdash;</p>
+                            {% else %}
+                                <p class="price_color text-right">
+                                    
+                                    {% if line.is_tax_known %}
+                                      <span><i class="fa fa-rupee">  {{ line.unit_price_incl_tax }} </i></span>
+                                    {% else %}
+                                      <span><i class="fa fa-rupee">  {{ line.unit_price_excl_tax }} </i></span>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="table-cart-stepper">
+                                <div class="checkout-quantity" id="checkout-input">
+                                    <div class="input-group  {% if form.errors %}error{% endif %}">
+                                        {% render_field form.quantity class+="form-control" %}
+                                    </div>
+                                    <div class="input-group-btn d-flex update-del-btn">
+                                        <label class="btn btn-danger mx-1 remove-item-btn" for="id_form-{{forloop.counter0}}-DELETE" data-loading-text="{% trans 'Updating...' %}">{% trans "Remove" %}</label>
+                                       
+                                        <button class="btn btn-default mx-1 update-cart-btn" type="submit" data-loading-text="{% trans 'Updating...' %}">{% trans "Update" %}</button>
+                                        
+                                        <div class="delete-checkbox" style="display:none;">
+                                            {{ form.DELETE }}
+                                        </div>
+                                        {% for field_errors in form.errors.values %}
+                                            {% for error in field_errors %}
+                                                <span class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if not line.line_price_incl_tax and not line_price_excl_tax %}
+                                <p class="align-right">&mdash;</p>
+                            {% else %}
+                                <p class="price_color text-right">
+                                    
+                                    {% if line.is_tax_known %}
+                                   
+                                    <span><i class="fa fa-rupee">  {{ line.line_price_incl_tax }} </i></span>
+                                    {% else %}
+                                    <span><i class="fa fa-rupee">     {{ line.line_price_excl_tax }} </i></span>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </form>
+            </div>
+            {% endblock %}
+
+            <div>  
+                <div class="row mt-5">
+                    <div class="col-lg-6 col-12">
+                    {% block vouchers %}
+                    {# Hide the entire section if a custom BasketView doesn't pass in a voucher form #}
+                    {% if voucher_form %}  
+                        <div id="voucher_form_container">
+                            <form class="rd-form rd-mailform rd-form-inline rd-form-coupon" action="{% url 'basket:vouchers-add' %}" method="post" id="voucher_form">
+                                {% csrf_token %}
+                                {% include "oscar/partials/form_fields.html" with form=voucher_form %}
+                                
+                                <div class="form-button">
+                                    <button class="button button-lg button-secondary button-zakaria" type="submit" data-loading-text="{% trans 'Adding...' %}">Apply
+                                    </button>
+                                    {% trans "or" %} <a href="javascript:void(0)" id="voucher_form_cancel">{% trans "cancel" %}</a>
+                                </div>
+                            </form>
+                        </div>
+                    {% endif %}
+                    {% endblock vouchers %}
+                    </div>
+                    <div class="col-lg-6 col-12 mt-lg-0 mt-mdd-0 mt-5">
+                        <div>
+                            {% block baskettotals %}
+                            <div class="col-12">
+                                <div class="sub-header">
+                                    <h5 class="bold">{% trans "Total" %}</h5>
+                                </div>
+                               
+                                {% include 'basket/partials/basket_totals.html' with editable=1 %}
+                            </div>
+                            {% endblock baskettotals %}
+                        </div>
+                            {% block formactions %}
+                                <div class="form-group clearfix">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-lg-8 col-12">
+                                          
+                                            <a href="{% url 'checkout:index' %}" class="button button-primary button-zakaria">{% trans "Proceed to checkout" %}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endblock formactions %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--<div class="snackbars" id="form-output-global"></div>-->
+<script src="js/core.min.js"></script>
+<script src="js/script.js"></script>
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+        $("#id_code").addClass("form-control");
+        $("#id_code").addClass("form-input");
+        $("#id_code").addClass("form-input-inverse");
+        $("label.control-label").hide();
+
+        $('.delete-checkbox input[type=checkbox]').change(function(){
+            $('#basket_formset').submit();
+        });
+
+        $('#voucher_form_cancel').click(function(){
+            $('#voucher_form_container').css('display','none');
+            $('#voucher_form_link').css('display','block');
+        });
+
+    });
+
+    $('.stepper-arrow').click(function(){
+        console.log('hello');
+    });
+
+    var voucherForm = document.querySelector('#voucher_form');
+    $('#voucher_form').submit(function(e){
+        e.preventDefault();
+        voucherForm.submit();
+    });
+
+    document.getElementById("id_code").placeholder = "Coupon Code";
+
+
+    ProductAdd = function(productId){
+            var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+            // var productId = $(this).parents('.featured-product-card').find('.variant-select').val();
+            console.log(productId);
+            var productApiUrl = `${location.origin}/api/products/${productId}/`;
+            var quantity = 1;
+            $.ajax({
+                url: addToCartApiUrl,
+                type: "post",
+                headers: {
+                    'X-CSRFToken': 'bRPjnvbinKD8d5LRjNbnYePkPWgo5mYZ22alhbZWUIk3HeaWuju8D4XZ2OZmxwXg'
+                },
+                data: JSON.stringify({
+                    "url": productApiUrl,
+                    "quantity": quantity,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                  
+                },
+            });
+        }
+        
+        fetchBasketItemDetail = function () {
+            $.ajax({
+                url: `${location.origin}/basket/basket_items`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': 'bRPjnvbinKD8d5LRjNbnYePkPWgo5mYZ22alhbZWUIk3HeaWuju8D4XZ2OZmxwXg'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.basket-items-add').html('');
+                    $('.basket-items-add').html(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+        fetchBasketItemOrderSummaryDetail = function (code) {
+            $.ajax({
+                url: `${location.origin}/basket/basket_item_order_summary`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': 'bRPjnvbinKD8d5LRjNbnYePkPWgo5mYZ22alhbZWUIk3HeaWuju8D4XZ2OZmxwXg'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.basket-items-order-summary').html('');
+                    $('.basket-items-order-summary').html(response);
+                    $('#id_code').val(code)
+                    $('.aplycpnbx').hide();
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+        fetchBasketItemOrderSummaryMobileDetail = function () {
+            $.ajax({
+                url: `${location.origin}/basket/basket_item_order_summary_mobile`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': 'bRPjnvbinKD8d5LRjNbnYePkPWgo5mYZ22alhbZWUIk3HeaWuju8D4XZ2OZmxwXg'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.order-sm').html('');
+                    $('.order-sm').html(response);
+                    
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+
+        quantityChnage = function(lineId, cartId, quantity){
+            // var quantity = $(this).val();
+            var updateURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: updateURL,
+                type: "patch",
+                headers: {
+                    'X-CSRFToken': 'bRPjnvbinKD8d5LRjNbnYePkPWgo5mYZ22alhbZWUIk3HeaWuju8D4XZ2OZmxwXg'
+                },
+                data: JSON.stringify({
+                    "quantity": quantity,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    fetchBasketItemDetail();
+                    fetchBasketItemOrderSummaryDetail();
+                    if ($(window).width() < 960) {
+                        fetchBasketItemOrderSummaryMobileDetail();
+                       
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+        var addToCartSuccessPopup = new $(this).data(document.getElementById('quantity-adcrtmdl'))
+        var addToCartQuantityPopup = new $(this).data(document.getElementById('quantity-decrease-adcrtmdl'))
+       
+        $('body').on('click', '#qty-increase', function(){   
+        // $('#qty-increase').click(function(){
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            var quantity = $(this).data('quantity');
+            var maxQuantity = $(this).data('mquantity');
+            console.log(maxQuantity);
+            
+            $('.smallloader').addClass('active'); 
+            setTimeout(function() {
+                $('.smallloader').removeClass('active');
+            }, 300);
+
+            var quantity = quantity+1;
+            if(quantity > maxQuantity){
+                $('#quantity-value').val(maxQuantity)
+                var quantity = maxQuantity
+                $('#quantity-adcrtmdl').addClass("active")
+                addToCartSuccessPopup.show();
+                setTimeout(function(){                                
+                    $("#quantity-adcrtmdl").removeClass("active");
+                    addToCartSuccessPopup.hide();
+                },2500); 
+            }
+            else{
+                $('#quantity-value').val(quantity);
+                quantityChnage(lineId,cartId,quantity);
+            }
+           
+            
+
+        });
+
+        var total_price = 0;
+$("#suggested_plan").each( function() {
+    price = $(this).find(".sp_prz").html();
+    quantity = $(this).find(".qty").html()
+    total_price += price * quantity;
+});
+alert(total_price);
+
+
+</script>
+{% endblock %}
+    

@@ -1,0 +1,23 @@
+{% load customer_testimonial_list %}
+<div class="container">
+    <div class="head-cn mb-5">                
+        <h3 class="">We Proudly Own Our Customer's Happiness</h3>
+    </div>
+    <div id="wca_owl" class="wpoochtms">
+        {% get_customer_testimonial as customer_testimonial %}
+        {% for testimonial in customer_testimonial %}
+        <div class="wcace_b">                                           
+            <div class="media_img">
+                <div class="mdimg"><img class="usr_icni" src="{{ MEDIA_URL }}{{ testimonial.customer_image }}"></div>                        
+                <div class="mg-data">
+                    <h4>{{ testimonial.name }}</h4>
+                    <p>{{testimonial.city}}</p>
+                </div>
+            </div>         
+            <div class="wotst">
+                <p class="ht_ttl">{{testimonial.review|safe|striptags}}</p>                        
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

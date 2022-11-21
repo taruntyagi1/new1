@@ -1,0 +1,1105 @@
+{% extends "website/new_templates/components/frame.html" %}
+{% include "website/footer.html"%}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+{% load arithmatic_ope %}
+{% load order_amount %}
+
+{% block customheadend %}
+<style>    
+
+    body{background: #f1f3f6;}
+
+
+    @media (max-width: 980px) {        
+        header.header{display: none;}
+        .whatsappbtn{display: none;}        
+        .whatsappbtn{display: none;}
+    }
+    
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+
+</style>
+{% endblock %}
+{% block page-content %}
+
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="brdcmbx">
+                <div class="brd-d">
+                    <h3>Health Store</h3>
+                    <ul class="br_submenu">
+                        <li><a href="{{homepage_url}}">Home</a></li>                        
+                        <li><a href="{% url 'basket:summary' %}">Cart</a></li>
+                    </ul>
+                </div>
+                <div class="brd_dea">
+                    <img src="{%static 'website/images/lstbnrimg.png' %}" alt="">
+                </div>                    
+            </div>
+        </div>
+    </section>
+
+    <section class="cart_section">
+        <div class="container">
+           
+            {% if not request.basket.all_lines %}
+            <div class="cart_head">                                
+                <h3 class="crth_ttl">
+                    <a href="javascript:void(0);" onclick="history.back()"><span><i class="ri-arrow-left-line"></i></span></a>                                        
+                    My Cart 
+                    <!-- ({{request.basket.all_lines|length}}) -->
+                </h3>                                
+            </div>
+            <div class="emptycart">
+                <div>
+                    <div class="iconcart"><i class="ri-luggage-cart-fill"></i></div>
+                    <h3>Missing Cart items?</h3>
+                    <!-- <p>Login to see the items you added previously</p> -->
+                    <!-- <h3>Your Cart is empty</h3>                 -->
+                    <p><a href="{{homepage_url}}">Continue Shopping</a></p>
+                </div>
+            </div>
+            {%else%}
+            <div class="ctbxnw">
+                    <div class="crt_box">
+                        <form method="post" class="basket_summary" id="basket_formset">
+                            
+                            <div class="cart_head">                                
+                                <h3 class="crth_ttl">
+                                    <a href="javascript:void(0);" onclick="history.back()"><span><i class="ri-arrow-left-line"></i></span></a>                                        
+                                    My Cart ({{request.basket.all_lines|length}} Item) 
+                                </h3>                                
+                            </div>
+
+                        <div class="crt_item basket-items-add">
+                            <h3 class="crt_ttl">My Cart ({{request.basket.all_lines|length}} item)</h3>
+                            <div class="itmhtfxd">
+                                {% csrf_token %}
+                                {{ formset.management_form }}
+                                {% for form in formset %}
+                                {% with line=form.instance product=form.instance.product %}
+                                {% purchase_info_for_line request line as session %}
+                                <div class="cartbx checkout-quantity featured-product-card" id="checkout-input">
+                                
+                                    <div class="media basket-line-actions  update-del-btn">
+                                        <img src="{{ MEDIA_URL }}{{ product.primary_image.original }}" alt="">
+                                        <div class="delete-checkbox" style="display:none;">
+                                            {{ form.DELETE }}
+                                        </div>
+
+
+
+                                        <!-- <p class="wbrembd"  >
+                                            <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                                {% trans "Remove" %}                                                
+                                            </a>                                           
+                                        </p> -->
+                                        <!-- <label class="remove-item-btn"  for="id_form-{{forloop.counter}}-DELETE"></label> -->
+                                         <!-- <a  href="javascript:void(0)" name="form-0-quantity" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" value="{{ line.quantity }}" min="0" max="{{session.availability.num_available}}"
+                                            class="quantity-pop">{% trans "Update" %}</a> -->
+                                        <!-- <div class="qtydplst">
+                                            <select class="form-control">
+                                                <option>Qty</option>
+                                            </select>
+                                        </div> -->
+                                        
+                                        
+                                            
+                                        
+                                        {% for field_errors in form.errors.values %}
+                                            {% for error in field_errors %}
+                                                <span class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="crt_data">                                    
+                                    
+                                        <h3>
+                                            <a href="{{ product.get_absolute_url}}">{{product.get_complete_title}}</a>
+                                            <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                                <i class="ri-delete-bin-5-line"></i>
+                                                <!-- {% trans "Remove" %}                                                 -->
+                                            </a>
+                                        </h3>
+                                        {% if line.product.get_tag_line %}
+
+                                        <p style="display: none">({{ line.product.get_tag_line|safe }})</p>
+                                        
+
+                                        {% endif %}
+
+                                        <div>
+                                            
+                                            
+                                                <!-- <span style="display: inline-block;padding: 0px 10px;">|</span> -->
+
+                                                <div style="padding: 3px  0px">
+                                                    <span style="font-weight: 500;">Qty :</span> 
+                                                    <span>{{line.quantity}}</span>
+                                                </div>
+
+                                                {% for child in product.parent.variants_list %}
+                                            {% if child == product %}
+
+                                            {{child.title}}
+
+                                            
+
+                                            {%endif%}
+                                                {% endfor %} 
+
+
+
+                                        </div>
+
+
+
+                                        <div class="form-group d-none">
+                                            <select class="form-control variant-select" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}">
+                                                {% for child in product.parent.variants_list %}
+                                                {% if child == product %}
+                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}  selected>{{child.title}}</option>
+                                                
+                                                {%else%}
+                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                                {%endif%}
+                                                {% endfor %} 
+                                            </select>
+                                        </div>
+                                        
+
+                                        <div class="mbl_prs_rmv">
+                                            <div class="plsmnsbx">
+                                                <abbr>Quantity</abbr>
+                                                <div class="bxmpm">
+                                                    {% for child in product.parent.variants_list %}
+                                                        {% if child == product %}    
+                                                            <button type="button" class="ffhhuuj FHuj" id="qty-decrease"   data-quantity="{{line.quantity}}" data-product="{{child.id}}" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price="{{child.stockrecords.first.price_excl_tax}}" min="1"> – </button>
+                                                            <div class="HdzL"><input type="text" class="_253qQJ" id="quantity-value" value="{{line.quantity}}" disabled></div>
+                                                            <button type="button" class="ffhhuuj FHuj" id="qty-increase"  data-mquantity="{{line.check_max_quantity}}" data-quantity="{{line.quantity}}" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}" data-product="{{child.id}}"> + </button>
+                                                        {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                <p class="mb-rmbvd">
+                                                    <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                                        {% trans "Remove" %}                                                
+                                                    </a>
+                                                    <!-- mb-rmbvd -->
+                                                </p>
+        
+                                            </div>
+
+                                    
+                                                
+                                                <!-- <label class="remove-item-btn"  for="id_form-{{forloop.counter}}-DELETE"></label> -->
+                                                <!-- <a  href="javascript:void(0)" name="form-0-quantity" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" value="{{ line.quantity }}" min="0" max="{{session.availability.num_available}}"
+                                                class="quantity-pop">{% trans "Update" %}</a> -->
+                                            
+                                            
+                                            <div class="price_bx price-crt">
+                                                <!-- <h3 class="crt-price">&#8377;{{ line.unit_price_incl_tax }}</h3> -->
+                                                
+                                                <span class="lssprs product-price product-price-old price-detail" style="text-decoration-line: line-through;">&#8377;{{line.stockrecord.price_retail}}</span>                                            
+                                                <span class="acprc">&#8377;{{line.unit_price_excl_tax}}</span>                                            
+                                            </div>
+                                        </div>
+
+
+                                   
+
+                                        <!-- <p>
+                                            <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                                {% trans "Remove" %}                                            
+                                            </a>
+                                        </p> -->
+                                    
+                                    </div>
+                                    <div class="crtprs">  
+                                        {% if line.stockrecord.price_retail != line.unit_price_excl_tax %}
+                                        <h3 class="lssprs price-detail">&#8377;{% widthratio line.stockrecord.price_retail 1 line.quantity %}</h3>
+                                        {% endif %}
+                                        <h3 class="acprc selling-price">&#8377;{% widthratio line.unit_price_excl_tax 1 line.quantity %}</h3>
+                        
+                                        <!-- <h3 class="product-price product-price-old price-detail">&#8377;{{ line.unit_price_incl_tax }}</h3> -->
+                                    </div>
+                                </div>
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+                                            
+                            <div class="mcrtcrt_amnt">
+                                <div class="cmt_amt">
+                                    <span>Total Amount</span>
+                                    
+                                    {% if order_total.is_tax_known %}
+                                    {% order_amount total_amount=order_total.incl_tax as available %} 
+                                        <span>&#8377;{{ available }}</span>
+                                    {% else %}
+                                    {% order_amount total_amount=order_total.excl_tax as available %} 
+                                        <span>&#8377;{{ available }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="butbx">                
+                                    <!-- <a class="btn_outline_green" href="{{homepage_url}}">Continue Shopping</a> -->
+                                    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+                                </div> 
+                                
+                            </div>
+                            <div class="smallloader">
+                                <span class="smldrbx" style="border-top-color: transparent;"></span>
+                            </div> 
+                        </div>    
+                         
+                        </form>
+                
+                        <div class="crt_dada">
+                          
+                            <div class="stickybxr">
+                                <div class="crt_dtls basket-items-order-summary">
+                                
+                                    <h3 class="crt_ttl">Order Summary</h3>
+
+                                    <p>
+                                        <span>Price <a href="javascript:void(0);" style="color:gray">({{request.basket.all_lines|length}} item)</a></span>
+                                        
+                                        <span>&#8377;{{ basket.total_incl_tax_excl_discounts }}</span>                                    
+                                    </p>
+
+                                    <p>
+                                        <span>Shipping Charges</span>
+                                        <span style="color: #388e3c;">Free</span>
+                                        <!-- <span class="text-start">Calculated at the next step</span> -->
+                                    </p>
+                                    <p>
+                                        <span>Discount</span>
+                                    
+                                        {% order_amount total_amount=basket.total_incl_tax_excl_discounts|subtract:order_total.incl_tax as available %} 
+                                        <span style="color: #388e3c;"> &#8377;{{available}}</span>                                   
+                                    </p>    
+
+
+
+                                    {% if voucher_form %} 
+                        
+                                <div class="crt_dtls prmcodebx"> 
+                                
+                                    {%if not request.basket.vouchers.all%}
+                                
+                                        <form class="rd-form rd-mailform rd-form-inline rd-form-coupon" action="{% url 'basket:vouchers-add' %}" method="post" id="voucher_form">                                         
+                                            {% csrf_token %}
+                                        
+                                            <div id="probtnlnk" class="">
+                                                <label for="" class="aplyclck"><i class="ri-coupon-3-fill"></i> Do You Have A Promo Code?</label>
+                                                <a class="aplyclck" href="javascript:void(0);">Apply</a>
+                                            </div>      
+                                        
+                                            <div class="form-group" id="procodebx">                                    
+                                                <div class="aplycpnbx">
+                                                    <input type="text" placeholder="Enter Promo Code" name="code" id="id_code" class="form-control">
+                                                    <a class="cpnaplyed voucher_form_submit"  href="javascript:void(0);">Apply</a>
+                                                </div>
+                                            </div>
+                                        
+                                        
+                                        </form> 
+                                    {%else%}
+                                        <div id="prmocrdaplyd" >
+                                            <div class="appliedcpnbx">
+                                        
+                                            
+                                                <div id="applied_voucher_id">{{request.basket.vouchers.first.code}}</div>
+                                                <div>
+                                                    <form action="" id="voucher_delete_btn">
+                                                        {% csrf_token %}
+                                                        <a class="resetclk voucher_remove" data-code="{{request.basket.vouchers.first.code}}" href="javascript:void(0);">Remove</a>
+                                                    </form>
+                                                </div>
+                                            
+                                        </div>
+                                        </div>
+                                    
+                                    {%endif%}
+
+
+                                    {% if messages %}
+                                        <div class=""  id="adcrtmdl">
+                                            {% for message in messages %}
+                                            {% if 'safe' in message.tags %}
+                                                {{ message|safe }}
+                                            {% else %}
+                                                {{ message }}
+                                            {% endif %}
+
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                    {%endif%}
+
+
+
+                                
+                                </div>
+                            
+                                {% endif %}
+                            
+                                <div class="crt_dtls ordrsmry">
+                                
+                                <!-- <h3 class="crt_ttl">Order Summary</h3> -->
+                                
+                                    
+                                    <!-- <p>
+                                        <span>Discount</span>
+                                        {% if basket.total_incl_tax_excl_discounts|subtract:order_total.incl_tax %}
+                                        <span>-&#8377;{{basket.total_incl_tax_excl_discounts|subtract:order_total.incl_tax }}</span>   
+                                        {% else %}
+                                        <span>0</span>   
+                                        {% endif %}                                
+                                    </p> -->
+                                    {% order_amount total_amount=order_total.incl_tax as available %} 
+                                    <div class="crt_amnt">
+                                        <span>Total Amount</span>
+                                        {% if order_total.is_tax_known %}
+                                            {%if available %}
+                                            <span>&#8377;{{ available }}</span>
+                                            {%endif%}
+                                        {% else %}
+                                            <span>&#8377;{{ order_total.excl_tax }}</span>
+                                        {% endif %}
+                                        
+                                    </div>
+
+                                    <div class="butbx">                
+                                        <!-- <a class="btn_outline_green" href="{{homepage_url}}">Continue Shopping</a> -->
+                                        <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+                                    </div> 
+
+                                </div>
+                                </div>
+                                <div class="safebx">Safe and Secure Payments.100% Natural & Authentic products.</div>
+                            </div>
+
+
+
+
+                            <div class="btm_pricebx order-sm">
+                                <div class="bmpric pbbtmprsc">
+                                    <span>Total Amount </span> 
+                                    {% order_amount total_amount=order_total.incl_tax as available %} 
+                                    {% if order_total.is_tax_known %}
+                                    {%if available %}
+                                    <span>&#8377;{{ available }}</span>
+                                    {%endif%}
+                                    {% else %}
+                                    <span>&#8377;{{ order_total.excl_tax }}</span>
+                                    {% endif %} 
+                                </div>
+                                <div class="btm_ankbtn btm_ankbtn">
+                                    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+                                    
+                                </div>
+                            </div>
+                            
+
+
+
+
+<!-- <div class="btm_pricebx">
+    <div class="bmpric">
+        {% order_amount total_amount=order_total.incl_tax as available %} 
+        {% if order_total.is_tax_known %}
+        {%if available %}
+        <span>&#8377;{{ available }}</span>
+        {%endif%}
+        {% else %}
+        <span>&#8377;{{ order_total.excl_tax }}</span>
+        {% endif %}
+        
+    </div>
+    <div class="">
+        <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+    </div>
+</div> -->
+
+                        
+                    </div>
+
+
+
+               
+            </div>
+            {%endif%}
+
+        </div>
+    </section>
+
+
+<div class="AFyd3c add_message_pop" id="remove-coupon">
+    <div class="_1EA4La" id="popup-success-message">
+        <div class="_1-baVo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+        </div>
+        <div class="JAUzCh"><span id="added-product_name"> </span> &nbsp Please Remove coupon code before remove this product.</div>
+        <div class="_2BPjzq">
+                 
+        </div>
+    </div>
+</div>
+ 
+    
+<div class="itmremvdbx add_message_pop" id="remove-adcrtmdl">
+    <div class="itmmdlbx">
+        <div class="css-h2i4hf">
+            <h4 class="css-1aseh1t">
+                <span class="css-uq1bvn">
+                    <span role="img" aria-label="danger icon" class="sc-bwzfXH ufyYh">
+                        <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+                            <g fill-rule="evenodd">
+                                <path d="M13.416 4.417a2.002 2.002 0 0 0-2.832 0l-6.168 6.167a2.002 2.002 0 0 0 0 2.833l6.168 6.167a2.002 2.002 0 0 0 2.832 0l6.168-6.167a2.002 2.002 0 0 0 0-2.833l-6.168-6.167z" fill="currentColor"></path><path d="M12 14a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2" fill="inherit"></path>
+                            </g>
+                        </svg>
+                    </span>
+                </span>
+                <span class="css-vjdnif">Delete ?</span>
+            </h4>
+        </div>
+
+        <div class="rmvdatabx"><span id="added-product_name"> </span> &nbsp  Are you sure to delete this product? </div>
+        <!-- Are you sure want to remove this product. -->
+        <div class="btn-group">
+            <a href="javascript:void(0);" class="btn_r not-remove-item">No Thanks</a>
+            <a href="javascript:void(0);" class="btn_r remove-citem" data-len="{{request.basket.all_lines|length}}" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}">Yes</a>            
+        </div>
+    </div>
+</div>
+
+<div class="AFyd3c add_message_pop" id="quantity-adcrtmdl">
+    <div class="_1EA4La" id="popup-success-message">
+        <div class="_1-baVo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+        </div>
+        <div class="JAUzCh"><span id="added-product_name"> </span> &nbsp &nbsp No more item in the stock.</div>
+        
+    </div>
+</div>
+
+<div class="AFyd3c add_message_pop" id="quantity-decrease-adcrtmdl">
+    <div class="_1EA4La" id="popup-success-message">
+        <div class="_1-baVo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+        </div>
+        <div class="JAUzCh"><span id="added-product_name"> </span> &nbsp &nbsp A minimum of 1 can be bought.</div>
+        
+    </div>
+</div>
+<div class="AFyd3c add_message_pop" id="voucher-error-adcrtmdl">
+    <div class="_1EA4La" id="popup-success-message">
+        <div class="_1-baVo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+        </div>
+        <div class="JAUzCh"><span id="voucher-error-id"> </span> &nbsp &nbsp</div>
+        
+    </div>
+</div>
+
+
+
+    
+
+
+<!-- {% if messages %}
+    <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body">
+
+                {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                
+                    {{ message|safe }}
+                
+                {% else %}
+
+                    {{ message }}
+
+                {% endif %}
+                {% endfor %}
+            </div>        
+          </div>
+        </div>
+    </div>
+      {% else %}
+      <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body">              
+              
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="ri-close-line"></i></button>
+               
+            </div>        
+          </div>
+        </div>
+      </div>
+{%endif%} -->
+      
+      
+<!--<div class="snackbars" id="form-output-global"></div>-->
+<!-- <script src="js/core.min.js"></script>
+<script src="js/script.js"></script> -->
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+                window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+   $(window).scroll(function() {    
+            var scroll = $(window).scrollTop();
+            if (scroll >= 20) {                
+                $(".header").addClass("top-fixed");
+            } else {                
+                $(".header").removeClass("top-fixed");
+            }
+        });
+
+
+
+
+    $(document).ready(function(){     
+
+        {% if messages %}
+            {%for message in messages%}
+            {% if 'noicon' not in message.tags %}
+                    
+               
+                {%if 'warning' in message.tags %}
+                    $('#adcrtmdl').show()
+                {% endif %}
+                {%if 'danger' in message.tags %}
+                    $('#adcrtmdl').show()
+                {% endif %}
+                {%if 'error' in message.tags %}
+                    $('#adcrtmdl').show()
+                {% endif %}
+                {% endif %}
+           {%endfor%}
+        {%endif%}
+        
+        $("#procodebx").hide();
+
+        // $('.aplyclck').click(function(){
+        $('body').on('click', '.aplyclck', function(){   
+            $("#procodebx").show();
+            $("#probtnlnk").hide();
+            $('#voucher_form input').focus();
+            $('.aplycpnbx').show();
+           
+        });
+
+        $('.cpnaplyed').click(function(){
+            $("#probtnlnk").hide();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").show();
+            $("#aplyclck").hide();
+        });
+        $('.resetclk').click(function(){
+            $("#probtnlnk").show();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").hide();
+        });
+
+        
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+        // $("#id_code").addClass("form-control");
+        // $("#id_code").addClass("form-input");
+        // $("#id_code").addClass("form-input-inverse");
+        $("label.control-label").hide();
+
+        $('.delete-checkbox input[type=checkbox]').change(function(){
+            $('#basket_formset').submit();
+            // console.log("abc");
+        });
+
+        // $('#voucher_form_cancel').click(function(){
+        $('body').on('click', '#voucher_form_cancel', function(){   
+            $('#voucher_form_container').css('display','none');
+            $('#voucher_form_link').css('display','block');
+        });
+
+        // $('.basket-delete-btn').click(function(){
+        $('body').on('click', '.basket-delete-btn', function(){   
+            var len = $(this).data('len');
+            var voucher = $(this).data('voucher');
+            // console.log(voucher)
+            // if (voucher != 'None' && len == 1  ){
+            //     $("#remove-coupon").addClass("active")
+            //     $('#remove-coupon').show()
+            //     setTimeout(function(){                                
+            //         $("#remove-coupon").removeClass("active");
+            //         $('#remove-coupon').hide();
+            //     },2500);
+                            
+            // }
+            
+            // else{
+
+            $("#remove-adcrtmdl").addClass("active")
+            $('#remove-adcrtmdl').show()
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            $('.remove-citem').attr('data-line-id', lineId);
+           
+            
+            // }
+
+            // var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            // $.ajax({
+            //     url: deleteURL,
+            //     type: "delete",
+            //     headers: {
+            //         'X-CSRFToken': '{{csrf_token}}'
+            //     },
+            //     success: function (response) {
+            //         console.log(response);
+            //         location.reload()
+            //     },
+            //     error: function (error) {
+            //         console.error(error);
+            //     },
+            // });
+        });
+
+        // $('.remove-citem').click(function(){
+        $('body').on('click', '.remove-citem', function(){       
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            var len = $(this).data('len');
+            if(len == 1){
+                $('.voucher_remove').click();
+            }
+
+            var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: deleteURL,
+                type: "delete",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        });
+
+        // $('.not-remove-item').click(function(){
+        $('body').on('click', '.not-remove-item', function(){   
+            $("#remove-adcrtmdl").removeClass("active")
+            $('#remove-adcrtmdl').hide()
+        });
+
+
+        RemoveProduct = function(lineId, cartId){
+            // var lineId = $(this).data('lineId');
+            // var cartId = $(this).data('cartId');
+            var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: deleteURL,
+                type: "delete",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+
+        $('.variant-select').change(function(){
+            // var retail_price = $(this).find('option:selected').data('retailPrice');
+            // var selling_price = $(this).find('option:selected').data('sellingPrice');
+            // var discount_price = $(this).find('option:selected').data('discount');
+            var productId = $(this).val();
+            var cartId = $(this).data('cartId');
+            var lineId = $(this).data('lineId')
+            RemoveBasketProduct(lineId,cartId,productId);
+
+        });
+
+        RemoveBasketProduct = function(lineId, cartId, productId){
+            //var lineId = $(this).parents('.featured-product-card').find('.variant-select').val();
+
+            var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: deleteURL,
+                type: "delete",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    console.log(response);
+                    ProductAdd(productId);
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+        ProductAdd = function(productId){
+            var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+            // var productId = $(this).parents('.featured-product-card').find('.variant-select').val();
+            console.log(productId);
+            var productApiUrl = `${location.origin}/api/products/${productId}/`;
+            var quantity = 1;
+            $.ajax({
+                url: addToCartApiUrl,
+                type: "post",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: JSON.stringify({
+                    "url": productApiUrl,
+                    "quantity": quantity,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                  
+                },
+            });
+        }
+        
+
+        // var el_down = document.getElementById("id_code");
+
+        $('.stepper-arrow').click(function(){
+            console.log('hello');
+        });
+
+      
+        // $('.voucher_form_submit').click(function(){
+        var voucherErrorPopup = new $(this).data(document.getElementById('voucher-error-adcrtmdl'))
+        $('body').on('click', '.voucher_form_submit', function(){   
+            // $('#voucher_form').submit();
+            console.log('i am working')
+            if($('#id_code').val()){
+                $('#preloader').show();
+                voucherAdd();
+                // $('#id_code').val('');
+            }
+            else{
+                $('#voucher-error-id').text('Please enter a coupon code!');
+                $('#voucher-error-adcrtmdl').addClass("active")
+                // voucherErrorPopup.show();
+                setTimeout(function(){                                
+                    $("#voucher-error-adcrtmdl").removeClass("active");
+                    // addToCartSuccessPopup.hide();
+                },2500);
+                $('#procodebx').hide();
+                $('#probtnlnk').show();
+            }
+        });
+        
+        voucherAdd = function(){
+            var code = $('#id_code').val()
+            var voucherURL = `${location.origin}/catalogue/api/v1/basket/add-voucher/`;
+            $.ajax({
+                url: voucherURL,
+                type: "post",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: JSON.stringify({
+                    "vouchercode": code,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    $('#preloader').hide();
+                    console.log(response);
+                    $('.prmcodebx').hide();
+                    show_coupon_code(code)
+                    fetchBasketItemDetail();
+                    fetchBasketItemOrderSummaryDetail(code);
+                },
+                error: function (error) {
+                    console.error(error);
+                    $('#id_code').val('');
+                    console.log('hgellko');
+                    $('#preloader').hide();
+                    
+                    $('#procodebx').hide();
+                   
+                    $('#probtnlnk').show();
+                    $('#voucher-error-adcrtmdl').addClass("active")
+                    if(error.responseJSON.non_field_errors){
+                        $('#voucher-error-id').text(error.responseJSON.non_field_errors[0]);
+                       
+                    }
+                    if(error.responseJSON.vouchercode){
+                        if(error.responseJSON.vouchercode[0] == "This field may not be blank.")
+                        {
+                            $('#voucher-error-id').text('Please enter a valid coupon code!');
+                        }
+                        else{
+                            $('#voucher-error-id').text(error.responseJSON.vouchercode[0]);
+                        }
+                       
+                    }
+                    voucherErrorPopup.show();
+                    setTimeout(function(){                                
+                            $("#voucher-error-adcrtmdl").removeClass("active");
+                            addToCartSuccessPopup.hide();
+                        },2500);
+                    console.error(error);
+                },
+            });
+        }
+
+        // $('.voucher_remove').click(function(){
+        $('body').on('click', '.voucher_remove', function(){   
+        //   $('#voucher_delete_btn').submit();
+            var code  = $(this).data('code');
+            voucherDelete(code)
+       });
+
+        // var el_down = $('.voucher_remove').data('code')
+        function show_coupon_code(code) {
+            console.log(code)
+           $('#applied_voucher_id').html(code);
+        }
+       
+
+
+       voucherDelete = function(code){
+            var code = code
+            console.log(code)
+            var voucherURL = `${location.origin}/catalogue/api/v1/basket/remove-voucher/`;
+            $.ajax({
+                url: voucherURL,
+                type: "post",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: JSON.stringify({
+                    "vouchercode": code,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    $('.prmcodebx').hide();
+                    fetchBasketItemDetail();
+                    fetchBasketItemOrderSummaryDetail();
+                   
+                   
+                },
+                error: function (error) {
+                    // $('#voucher-error-id').val(error.responseJSON[0]);
+                    // voucherErrorPopup.show();
+                    // setTimeout(function(){                                
+                    //     $("#voucher-error-adcrtmdl").removeClass("active");
+                    //     addToCartSuccessPopup.hide();
+                    // },2500);
+                    console.error(error);
+                },
+            });
+        }
+
+        // $('.list-offer-apply-btn').click(function(){
+        $('body').on('click', '.list-offer-apply-btn', function(){   
+            var code = $(this).data('code');
+            $('#id_code').val(code);
+            $('#voucher_form').submit();
+        });
+
+
+        fetchBasketItemDetail = function () {
+            $.ajax({
+                url: `${location.origin}/basket/basket_items`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.basket-items-add').html('');
+                    $('.basket-items-add').html(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+        fetchBasketItemOrderSummaryDetail = function (code) {
+            $.ajax({
+                url: `${location.origin}/basket/basket_item_order_summary`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.basket-items-order-summary').html('');
+                    $('.basket-items-order-summary').html(response);
+                    $('#id_code').val(code)
+                    $('.aplycpnbx').hide();
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+        fetchBasketItemOrderSummaryMobileDetail = function () {
+            $.ajax({
+                url: `${location.origin}/basket/basket_item_order_summary_mobile`,
+                type: "get",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    // console.log(response);
+                    $('.order-sm').html('');
+                    $('.order-sm').html(response);
+                    
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+
+        quantityChnage = function(lineId, cartId, quantity){
+            // var quantity = $(this).val();
+            var updateURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: updateURL,
+                type: "patch",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: JSON.stringify({
+                    "quantity": quantity,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    fetchBasketItemDetail();
+                    fetchBasketItemOrderSummaryDetail();
+                    if ($(window).width() < 960) {
+                        fetchBasketItemOrderSummaryMobileDetail();
+                       
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+        var addToCartSuccessPopup = new $(this).data(document.getElementById('quantity-adcrtmdl'))
+        var addToCartQuantityPopup = new $(this).data(document.getElementById('quantity-decrease-adcrtmdl'))
+       
+        $('body').on('click', '#qty-increase', function(){   
+        // $('#qty-increase').click(function(){
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            var quantity = $(this).data('quantity');
+            var maxQuantity = $(this).data('mquantity');
+            console.log(maxQuantity);
+            
+            $('.smallloader').addClass('active'); 
+            setTimeout(function() {
+                $('.smallloader').removeClass('active');
+            }, 300);
+
+            var quantity = quantity+1;
+            if(quantity > maxQuantity){
+                $('#quantity-value').val(maxQuantity)
+                var quantity = maxQuantity
+                $('#quantity-adcrtmdl').addClass("active")
+                addToCartSuccessPopup.show();
+                setTimeout(function(){                                
+                    $("#quantity-adcrtmdl").removeClass("active");
+                    addToCartSuccessPopup.hide();
+                },2500); 
+            }
+            else{
+                $('#quantity-value').val(quantity);
+                quantityChnage(lineId,cartId,quantity);
+            }
+           
+            
+
+        });
+
+    
+        $('body').on('click', '#qty-decrease', function(){   
+        // $('#qty-decrease').click(function(){
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            var quantity = $(this).data('quantity');
+            console.log(quantity);
+
+            $('.smallloader').addClass('active'); 
+            setTimeout(function() {
+                $('.smallloader').removeClass('active');
+            }, 300);
+            
+            if(quantity-1 > 0){
+                var quantity = parseInt(quantity)-1;
+                $('#quantity-value').val(quantity);
+                quantityChnage(lineId,cartId,quantity);
+            }
+            else{
+                $('#quantity-decrease-adcrtmdl').addClass("active")
+                    addToCartQuantityPopup.show();
+                    setTimeout(function(){                                
+                        $("#quantity-decrease-adcrtmdl").removeClass("active");
+                        addToCartSuccessPopup.hide();
+                    },2500); 
+                }
+            
+
+            
+            
+
+        });
+
+
+    });
+   
+
+</script>
+{% endblock %}

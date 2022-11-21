@@ -1,0 +1,190 @@
+
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+{% load arithmatic_ope %}
+{% load order_amount %}
+
+
+    <h3 class="crt_ttl">My Cart ({{request.basket.all_lines|length}} item)</h3>
+    <div class="itmhtfxd">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+        {% with line=form.instance product=form.instance.product %}
+        {% purchase_info_for_line request line as session %}
+        <div class="cartbx checkout-quantity featured-product-card" id="checkout-input">
+            
+            <div class="media basket-line-actions  update-del-btn">
+                <img src="{{ MEDIA_URL }}{{ product.primary_image.original }}" alt="">
+                <div class="delete-checkbox" style="display:none;">
+                    {{ form.DELETE }}
+                </div>
+ 
+                <!-- <p class="wbrembd">
+                    <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">{% trans "Remove" %}</a>
+                </p> -->
+                <!-- <div class="qtydplst">
+                    <select class="form-control">
+                        <option>Qty</option>
+                    </select>
+                </div> -->
+                
+                {% for field_errors in form.errors.values %}
+                    {% for error in field_errors %}
+                        <span class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+            <div class="crt_data">                                    
+            
+                <h3>
+                    <a href="{{ product.get_absolute_url}}">{{line.product.get_complete_title}}</a>
+                    <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                        <i class="ri-delete-bin-5-line"></i>                        
+                    </a>
+                </h3>
+                {% if line.product.get_tag_line %}
+
+                <p style="display: none">({{ line.product.get_tag_line|safe }})</p>
+                
+
+                {% endif %}
+
+                <div>
+                    
+                        <!-- <span style="display: inline-block;padding: 0px 10px;">|</span> -->
+
+                        <div style="padding: 3px 0px;">
+                            <span style="font-weight: 500;">Qty :</span> 
+                            <span>{{line.quantity}}</span>
+                        </div>
+
+
+                        {% for child in product.parent.variants_list %}
+                    {% if child == product %}
+
+                    {{child.title}}
+
+                    
+
+                    {%endif%}
+                        {% endfor %} 
+
+
+
+                </div>
+
+
+
+                <div class="form-group d-none">
+                    <select class="form-control variant-select" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}">
+                        {% for child in product.parent.variants_list %}
+                        {% if child == product %}
+                        <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}  selected>{{child.title}}</option>
+                        
+                        {%else%}
+                        <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                        {%endif%}
+                        {% endfor %} 
+                    </select>
+                </div>
+                
+                
+
+                
+
+                <div class="mbl_prs_rmv">
+                    <div class="plsmnsbx">
+                        <abbr>Quantity</abbr>
+                        <div class="bxmpm">
+                            {% for child in product.parent.variants_list %}
+                                {% if child == product %}    
+                                <button type="button" class="ffhhuuj FHuj" id="qty-decrease"   data-quantity="{{line.quantity}}" data-product="{{child.id}}" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price="{{child.stockrecords.first.price_excl_tax}}" min="1"> – </button>
+                                <div class="HdzL"><input type="text" class="_253qQJ" id="quantity-value" value="{{line.quantity}}" disabled></div>
+                                <button type="button" class="ffhhuuj FHuj" id="qty-increase"  data-mquantity="{{line.check_max_quantity}}" data-quantity="{{line.quantity}}" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}" data-product="{{child.id}}"> + </button>
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                        <p class="mb-rmbvd">
+                            <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                {% trans "Remove" %}                                                
+                            </a>
+                            <!-- mb-rmbvd -->
+                        </p>
+        
+                    </div>
+
+                    <!-- <p class="mb-rmbvd">
+                        <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-len="{{request.basket.all_lines|length}}" data-voucher="{{request.basket.vouchers.first}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                            {% trans "Remove" %}                                                
+                        </a>
+                    </p> -->
+                    
+                        
+                        <!-- <label class="remove-item-btn"  for="id_form-{{forloop.counter}}-DELETE"></label> -->
+                        <!-- <a  href="javascript:void(0)" name="form-0-quantity" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" value="{{ line.quantity }}" min="0" max="{{session.availability.num_available}}"
+                        class="quantity-pop">{% trans "Update" %}</a> -->
+                    
+                    
+                    <div class="price_bx price-crt">
+                        <!-- <h3 class="crt-price">&#8377;{{ line.unit_price_incl_tax }}</h3> -->
+                        
+                        <span class="lssprs product-price product-price-old price-detail" style="text-decoration-line: line-through;">&#8377;{{line.stockrecord.price_retail}}</span>                                            
+                        <span class="acprc">&#8377;{% widthratio line.unit_price_excl_tax 1 line.quantity %}</span>                                            
+                    </div>
+                </div>
+
+
+            
+
+                <!-- <p>
+                    <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                        {% trans "Remove" %}                                            
+                    </a>
+                </p> -->
+                
+            </div>
+            <div class="crtprs">  
+                {% if line.stockrecord.price_retail != line.unit_price_excl_tax %}
+                <h3 class="lssprs price-detail">&#8377;{% widthratio line.stockrecord.price_retail 1 line.quantity %}</h3>
+                {% endif %}
+                <h3 class="acprc selling-price">&#8377;{% widthratio line.unit_price_excl_tax 1 line.quantity %}</h3>
+
+                <!-- <h3 class="product-price product-price-old price-detail">&#8377;{{ line.unit_price_incl_tax }}</h3> -->
+            </div>
+        </div>                    
+        {% endwith %}
+        {% endfor %}
+    </div>
+    <div class="mcrtcrt_amnt">
+        <div class="cmt_amt">
+            <span>Total Amount</span>
+            
+            {% if order_total.is_tax_known %}
+            {% order_amount total_amount=order_total.incl_tax as available %} 
+                <span>&#8377;{{ available }}</span>
+            {% else %}
+            {% order_amount total_amount=order_total.excl_tax as available %} 
+                <span>&#8377;{{ available }}</span>
+            {% endif %}
+        </div>
+
+        <div class="butbx">                
+            <!-- <a class="btn_outline_green" href="{{homepage_url}}">Continue Shopping</a> -->
+            <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+        </div> 
+        
+    </div>
+
+    <div class="smallloader">
+        <span class="smldrbx" style="border-top-color: transparent;"></span>
+    </div> 
+

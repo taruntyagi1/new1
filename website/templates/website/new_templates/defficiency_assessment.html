@@ -1,0 +1,887 @@
+{% load static %}
+<html>
+
+<head>
+	<title>Instaeats</title>
+	<meta name="theme-color" content="#16be48" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=12; IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE,chrome=1">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="no">
+	<meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)">
+	<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link rel="icon" type="image/x-icon" href="{% static 'website/images/favicon.png' %}">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css" />
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" />
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/v5-font-face.min.css" />
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/old_site_css/style.css' %}?v=0.1" />
+	<link rel="stylesheet" href="{% static 'new_templates_assets/css/stylesheet.css' %}" />
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/full_site-responsive.css' %}" />
+    
+	<link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/slider/slick.css' %}" />
+
+</head>
+
+<body>
+    
+    <header class="assnmnt_header">
+        <div class="container ccstm-container">
+            <div class="logo-h">
+                <a href="{{homepage_url}}">
+                    <img src="{% static 'new_templates_assets/images/black_logo_withbg.png' %}" alt="">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="asmntfrmbx">
+        <form id="assessment-form" action="">
+            {% csrf_token %}
+            <div id="start" class="person_details active">
+                <div class="container ccstm-container">
+                    <div class="per_head">
+                        <!-- <button id="prev_page" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button> -->
+                        <div class="start_f fst_stp">
+                            <div class="ph_llt_hd">                                
+                                <h2>Let's Start...</h2>
+                            </div>
+                            <!-- <p>Welcome to your Micronutrient deficiency- Assessment Form</p> -->
+                            <p>Nice, to see you here!</p>
+                            <span class="steps">
+                                <p>1/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detials_f">
+                        <div class="det_form">
+                            <h2>What's Your <br> Name ?</h2>
+                            <div class="form-item">
+                                <input type="text" name="name2" class="form-control" placeholder=" " maxlength="50"
+                                    required id="id_name_assessment">
+                                <label class="ttl_nm" for="id_name_assessment">Enter Name</label>
+                                <small class="trr-danger" id="id_name_assessment_error"></small>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <a href="javascript:void(0);"></a>
+                        <button type="button" id="next" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div id="phone" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">
+                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Hey Richa</h2>
+                            </div>
+                            <p>Where we can contact you</p>
+                            <span class="steps">
+                                <p>2/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detials_f">
+                        <div class="det_form">
+                            <h2>Phone <br> Number?</h2>
+                            <p>A health expert will call you when you start the plan.</p>
+                            <div class="form-item">
+                                <input type="text" name="mobile_number" class="form-control" placeholder=" " maxlength="10"
+                                    required="" id="id_mobile_number">
+                                <label class="ttl_nm" for="id_mobile_number">Enter here</label>
+                            </div>
+                            <small class="trr-danger text-danger" id="id_mobile_number_error"></small>
+                        </div>
+                        <div class="next_btn">
+                            <button id="prev_page_2" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                            <button id="agescreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gender" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">
+                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">More About you</h2>
+                            </div>
+                            
+                            <p>A bit more about you</p>
+                            <span class="steps">
+                                <p>3/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detials_f">
+                        <div class="det_form">
+                            <h2>What's Your <br> Gender?</h2>
+                            <div class="select_gender">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="ge_rptr" for="id_gender_male">
+                                            <img src="{% static 'new_templates_assets/images/male.png' %}" alt="">
+                                            <input type="radio" name="gender" id="id_gender_male" value="Male">
+                                            <span class="agecnck"></span>
+                                            <span class="agecnckborder"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="ge_rptr" for="id_gender_female">
+                                            <img src="{% static 'new_templates_assets/images/female.png' %}">
+                                            <input type="radio" name="gender" id="id_gender_female" value="Female">
+                                            <span class="agecnck"></span>
+                                            <span class="agecnckborder"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="next_btn">
+                            <button id="prev_page_1" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                            <button id="phonescreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+
+            <div id="age" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Tell us your age</h2>
+                            </div>                            
+                            <p>Please Complete the step to get the accurate result</p>
+                            <span class="steps">
+                                <p>4/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detials_f">
+                        <div class="det_form">
+                            <h2>How old <br> you are?</h2>
+                            <div class="age_bx1">
+                                <label class="age_rptr1">
+                                    4 to 17 Yrs
+                                    <input type="radio" name="age" checked value="0-16">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr1">17 to 40 Yrs
+                                    <input type="radio" name="age" value="17-40">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr1">40 to 70 Yrs
+                                    <input type="radio" name="age" value="41-70">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr1">70 Yrs+
+                                    <input type="radio" name="age" value="71-100">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_3" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="medicalhealth" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="medical" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Your Health Condition matters</h2>
+                            </div>
+                            <p>Are you diagnosed with any medical condition?</p>
+                            <span class="steps">
+                                <p>5/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section_data_flow">
+                        <div class="det_form">
+                            <h2>Any Medical <br> Condition?</h2>
+                            <div class="age_bx">
+                                <label class="age_rptr">
+                                    Thyroid
+                                    <input type="checkbox" name="medical_condition" value="Thyroid">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Diabetes
+                                    <input type="checkbox" name="medical_condition" value="Diabetes">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr"> PCOD
+                                    <input type="checkbox" name="medical_condition" value="PCOD">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Heart diseases +
+                                    <input type="checkbox" name="medical_condition" value="Heart diseases">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Digestive Issues
+                                    <input type="checkbox" name="medical_condition" value="Digestive Issues">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Skin Problems
+                                    <input type="checkbox" name="medical_condition" value="Skin Problems">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Constipation
+                                    <input type="checkbox" name="medical_condition" value="Constipation">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Acidity
+                                    <input type="checkbox" name="medical_condition" value="Acidity">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Hyperpigmenation
+                                    <input type="checkbox" name="medical_condition" value="Hyperpigmenation">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">NONE OF THEM
+                                    <input type="checkbox" name="medical_condition" value="">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_4" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="behavescreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="behaviour" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Let’s dig deep!</h2>
+                            </div>                            
+                            <p>Choose symptoms you recently experienced in your behavioural </p>
+                            <span class="steps">
+                                <p>6/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section_data_flow">
+                        <div class="det_form">
+                            <h2>About Behavioural <br> Health?</h2>
+                            <div class="age_bx">
+                                <label class="age_rptr">
+                                    Weakness
+                                    <input type="checkbox" name="symptoms" value="Weakness">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Tiredness & Sleepiness
+                                    <input type="checkbox" name="symptoms" value="Tiredness and Sleepiness">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr"> Confusion (Unable to foccus on thing)
+                                    <input type="checkbox" name="symptoms" value="Confusion">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Irritabilty( Mood Swings)
+                                    <input type="checkbox" name="symptoms" value="Irritabilty">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Nervousness
+                                    <input type="checkbox" name="symptoms" value="Nervousness">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Feeling of Depression, Anxiety, Stress
+                                    <input type="checkbox" name="symptoms" value="Feeling of Depression, Anxiety, Stress">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">NONE OF THEM
+                                    <input type="checkbox">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_5" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="metascreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="meta" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Don’t stop now!  </h2>
+                            </div>
+                            <p>Choose symptoms you recently experienced in your Metabolic </p>
+                            <span class="steps">
+                                <p>7/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section_data_flow">
+                        <div class="det_form">
+                            <h2>About Metabolic <br> Health?</h2>
+                            <div class="age_bx">
+                                <label class="age_rptr">
+                                    Craving for Sugar
+                                    <input type="checkbox" name="symptoms" value="Craving for Sugar">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Loss of Appetite
+                                    <input type="checkbox" name="symptoms" value="Loss of Appetite">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr"> Irregular hunger feeling
+                                    <input type="checkbox" name="symptoms" value="Irregular hunger feeling">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Loss of taste
+                                    <input type="checkbox" name="symptoms" value="Loss of taste">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Burning or Sore Tongue
+                                    <input type="checkbox" name="symptoms" value="Burning or sore tongue">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Feeling Bloated
+                                    <input type="checkbox" name="symptoms" value="Feeling Bloated">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Craving for Snacks
+                                    <input type="checkbox" name="symptoms" value="Craving for Snacks">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Cravings for non-nutritive substances, Such as Ice, Dirt or Starch
+                                    <input type="checkbox" name="symptoms" value="Cravings for non-nutritive substances">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">NONE OF THEM
+                                    <input type="checkbox">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_6" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="skinscreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="skin" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Great, one more step away! </h2>
+                            </div>
+                            <p>Choose the symptoms you recently experienced in your skin and Hair Health.</p>
+                            <span class="steps">
+                                <p>8/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section_data_flow">
+                        <div class="det_form">
+                            <h2>About Skin and <br> Hair Health? </h2>
+                            <div class="age_bx">
+
+                                <label class="age_rptr">
+                                    Brittle Nails ( Nails breaking easily)
+                                    <input type="checkbox" name="symptoms" value="Brittle Nails">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Dry Skin
+                                    <input type="checkbox" name="symptoms" value="Dry skin">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Cracked Lips
+                                    <input type="checkbox" name="symptoms" value="Cracked lips">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Dry & Damaged Hair
+                                    <input type="checkbox" name="symptoms" value="Dry & Damaged hair">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Hair Fall
+                                    <input type="checkbox" name="symptoms" value="Hairfall">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Sensitive Skin and Acne
+                                    <input type="checkbox" name="symptoms" value="Sensitive Skin and Acne">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Anemia or Lack of Red Blood Cells
+                                    <input type="checkbox" name="symptoms" value="Anemia">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Early Graying of Hair
+                                    <input type="checkbox" name="symptoms" value="Early graying of hair">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+
+                                <label class="age_rptr">NONE OF THEM
+                                    <input type="checkbox">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_7" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="otherscreen" type="button" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="other" class="person_details">
+                <div class="container ccstm-container">
+                    <div class="per_head">                        
+                        <div class="start_f">
+                            <div class="ph_llt_hd">                                
+                                <h2 class="user_name">Nice! Almost done</h2>
+                            </div>
+                            <p>Choose the symptoms you recently experienced in other health issues.</p>
+                            <span class="steps">
+                                <p>9/9</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section_data_flow">
+                        <div class="det_form">
+                            <h2>Any Other Health <br>
+                                Issues ?</h2>
+                            <div class="age_bx">
+                                <label class="age_rptr">
+                                    Frequent Sweating
+                                    <input type="checkbox" name="symptoms" value="Frequent Sweating">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Slow wound Healing
+                                    <input type="checkbox" name="symptoms" value="Slow wound Healing">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Muscle cramps
+                                    <input type="checkbox" name="symptoms" value="Muscle cramps">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Loss of Libido ( lack of sex drive)
+                                    <input type="checkbox" name="symptoms" value="Loss of Libido">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Joint Pain (knee, ankle, wrist, elbow, hip)
+                                    <input type="checkbox" name="symptoms" value="Joint Pain">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Irregular Heartbeat ( Slow or Fast )
+                                    <input type="checkbox" name="symptoms" value="Irregular Heartbeat">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Pain and Weakness in Muscles
+                                    <input type="checkbox" name="symptoms" value="Pain and Weakness in Muscles">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                                <label class="age_rptr">Nose bleeding
+                                    <input type="checkbox" name="symptoms" value="Nose bleeding">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+
+                                <label class="age_rptr">NONE OF THEM
+                                    <input type="checkbox">
+                                    <span class="agecnck"></span>
+                                    <span class="agecnckborder"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="next_btn">
+                        <button id="prev_page_8" type="button" class="back_btn"><i class="ri ri-arrow-left-line"></i> back</button>
+                        <button id="sucessrcreen" type="button" class="next"><i class="ri ri-arrow-right-line"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="sucessmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<div class="sucess text-center">
+						<img src="{% static 'new_templates_assets/images/sucess.png' %}" alt="">
+                        <h3>You're Done!</h3>
+						<div class="spinner-border" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+                        <p>Please Wait While we are generating your vitamin deficiency report</p>
+						<p>thanks for Being patient we are generation your vitamin deficiency report as per your
+							symptoms.</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<script src="{% static 'new_templates_assets/js/jquery.min.js' %}"></script>
+	<!--<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+	<script src="{% static 'new_templates_assets/js/custom_jquery.js' %}"></script>
+
+	<script type="text/javascript"
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/fontawesome.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+	<script>
+
+
+
+        // $(function() {
+        
+        //     var slideCount =  $(".slider ul li").length;
+        //     var slideWidth =  $(".slider ul li").width();
+        //     var slideHeight =  $(".slider ul li").height();
+        //     var slideUlWidth =  slideCount * slideWidth;
+        
+        //     $(".slider").css({"max-width":slideWidth, "height": slideHeight});
+        //     $(".slider ul").css({"width":slideUlWidth, "margin-left": - slideWidth });
+        //     $(".slider ul li:last-child").prependTo($(".slider ul"));
+        
+        //     function moveLeft() {
+        //         $(".slider ul").stop().animate({
+        //         left: + slideWidth
+        //         },700, function() {
+        //         $(".slider ul li:last-child").prependTo($(".slider ul"));
+        //         $(".slider ul").css("left","");
+        //         });
+        //     }
+            
+        //     function moveRight() {
+        //         $(".slider ul").stop().animate({
+        //         left: - slideWidth
+        //         },700, function() {
+        //         $(".slider ul li:first-child").appendTo($(".slider ul"));
+        //         $(".slider ul").css("left","");
+        //         });
+        //     }
+            
+            
+        //     $(".next").on("click",function(){
+        //         moveRight();
+        //     });
+            
+        //     $(".prev").on("click",function(){
+        //         moveLeft();
+        //     });
+        
+        
+        // });
+
+		$(document).ready(function () {            
+			$("#next").click(function () {
+                if($('#id_name_assessment').val()){
+                    $("#start").removeClass('active');
+                    $("#phone").addClass('active');
+                    $('#id_name_assessment_error').text('');
+                    let name = $('#id_name_assessment').val();
+                    $('#phone .user_name').text(`Hey ${name}!`);
+                    $('#id_name_assessment').removeClass('invalid');
+                }
+                else{
+                    $('#id_name_assessment').addClass('invalid');                    
+                    $('#id_name_assessment_error').text('Please enter your name');
+                } 
+			});	
+
+            $('#id_name_assessment').keyup(function(e){
+                if(e.keyCode==13){
+                    if($('#id_name_assessment').val()){
+                        $("#start").removeClass('active');
+                        $("#phone").addClass('active');
+                        $('#id_name_assessment_error').text('');
+                        let name = $('#id_name_assessment').val();
+                        $('#phone .user_name').text(`Hey ${name}!`);
+                        $('#id_name_assessment').removeClass('invalid');
+                    }
+                    else{
+                        $('#id_name_assessment').addClass('invalid');                    
+                        $('#id_name_assessment_error').text('Please enter your name');
+                    }
+                }
+            });
+
+			$("#agescreen").click(function () {
+                if($('#id_mobile_number').val()){
+                    var reg =/^\d{10}$/;
+                    var mob=$('#id_mobile_number').val()
+                    if (! reg.test(mob)){
+                        $('#id_mobile_number').addClass('invalid');   
+                        $('#id_mobile_number_error').text('Please Enter valid mobile number');
+                        return
+                    }
+                    $("#gender").addClass('active');
+                    $("#phone").removeClass('active');
+                    $('#id_mobile_number').removeClass('invalid');
+                    $('#id_mobile_number_error').text('');
+                }
+                else{
+                    $('#id_mobile_number').addClass('invalid');   
+                    $('#id_mobile_number_error').text('This field is required');
+                }
+			});
+
+            $('#id_mobile_number').keyup(function(e){
+                if(e.keyCode==13){
+                    if($('#id_mobile_number').val()){
+                        var reg =/^\d{10}$/;
+                        var mob=$('#id_mobile_number').val()
+                        if (! reg.test(mob)){
+                            $('#id_mobile_number').addClass('invalid');   
+                            $('#id_mobile_number_error').text('Please Enter valid mobile number');
+                            return
+                        }
+                        $("#gender").addClass('active');
+                        $("#phone").removeClass('active');
+                        $('#id_mobile_number').removeClass('invalid');
+                        $('#id_mobile_number_error').text('');
+                    }
+                    else{
+                        $('#id_mobile_number').addClass('invalid');   
+                        $('#id_mobile_number_error').text('This field is required');
+                    }
+                }
+            });
+
+            $("#phonescreen").click(function () {
+                debugger
+                if(document.getElementById('id_gender_female').checked || document.getElementById('id_gender_male').checked ){
+				$("#age").addClass('active');
+				$("#gender").removeClass('active');    
+                }            
+			});
+            // document.getElementById('age')
+            // .addEventListener('keyup', function(event) {
+            //     if (event.code === 'Enter')
+            //     {
+            //         $('#phonescreen').click()
+            //     }
+            // });
+
+			$("#medicalhealth").click(function () {
+				$("#medical").addClass('active');
+				$("#age").removeClass('active');                
+			});
+
+			$("#behavescreen").click(function () {
+				$("#behaviour").addClass('active');
+				$("#medical").removeClass('active');
+			});
+			$("#metascreen").click(function () {
+				$("#meta").addClass('active');
+				$("#behaviour").removeClass('active');
+			});
+
+			$("#skinscreen").click(function () {
+				$("#skin").addClass('active');
+				$("#meta").removeClass('active');
+			});
+
+			$("#otherscreen").click(function () {
+				$("#other").addClass('active');
+				$("#skin").removeClass('active');
+			});
+
+
+
+
+            $('#prev_page_1').click(function(){                
+                $("#gender").removeClass('active') ;
+                $("#phone").addClass('active');
+            });
+
+            $('#prev_page_2').click(function(){
+                $("#phone").removeClass('active');
+				$("#start").addClass('active');
+            });
+
+            $('#prev_page_3').click(function(){
+				$("#age").removeClass('active');
+				$("#gender").addClass('active');
+            });
+
+            $('#prev_page_4').click(function(){                
+				$("#medical").removeClass('active');
+				$("#age").addClass('active');
+            });
+
+            $('#prev_page_5').click(function(){                
+				$("#behaviour").removeClass('active');
+				$("#medical").addClass('active');
+            });
+
+            $('#prev_page_6').click(function(){
+				$("#meta").removeClass('active');
+				$("#behaviour").addClass('active');
+            });
+
+            $('#prev_page_7').click(function(){
+				$("#skin").removeClass('active');
+				$("#meta").addClass('active');
+            });
+
+            $('#prev_page_8').click(function(){
+				$("#other").removeClass('active');
+				$("#skin").addClass('active');
+            });
+		});
+
+        function saveAssessmentData(){
+            let form_data = new FormData($('#assessment-form')[0])
+            form_data.set('name', `${$('#id_name_assessment').val()}`);
+            form_data.set('mobile_number', `+91${$('#id_mobile_number').val()}`);
+            $('#sucessmodal').modal('show');
+            $.ajax({
+                url: '/catalogue/api/v1/questionaire-create',
+                method: 'POST',
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    console.log(response);
+                    setTimeout(function(){  
+                        location.href = response.get_absolute_url;
+                    }, 2000);
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }
+
+        $('#sucessrcreen').click(function(){
+            saveAssessmentData();
+        });
+
+        $('#assessment-form').submit(function(e){
+            e.preventDefault();
+            saveAssessmentData();
+        });
+
+	</script>
+
+
+	<script>
+		$(window).scroll(function () {
+			var scroll = $(window).scrollTop();
+			if (scroll >= 50) {
+				$(".header").addClass("top-fixed");
+			} else {
+				$(".header").removeClass("top-fixed");
+			}
+		});    
+	</script>
+</body>
+
+</html>

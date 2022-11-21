@@ -1,0 +1,287 @@
+{% extends "website/frame.html" %}
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+
+{% block page-content %}
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Health Store</h3>
+                <ul class="br_submenu">
+                    <li><a href="javascript:void(0);">Home</a></li>
+                    <li><a href="javascript:void(0);">My Account</a></li>
+                    <li>Login</li>
+                </ul>
+            </div>
+            <div class="brd_dea">
+                <img src="{%static 'website/images/lstbnrimg.png' %}" alt="">
+            </div>                    
+        </div>
+    </div>
+</section>
+
+<form id="login_form" action="{{ request.get_full_path }}" method="post" class="well login-form">
+    {% csrf_token %}
+<section class="login_section hide-register-form">
+    <div class="container">
+        <div class="login_bx">
+            <div class="lgn_frm">
+                
+                <h3>Login Or Create A New Account</h3>
+               
+                    {% if login_form.non_field_errors %}
+                        {% for err in login_form.non_field_errors %}
+                        <div class="form-text text-danger">
+                            {{ err }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% for field in login_form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                <div class="form-group mobile_number">
+                    <div class="form-input">
+                    <!-- <input type="text" class="form-control" name="" placeholder="Mobile Number"> -->
+                        <!-- {{ login_form.username.label_tag }} -->
+                        {{ login_form.username }}
+                    </div>
+                    <small class="form-text text-success" id="custom_text" style="color:green"></small>
+                    <small class="form-text text-danger" id="custom_error" style="color:red"></small>
+                    <p class="my-0 text-right">
+                        <!-- <span id="resend-otp-btn">Resend OTP</span> -->
+                    </p>
+                    {% if login_form.username.help_text %}
+                    <small class="form-text text-muted">{{ login_form.username.help_text|safe }}</small>
+                    {% endif %}
+                    {% if login_form.username.errors %}
+                    <small class="form-text text-danger">{{ login_form.username.errors }}</small>
+                    {% endif %}
+                </div>
+               
+                <div class="btn_lgn">
+                    <input type="hidden" class="form-control" name="login_submit" value="Log In" placeholder="">
+                    <button name="login_submit" type="button" value="Log In" class="btn cstmlng" id="registration_id">Proceed Securely</button>
+                </div>
+                {% if login_form.username.errors%}
+                <p>Don't have an Account? <a href="{% url 'customer:register' %}">Create account</a></p>  
+                {%else%}
+                <p>Don't have an Account? <a href="{% url 'customer:register' %}">Create account</a></p>  
+                {%endif%}              
+                <div class="tcppbx">
+                    <p>By logging in you agree to the <br><a href="javascript:void(0);">Terms & Conditions</a> and <a href="javascript:void(0);">Privacy Policy</a></p>
+                </div>
+            </div>
+            <div class="lgn_add">
+                <img src="{% static 'website/images/img_lgnpstr.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="login_section otp-btn">
+    <div class="container">
+        <div class="login_bx">
+            <div class="lgn_frm">
+                <!-- <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well register-form"> -->
+               
+                <h3>Verify Mobile Number</h3>
+                <div class="edit-number"><span id="id1"></span><a href="javascript:void(0)" id="edit-btn">Edit</a></div>
+                <div class="form-group" id="otp-block" {% if not login_form.otp.errors %}style="display:none"{% endif %}>
+                    <div class="form-input d-none">
+                        {{ login_form.otp.label_tag }}
+                        {{ login_form.otp }}
+                    </div>
+                    {% if login_form.otp.help_text %}
+                    <small class="form-text text-muted">{{ login_form.otp.help_text|safe }}</small>
+                    {% endif %}
+                    {% if login_form.otp.errors %}
+                    <small class="form-text text-danger" style="color:red">{{ login_form.otp.errors }}</small>
+                    {% endif %}
+                </div>
+               
+                
+                <div name="email_otp" class="otp_bx otp-box-contaier inputs d-flex flex-row justify-content-between mb-2">
+                   
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="1" maxlength="1" />
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="2" maxlength="1" />
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="3" maxlength="1" />
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="4" maxlength="1" />
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="5" maxlength="1" />
+                    <input class="text-center form-control rounded" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" id="6" maxlength="1" />
+               
+                </div>
+                <span id="otp_sent" style="color:green"></span>
+                <div class="btn_lgn">
+                    <input type="hidden" class="form-control" name="login_submit" value="Log In" placeholder="">
+                    <button name="login_submit" type="button" value="Log In" class="btn cstmlng validate-otp-btn" id="otp-submit-btn" style="color:white">Submit</button>
+                </div>
+                <p ><a href="javascript:void(0);" id="resend-otp-btn" style="color:black">Didn't receive the code? </a><span id="timer"></span></p><br>       
+                   
+                <div class="tcppbx">
+                    <p>By logging in you agree to the <br><a href="javascript:void(0);">Terms & Conditions</a> and <a href="javascript:void(0);">Privacy Policy</a></p>
+                </div>
+            </div>
+
+            <div class="lgn_add">
+                <img src="{% static 'website/images/img_lgnpstr.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+</form>
+
+{% endblock page-content %}
+
+ {% block custombodyend %}
+    <!-- JS -->
+<script src="{% static 'js/register.js'%}"></script>
+<script>
+    $(document).ready(function() {
+        var timerBtn = document.querySelector('#timer');
+        var el_down = document.getElementById("id_login-username");
+    
+        function show_mobile_number() {
+            document.getElementById('id1').innerHTML = el_down.value;
+        }
+    
+        var sendOtp = function(){
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/generate-otp.json",
+                data : {
+                    "mobile_number":$('#id_login-username').val(),
+                    "purpose": "login"
+                    },
+                success : function(success) {
+                    console.log(success);
+                    if(success.status){;
+                        startTimer(60, timerBtn);
+                        $('#custom_error').html('');
+                        $('#custom_text').html(`${success.text}`);
+                        $('#otp-block').show();
+                        $('#password-block').addClass("d-none");
+                        $('#otp-btn').addClass("d-none");
+                        document.getElementById('otp_sent').innerText = "";
+                        setTimeout(function(){
+                            document.getElementById('otp_sent').innerText = "Otp Sent To Your Mobile Number";
+                        }, 300);
+                        $('.otp-btn').show();
+                        $('.hide-register-form').hide();
+                    }
+                    else{
+                        $('#custom_error').html(success.text);
+                        $('#custom_text').html('');
+                        
+                    }
+                },
+                error: function(error) {
+                    console.log('error');
+                    $('#custom_error').html(error.text);
+                    $('#custom_text').html('')
+                },
+            });
+        }
+
+        $('.otp-btn').hide();
+        $('#registration_id').click(function(){
+            show_mobile_number()
+            sendOtp();
+        });
+
+        $('#id_login-username').keyup(function(){
+            if ($('#id_login-username').val().length != 13){
+                $('#custom_text').html('');
+                $('#custom_error').html('Please Enter Valid Mobile Number');
+            }
+            else{
+                $('#custom_error').html('');
+            }
+        });
+
+        $('#resend-otp-btn').click(function(){
+            sendOtp();
+        });
+
+        $('#clear-otp-btn').click(function(){
+            $('#login-email-modal .otp-box-contaier input').val('');
+            $('#otp-error').text('');
+        });
+
+        $('#edit-btn').click(function(){
+            $('.hide-register-form').show();
+            $('.otp-btn').hide();
+            $('#custom_text').text('');
+        });
+
+        $("#1").keyup(function () {
+            var text_lenght = $('#1').val().length;
+            if (text_lenght == 1) {
+                $('#2').focus();
+            }
+        });
+
+        $("#2").keyup(function () {
+            var text_lenght = $('#2').val().length;
+            if (text_lenght == 1) {
+                $('#3').focus();
+            }
+        });
+
+        $("#3").keyup(function () {
+            var text_lenght = $('#3').val().length;
+            if (text_lenght == 1) {
+                $('#4').focus();
+            }
+        });
+
+        $("#4").keyup(function () {
+            var text_lenght = $('#3').val().length;
+            if (text_lenght == 1) {
+                $('#5').focus();
+            }
+        });
+
+        $("#5").keyup(function () {
+            var text_lenght = $('#3').val().length;
+            if (text_lenght == 1) {
+                $('#6').focus();
+            }
+        });
+
+        $('#otp-submit-btn').click(function () {
+            
+            $('#otp-error').text('');
+            var mobile_number = $('#id_registration-mobile_number input[name="mobile_number"]').val();
+            var first = $('#1').val();
+            var second = $('#2').val();
+            var third = $('#3').val();
+            var fourth = $('#4').val();
+            var fifth = $('#5').val();
+            var sixth = $('#6').val();
+            console.log("otp=",first+second+third+fourth+fifth+sixth);
+            var otp = first+second+third+fourth+fifth+sixth;
+            console.log(JSON.stringify(otp));
+            document.getElementById("id_login-otp").value = otp;
+            if(otp.length < 6){
+                $('#otp-error').text('Please Enter 6 digit OTP');
+                return;
+            }
+        
+            if (otp) {
+                var requestData = {
+                    'mobile_number': mobile_number,
+                    'otp': otp,
+                };
+                $('#login_form').submit();
+
+            } else {
+                $('#otp-error').text('Please Enter OTP');
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+

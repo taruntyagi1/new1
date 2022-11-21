@@ -1,0 +1,47 @@
+{% extends "frame.html" %}
+{% load i18n %}
+
+{% block page-content %}
+
+<section class="breadcrumb-list mt-100">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0">
+                <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                <li class="breadcrumb-item active">Shipping Method</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% block checkout_nav %}
+                    {% include 'checkout/nav.html' with step=3 %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>{% trans "This page needs implementing within your project.  You may want to use one of Oscar's payment gateway libraries:" %}</p>
+                <ul>
+                    <li><a href="https://github.com/django-oscar/django-oscar-paypal">django-oscar-paypal</a></li>
+                    <li><a href="https://github.com/django-oscar/django-oscar-adyen">django-oscar-adyen</a></li>
+                    <li><a href="https://github.com/django-oscar/django-oscar-docdata">django-oscar-docdata</a></li>
+                    <li><a href="https://github.com/django-oscar/django-oscar-accounts">django-oscar-accounts</a></li>
+                </ul>
+                <a id="view_preview" href="{% url 'checkout:preview' %}" class="btn btn-primary btn-lg">{% trans "Continue" %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+
+</script>
+{% endblock %}

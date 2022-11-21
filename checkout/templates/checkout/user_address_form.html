@@ -1,0 +1,105 @@
+{% extends "website/frame.html" %}
+{% load i18n %}
+
+{% block page-content %}
+
+{% block customheadend %}
+<style>    
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+</style>
+{% endblock %}
+
+<section class="breadcrumb m-0">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Update Address</h3>
+                <ul class="br_submenu">
+                    <li><a href="/catalogue/">Home</a></li>
+                    <li><a href="javascript:void(0);">Shipping</a></li>
+                    <li class="breadcrumb-item active">Update Address</li>
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+
+<section class="uad_section">
+    <div class="container">        
+        <div class="shpngformupdate">
+            <h3>Address Update</h3>
+            {% block shipping_address %}                    
+                <form id="update_user_address" method="post" class="form form-horizontal udtadrsfrm">
+                    {% csrf_token %}
+                    {% include "oscar/partials/form_fields.html" with form=form style='horizontal' %}
+                    <div class="chnge_pass_btn">
+                        <button type="submit" class="btn chnge_save" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>                                
+                        <a class="chnge-can" href="{% url 'checkout:shipping-address' %}">{% trans "Cancel" %}</a>
+                        <!-- {% trans "or" %} -->
+                    </div>                    
+                </form>                    
+            {% endblock shipping_address %}
+        </div>        
+    </div>
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $('textarea').prop('rows','3');
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+
+        // $("#update_user_address .form-group").addClass("form-wrap col-lg-6");
+        // $("#update_user_address label.control-label").addClass("col-12");
+        // $("#update_user_address label.control-label").css("opacity","0");
+
+        $('#id_country').parents(".form-group.form-wrap").hide();            
+        $("#id_title").parents(".form-group").hide();
+
+
+
+        $("#update_user_address .form-control").addClass("form-input");
+        $("#update_user_address label").addClass("form-label");
+        
+        $("#update_user_address div.col-sm-7").removeClass("col-sm-7");
+        $("#update_user_address .form-wrap").find('div').addClass("col-12 pl-3");
+        $("#update_user_address span.help-block").addClass("checkbox-inline text-transform-capitalize");
+        $("#update_user_address label.control-label").removeClass("col-sm-4");
+        
+        $("#update_user_address .form-control").focus(function(){
+            $(this).parents(".form-wrap").find('label').addClass('d-none');
+        });
+        
+        $("#update_user_address #id_first_name").attr('placeholder', 'First Name');
+        $("#update_user_address #id_last_name").attr('placeholder', 'Last Name');
+        $("#update_user_address #id_line1").attr('placeholder', 'First line of address');
+        $("#update_user_address #id_line2").attr('placeholder', 'Second line of address');
+        $("#update_user_address #id_line3").attr('placeholder', 'Third line of address');
+        $("#update_user_address #id_line4").attr('placeholder', 'City');
+        $("#update_user_address #id_state").attr('placeholder', 'State');
+        $("#update_user_address #id_postcode").attr('placeholder', 'Post / Zip-code');
+        $("#update_user_address #id_phone_number").attr('placeholder', 'Phone number');
+        $("#update_user_address #id_notes").attr('placeholder', 'Instructions');
+
+        /*$("#update_user_address .form-control").focusout(function(){
+            $(this).parents(".form-wrap").find('label').removeClass('focus');
+        });*/
+
+        $('#update_user_address .form-control').blur(function() {
+            if ($('input:text').val().length == 0) { // zero-length string AFTER a trim
+                console.log('fixxx');
+                $(this).parents(".form-group").find('label').addClass('focus');
+                $(this).parents(".form-group").find('form-control').addClass('invalid');
+                // $(".form-group").addClass("");
+            }
+        });
+        $('#id_country').val('IN'); 
+        $("#id_title").hide();
+        $("#id_title").parents(".form-group.form-wrap").hide();
+    });
+</script>
+{% endblock %}

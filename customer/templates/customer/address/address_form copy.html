@@ -1,0 +1,95 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load display_tags %}
+{% block customheadend %}
+    <style>
+        .select2-container{
+            font-size: 15px;
+            min-height: 60px;
+            color: gray;
+            padding: 17px 12px;
+            text-align: left;
+            transition: .3s ease-in-out;
+            border: 1px solid #e1e1e1;
+        }
+
+        .select2-results__options{
+            color: gray!important;
+        }
+        .select2-selection__rendered{
+            color: gray!important;
+        }
+
+    </style>
+{% endblock %}
+{% block profile_breadcrumbs %}
+    <section class="breadcrumb-list mt-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0">
+                    <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                    <li class="breadcrumb-item active">{% if form.instance.pk %} Change {% else %} Add a New {% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+
+
+{% block profile_content %}
+    {% block profile_heading %}
+        <h4 class="text-left">{% if form.instance.pk %} Change {% else %} Add a New {% endif %} Address</h4>
+    {% endblock %}
+
+    {% include "oscar/partials/alert_messages.html" %}
+
+    {% with style='horizontal' %}
+        <div class="row justify-content-center mt-0">
+            <div class="col-12">
+        {% include "oscar/partials/form.html" %}
+            </div>
+        </div>
+    {% endwith %}
+{% endblock profile_content %}
+
+{% block custombodyend %}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+            $('textarea').prop('rows','4');
+            $('button').addClass('btn-red');
+            $('button').removeClass('btn-lg');
+            $("form").addClass("row");
+            $('.form-horizontal .form-group').addClass('col-lg-6');
+            $('.form-horizontal .form-group label').removeClass('col-sm-4');
+            $('.form-horizontal .form-group div.col-sm-7').removeClass('col-sm-7');
+            $(".form-horizontal label.control-label").css("opacity","0");
+            $(".form-horizontal #id_first_name").attr('placeholder', 'First Name');
+            $(".form-horizontal #id_last_name").attr('placeholder', 'Last Name');
+            $(".form-horizontal #id_line1").attr('placeholder', 'First line of address');
+            $(".form-horizontal #id_line2").attr('placeholder', 'Second line of address');
+            $(".form-horizontal #id_line3").attr('placeholder', 'Third line of address');
+            $(".form-horizontal #id_line4").attr('placeholder', 'City');
+            $(".form-horizontal #id_state").attr('placeholder', 'State');
+            $(".form-horizontal #id_postcode").attr('placeholder', 'Post / Zip-code');
+            $(".form-horizontal #id_phone_number").attr('placeholder', 'Phone number');
+            $(".form-horizontal #id_notes").attr('placeholder', 'Instructions');
+            $(".form-horizontal .form-control").addClass("form-input");
+            $(".form-horizontal label").addClass("form-label");
+            $(".form-horizontal .form-group").addClass("form-wrap");
+            $(".form-horizontal .col-sm-offset-4").removeClass("col-sm-offset-4");
+            $(".form-horizontal .col-sm-8").removeClass("col-sm-8");
+            $('#id_country').val('IN'); 
+            $('#id_country').parents(".form-group.form-wrap").hide();
+            $("#id_title").hide();
+            $("#id_title").parents(".form-group.form-wrap").hide();
+            $("button").parents(".form-group").removeClass("col-lg-6");
+            $("button").parents(".form-group").addClass("col-lg-12");
+            $("button.btn-primary").addClass("button button-primary button-zakaria");
+            {% if not form.instance.pk %}
+                $("#id_phone_number").attr("value","+91");
+            {% endif %}
+        });
+    </script>
+{% endblock %}

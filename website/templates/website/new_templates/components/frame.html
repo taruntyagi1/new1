@@ -1,0 +1,41 @@
+{% extends "website/new_templates/components/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% block custom_header %}
+{% include 'website/new_templates/components/inner_header.html' %}
+{% endblock %}
+
+<div class="main_loader d-none" >
+    <div class="v-align">           
+        <div class="loader">
+          <aside class="loader__box loader--left">
+            <span class="loader__circle"><img src="{% static 'new_templates_assets/images/white_logo_withbg.png' %}" alt=""></span>
+          </aside>
+          <aside class="loader__box loader--right">
+            <span class="loader__circle"><img src="{% static 'new_templates_assets/images/black_logo_withbg.png' %}" alt=""></span>
+          </aside>
+        </div> 
+        <div class="tttxtbx">
+            Loading
+        </div>           
+      </div>
+</div>
+
+
+<div class="loaderbx" style="display: none;">
+    <div class="loaderx">
+        <div class="ldrmbx">
+            <span class="ldrbx" style="border-top-color: transparent;"></span>
+        </div>            
+    </div>
+</div>
+
+{% block page-content %}
+
+{% endblock %}
+
+{% include 'website/new_templates/components/footer.html' %}
+
+{% endblock %}

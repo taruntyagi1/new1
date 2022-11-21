@@ -1,0 +1,133 @@
+{% extends "website/new_templates/components/frame.html" %}
+{% include 'catalogue/question_list.html' %}
+{% include 'catalogue/faqicon_list.html' %}
+{% include 'catalogue/consult_list.html' %}
+
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+    {% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+    {% endblock %}
+{% block page-content %}
+<section class="breadcrumb">
+  <div class="container">
+   
+      <div class="brdcmbx">
+          <div class="brd-d">
+              <h3>FAQ</h3>
+              <ul class="br_submenu">
+                  <li><a href="{{homepage_url}}">Home</a></li>                        
+                  <li>FAQ</li>
+              </ul>
+          </div>                                     
+      </div>
+   
+  </div>
+</section>
+
+<section classs="faq-section">
+  
+  <div class="container">
+ 
+   
+      <div class="customer_faq_box">
+        {% for object in faqicon  %}
+        <div class="faq-content">   
+              <span>{{object.step}}</span>
+              <img alt="" class="" src="{{ MEDIA_URL }}{{object.image }}">
+              <h3>{{object.title}}</h3>
+              <p>{{object.description}}</p>
+           </div>
+           
+            {% endfor %}
+          </div>
+      <div class="faq-accordian">
+        
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          
+          {% for object in question  %} 
+          
+          <div class="accordion-item">
+          
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{object.id}}" aria-expanded="false" aria-controls="flush-collapseOne">
+                  {{object.question}}
+                    <span class="arrouw-btn"></span>
+                  </button>
+                  
+                  
+                 
+                </h2>
+             
+              <div id="flush-collapse{{object.id}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">{{object.answer}}</div>
+              </div>
+            </div>
+           
+           
+     {% endfor %}   
+            
+            
+          </div>
+          
+        </div>
+
+    </div>
+ 
+  </div>
+
+</section>
+
+
+<section class="nswihlhc">
+  
+  <div class="container">
+    {% for object in consult  %}
+    <div class="constnw">
+    
+      <div class="constbx">
+            <h1>{{object.title}}</h1>
+              <a class="btn_fl" href="{%url 'website:contact_us'%}">{{object.button}}</a>
+            </div>
+         
+          
+          <div class="mda_img">
+              <img src="{{MEDIA_URL}}{{object.image}}" alt="">
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+ 
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+      console.log('DOM fully loaded and parsed');
+      ShowLoader()
+  }); 
+  
+  
+  $(window).on("load", function () {      
+      HideLoader()
+  })
+  
+      $(document).ready(function(){
+          $("header").removeClass("header-creative-wrap");
+          $("header").removeClass("context-dark");
+      });
+</script>
+{% endblock %}

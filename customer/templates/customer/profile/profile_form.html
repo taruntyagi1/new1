@@ -1,0 +1,60 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load display_tags %}
+<!-- {% block customheadend %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% endblock %} -->
+{% block profile_breadcrumbs %}
+
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="brdcmbx">
+                <div class="brd-d">
+                    <h3>Profile Details</h3>
+                    <ul class="br_submenu">
+                        <li><a href="javascript:void(0);">Home</a></li>
+                        <li><a href="javascript:void(0);">Profile</a></li>
+                        <li>Profile Edit</li>
+                    </ul>
+                </div>                                     
+            </div>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+    
+
+{% block profile_content %}
+
+    <div class="profile-content edt_form">
+        {% block profile_heading %}
+        <h4>Edit Profile</h4>
+        {% endblock %}
+        <!-- {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <i class="icon-exclamation-sign"></i> {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}                         -->
+        {% include 'partials/form.html' with form_id="profile_forms" %}
+    </div>
+   
+  
+{% endblock profile_content %}
+
+{% block custombodyend %}
+    <script>
+        $(document).ready(function(){
+           
+            $('#id_mobile_number').change(function(){
+                if ($('#id_mobile_number').val().length == 10){
+                    $('#id_mobile_number').val(`+91${$(this).val()}`);
+                }
+            });
+         
+        }); 
+    </script>
+{% endblock %}

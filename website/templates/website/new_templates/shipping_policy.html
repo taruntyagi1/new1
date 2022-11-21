@@ -1,0 +1,104 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+    {% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+    {% endblock %}
+{% block page-content %}
+<section class="breadcrumb">
+  <div class="container">
+      <div class="brdcmbx">
+          <div class="brd-d">
+              <h3>Health Store</h3>
+              <ul class="br_submenu">
+                <li><a href="{{homepage_url}}">Home</a></li>                      
+                  <li>Shipping Policy</li>
+              </ul>
+          </div>
+          <div class="brd_dea">
+            <img src="{% static 'website/images/lstbnrimg.png' %}" alt="">
+          </div>                    
+      </div>
+  </div>
+</section>
+
+<section class="shipping-policy text-md-left pt-4 pb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3>Shipping Policy</h3>
+      </div>
+      <div class="col-lg-12 col-xl-12">
+          <p>Urban Nutrition Pvt Ltd cannot commit any time fixed for delivery.
+           The delivery of our products will take at least 7-8 business days. It may get delayed on certain days due to extreme weather conditions or governmental regulatory activities.</p>
+          <p class="mb-2">Orders will be booked for at least third business day delivery.</p>
+          <ul class="customer-order-fields">
+              While placing the order the customer shall provide the following details.
+              <li>Name of the recipient</li>
+              <li>Flat/bungalow number</li>
+              <li>Name of the building</li>
+              <li>Name of the road/street/marg</li>
+              <li>Name of city, state with pin code</li>
+              <li>Contact number landline/mobile</li>
+              <li>Proper/familiar land mark</li>
+              <li>Email address</li>
+          </ul>
+          
+              <p class="mb-2">Urban Nutrition Pvt Ltd will attempt to deliver one time. If the said delivery is not successful, customer shall be charged for re-delivery in the following cases:</p>
+            <ul class="customer-order-fields">
+              <li>Incorrect or insufficient address mentioned by the customer</li>
+              <li>Non- availability of recipient at the mentioned address and/or premises</li>
+              <li>Refusal to accept products</li>
+              <li>Delivered at the place/to the person specifically mentioned by the customer other than the customer himself</li>
+              <li>Incorrect contact details disabling the delivery personnel to reach the customer</li>
+              <li>Force majeure event or civil disturbances event</li>
+          </ul>
+          <p>
+              Tracking numbers, if available, will be automatically e-mailed on the day of the shipping to the e-mail address provided by the customer. Packages shipped by www.InstaEats.in OR Urban Nutrition Pvt Ltd are not insured against loss or damage. Customer needs to check the parcel / packet while accepting the same.
+          </p>
+          <p>
+              Depending on the product availability, few orders might take more than 10-12 days to ship. Customers will be contacted by e-mail OR mobile if there is any such problem related to processing the order or shipping the product in time.
+          </p>
+          <p>
+              For the orders intended to be received before a specific event or a festival, where specific delivery time-frame is important, customers are
+
+              advised to place the order at least 15 days before the expected delivery date. For urgent deliveries kindly contact us before placing the order.
+          </p>
+          <p>Currently, we ship our products only within India across multiple
+              cities. If the location mentioned is not serviceable, we will inform you over mail.
+          </p>
+          <p>
+              The Shipping charges will vary depending upon value of order and/or any offers/promotions being offered by instaeats.in at the time of your order placement and subsequent confirmation. The applicable shipping charges shall be displayed before you confirm your order.
+          </p>
+          <p>Urban Nutrition Pvt Ltd reserves the right to modify, limit or cancel orders at anytime including but not limited to orders that are incorrectly priced or which Urban Nutrition Pvt Ltd believes are harmful to Urban Nutrition Pvt Ltd or any of its suppliers or vendors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,240 @@
+{% extends "website/frame.html" %}
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+
+{% block page-content %}
+<style>
+    footer.footer{display: none;}
+    body{background: #f1f3f6;}
+</style>
+{% block profile_breadcrumbs %}
+
+<section class="breadcrumb mb-0">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Profile Details</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>
+                    <li><a href="{% url 'customer:summary' %}">Profile</a></li>
+                    <li>Profile Details</li>
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+{% endblock profile_breadcrumbs %}
+
+    <section class="edt_prdtsbx">
+        <div class="container">
+            <div class="edt_section">       
+                <div class="edt_menu">
+                    <div class="profile_pic">
+                        {%if request.user.profile_picture %}
+                        <img class="mda_pic" src="{{MEDIA_URL}}{{user.profile_picture}}" alt="">
+                        {% elif request.user.first_name %}
+                            <span class="mda_pic">
+                                <img class="mda_pic" src="{% static 'website/images/ic_login.png' %}" alt="">
+                                <!-- {{request.user.get_full_name.0}} -->
+                            </span>
+                        
+                        {%else%}
+                       <img class="mda_pic" src="{% static 'website/images/ic_login.png' %}" alt="">   
+                        {%endif%}
+                    </div>
+                    <div class="edt_menu_bx">
+                        <ul class="edt_menu_nav">
+                            <li><a class="{% if active_tab == 'profile' %}active{% endif %}" href="{% url 'customer:profile-view' %}">Profile Information</a></li>
+                            <li><a class="{% if active_tab == 'orders' %}active{% endif %}" href="{% url 'customer:order-list' %}">Order History</a></li>
+                            <li><a class="{% if active_tab == 'addresses'%}active{% endif %}" href="{% url 'customer:address-list' %}">Address Book</a></li>
+                            <li><a class="{% if active_tab == 'emails' %}active{% endif %}" href="{% url 'customer:email-list' %}">Email History</a></li>
+                            <li class="lgot"><a href="{% url 'customer:logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% block profile_content %}
+                <div class="edt_form">
+                    <div class="edt_head">
+                        <div class="eh_name"><h3 class="ttl_name">Profile Information</h3></div>
+                        <div class="eh_btn">
+                            <!-- <a class="samebtn" href="{% url 'customer:change-password' %}"><i class="ri-lock-line"></i> Change Password</a> -->
+                            <a class="samebtn remv_attr" href="{% url 'customer:profile-update' %}"><i class="ri-edit-2-fill"></i> Edit</a>                                                                
+                            <!-- <a class="samebtn" id="delete_profile"  href="{% url 'customer:profile-delete' %}"><i class="ri-delete-bin-5-fill"></i>Delete</a> -->
+                           
+                        </div>
+
+                    </div>
+                 
+                    <div class="edt_form_list">
+                        {% block profile_fields %}    
+
+                        <div class="mbprofile_pic">
+                            {%if request.user.profile_picture %}
+                            <img class="mda_pic" src="{{MEDIA_URL}}{{user.profile_picture}}" alt="">
+                            {%else%}
+                           <img   class="mda_pic" src="{% static 'website/images/ic_login.png' %}" alt="">   
+                            {%endif%}
+                        </div>
+                        
+                       
+
+
+
+
+                       
+                            <div class="form-group">
+                                <label class="ttl-n">Name</label>
+                                <input type="name" class="form-control" placeholder="Name" value="{{ user.get_full_name|default:'-' }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="ttl-n">Email Address</label>
+                                <input type="text" class="form-control" placeholder="Enter email" value="{{ user.email|default:'-' }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="ttl-n">Mobile Number</label>
+                                <input type="text" class="form-control" placeholder="Mobile Number" value="{{ user.mobile_number|default:'-' }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="ttl-n">DOB</label>
+                                <input type="text" class="form-control" placeholder="DOB" value="{{ user.dob|date:'SHORT_DATE_FORMAT' }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="ttl-n">Male/Female</label>
+                            
+                                {% if user.gender == 'F' %}
+                                <input type="text" class="form-control" placeholder="Gender" value="Female" disabled>
+                            
+                                {% elif  user.gender == 'M' %}
+                                <input type="text" class="form-control" placeholder="Gender" value="Male" disabled>
+                                {%else%}
+                                <input type="text" class="form-control" placeholder="Gender" value="" disabled>
+                                {%endif%}
+                            </div>                       
+                            <div class="add_attr d-none">
+                                <a href="javascript:void(0);" class="btn btn-primary">Save</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-dark">Cancel</a>
+                            </div>
+                      
+                          {% endblock %}
+                    </div>
+                </div>
+                {% endblock profile_content %}
+              
+            </div>
+        </div>
+        <!-- {% if messages %}
+    <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body" id="popup-message-text">
+                {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                
+                    {{ message|safe }}  
+                
+                {% else %}
+
+                    {{ message }} 
+
+                {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+    </div>
+      {% else %}
+      <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body" id="popup-message-text">
+                {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                
+                    {{ message|safe }}
+                
+                {% else %}
+
+                    {{ message }}
+
+                {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+{%endif%} -->
+
+
+</section>
+
+<div class="AFyd3c add_message_pop" id="profile-adcrtmdl">
+    <div class="_1EA4La" id="popup-success-message">
+        <div class="_1-baVo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyMCAyMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KCTxnPgoJCTxwYXRoIGQ9J00tMi0yaDI0djI0SC0yeicgZmlsbD0nbm9uZScvPgoJCTxwYXRoIGQ9J00xMCAwQzQuNDggMCAwIDQuNDggMCAxMHM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTUuNTIgMCAxMCAwek04IDE1bC01LTUgMS40MS0xLjQxTDggMTIuMTdsNy41OS03LjU5TDE3IDZsLTkgOXonIGZpbGw9JyMyNkJDNEUnLz4KCTwvZz4KPC9zdmc+Cg==" class="_2P4x_N lazy">
+        </div>
+        
+        <div class="JAUzCh"><span id="added-product_name"> </span> 
+            {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                
+                    {{ message|safe }}
+                
+                {% else %}
+
+                    {{ message }}
+
+                {% endif %}
+                {% endfor %}
+        </div>
+        <div class="_2BPjzq">
+            <!-- <a href="javascript:void(0);" class="cancel-item _2AkmmA VID7GA">Cancel</a>     -->
+        </div>
+    </div>
+</div>
+
+{% endblock page-content %}
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+       
+        var addToCartSuccessPopup = new $(this).data(document.getElementById('profile-adcrtmdl'))
+        {% if messages %}
+                {%for message in messages%}
+                    $("#profile-adcrtmdl").addClass("active")
+                    // $('#profile-adcrtmdl').modal('show')
+                    addToCartSuccessPopup.show();
+                
+                {%endfor%}
+        {%endif%}
+        
+        setTimeout(function(){                          
+            $("#profile-adcrtmdl").removeClass("active")
+            // $  ("#profile-adcrtmdl").modal('hide')   
+            addToCartSuccessPopup.hide(); 
+            
+        },2500);
+                            
+        
+        // $('.cancel-item').click(function(){
+        //     $("#profile-adcrtmdl").removeClass("active")
+        //     $('#profile-adcrtmdl').hide()
+        // });
+        
+
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+
+     
+        $('.header').addClass('scrolled');
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+        $( ".scrolledMenu" ).show();
+        $( ".headerMenu" ).hide();
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+
+    });
+  
+</script>
+{% endblock %}

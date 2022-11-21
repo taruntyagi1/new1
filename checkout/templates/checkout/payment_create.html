@@ -1,0 +1,79 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load image_tags %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+    <div class="container">
+        <div class="shipping-payment">
+            <div class="spbx">
+                <div class="prs">
+                    <h3>
+                        Amount Total: &#8377;{{ order_total }}                            
+                    </h3>
+                </div>
+                <!-- <input type="hidden" name="user_transaction_id" value="{{ user_transaction }}"> -->
+                <button id='rzp-button1' type="button" class="btn_fill_green button button-primary button-zakaria" data-loading-text="{% trans 'Submitting...' %}">{% trans "Make Payment" %}</button>
+                    <p class="bottom-text text-center"><i class="ri-lock-2-fill"></i> All payments are secure and encrypted.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+    var options = {
+        "key": "{{key}}", // Enter the Key ID generated from the Dashboard
+        "amount": "{{amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Instaeats",
+        "description": "Test Transaction",
+        "image": "{% static 'images/INSTA-EAT-PNG_new.png' %}",
+        "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        // "callback_url": `${location.origin}/checkout/payment-status/`,
+        "handler": function (response){
+            // paymentCreate();
+            verifyPaymemnt(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+        },
+        
+        "prefill": {
+            "name": "{{request.user.full_name}}",
+            "email": "{{request.user.email}}",
+            "contact": "{{request.user.mobile_number}}"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office",
+            "user_transaction_id":"{{ user_transaction }}",
+            "checkout_key":"abc"
+        },
+        "theme": {
+            "color": "#11c945"
+        }
+       
+
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+    
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+<!-- 
+    <script>
+        $(document).ready(function(){
+            $("header").removeClass("header-creative-wrap");
+            $("header").removeClass("context-dark");
+            $("#proceed-to-pay-btn").click(function(){
+                console.log("hii")
+                $('.razorpay-payment-button').click();
+            });
+        });
+    </script>
+  -->

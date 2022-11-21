@@ -1,0 +1,89 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+    {% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+    {% endblock %}
+{% block page-content %}
+<section class="breadcrumb">
+  <div class="container">
+      <div class="brdcmbx">
+          <div class="brd-d">
+              <h3>Health Store</h3>
+              <ul class="br_submenu">
+                  <li><a href="{{homepage_url}}">Home</a></li>                            
+                  <li>Return and Refund Policy</li>
+              </ul>
+          </div>
+          <div class="brd_dea">
+              <img src="{% static 'website/images/lstbnrimg.png' %}" alt="">
+          </div>                    
+      </div>
+  </div>
+</section>
+
+<section class="return-policy pb-4 pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="mb-3"> Returns &amp; Refund Policy</h3>
+      </div>
+      <div class="col-lg-12 col-xl-12">
+          <p>Thanks for purchasing our products at InstaEats.</p>
+          <p>Due to the nature of our business and products we sell, items that expire sooner than 2 months from the date of the purchase are not eligible for a refund.</p>
+          <p>For any other items to be eligible for a refund, you have to return the item you have purchased to us within 7 calendar days of the purchase. The item must be unopened and in its original condition.</p>
+          <p class="mb-2 mt-2"><strong>Refund will also be provided in case:</strong></p>
+              <ul class="customer-return-policy mb-2">
+                  <li>Customer does not get the delivery of the ordered products within 30 days if InstaEats fails to ship the ordered products.</li>
+                  <li>The shipping location is not serviced by our partner courier companies.</li>
+                  <li>If our products arrive to you damaged, rotten or contaminated in any way, please contact us right away and we will be happy to send a free replacement regardless of its expiration date.</li>
+              </ul>
+          
+          <p class="mb-2 mt-2"><strong>No Returns will be entertained if a customer wants to return the product for the reason that he/she doesn't like it after delivery of the product or feels the product doesn't match his or her expectations.</strong></p>
+          <p class="mb-2 mt-2"><strong>No refunds will be given in the following cases:</strong></p>
+          <ul class="customer-return-policy">
+              
+              <li>Incorrect or insufficient address mentioned by the customer</li>
+              <li>Non- availability of recipient at the mentioned address and/or premises</li>
+              <li>Refusal to accept products</li>
+              <li>Delivered at the place/to the person specifically mentioned by the customer other than the customer himself.</li>
+              <li>Force majeure event</li>
+              <li>In case the product has undergone any tampering by the customer</li>
+          </ul>
+          <p>
+              <strong>If anything is unclear or you have more questions feel free to contact our customer support team. You can reach out to us at <a href="mailto:orders@instaeats.in">orders@instaeats.in</a>
+              </strong>
+          </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+{% endblock %}

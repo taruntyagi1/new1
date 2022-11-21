@@ -1,0 +1,17 @@
+{% load static %}
+
+<div class="constnw">
+    <div class="mda_img">
+        <img alt="" class="" src="{% static 'new_templates_assets/images/img_4.png' %}">
+    </div>
+    <div class="constbx">
+        <h1>Not sure which is the right Supperfood mix for you? Get instant help from a leading health coach.</h1>   
+        <div class="d-flex align-item-center">
+            <!-- <button type="button" class="btn btn_fl"  >Consult Now</button> -->
+            <a class="btn btn_fl" href="{% url 'website:contact_us' %}">Consult Now</a> 
+            <a class="btn tdtbtn" href="{% url 'website:defficiency_assessment' %}" target="_blank">
+                take Deficiency Test <i class="ri-arrow-right-line"></i>
+            </a>
+        </div>
+    </div>    
+</div>

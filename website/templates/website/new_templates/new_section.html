@@ -1,0 +1,49 @@
+{% load static%}
+
+{% load image_tags%}
+
+<section class="slider_bx">
+    <div class="container">
+        {% comment %} {% for object in banner_image_object %} {% endcomment %}
+        
+        <div class="row swiprow">
+            <div class="align-items-center col-md-6 d-flex">
+                
+
+                <div class="slider-datat">
+                    {% comment %} {% if banner_image_object.title%} {% endcomment %}
+                        <div class="data_txt">                    
+                        <h4>{{banner_image_object.title|safe|striptags}}</h4>
+                            
+                        </div>
+                        {% comment %} {% endif %} {% endcomment %}
+                    {% comment %} {% if banner_image_object.subtitle%} {% endcomment %}
+                        <div class="data_txt">                    
+                            <h3>{{banner_image_object.subtitle|safe|striptags}}</h3>
+                        </div>
+                        {% comment %} {% endif %} {% endcomment %}
+                        <!--  -->
+                    </h3>
+                    <div class="line"></div>
+                    <p>You could be one of them!</p>
+
+                    <!-- <h3>Know how healthy you are</h3>
+                    <div class="line"></div>
+                    <p>Do You Know These Symptoms Can Be Due To Micronutrient Defeciency</p> -->
+                    <div class="tdt_btnbx">
+                        <a class="btn btntdt_btn" href="{% url 'website:defficiency_assessment' %}">
+                            Take Free Defeciency Test <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="slider-media">
+                    <img class="img-fluid" src="{{ MEDIA_URL }}{{ banner_image_object.image }}" />
+                </div>
+            </div>
+        </div>
+        {% comment %} {%endfor%} {% endcomment %}
+    
+    </div>
+</section>

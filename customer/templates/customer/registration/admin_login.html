@@ -1,0 +1,105 @@
+{% extends "frame.html" %}
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+
+{% block page-content %}
+{% block customheadend %}
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+{% endblock %}
+      <!--+breadcrumbs-->
+      <section class="breadcrumbs-custom">
+        <div class="parallax-container" data-parallax-img="{% static 'images/120687531-various-nuts-in-bowls-on-white-background-top-view-banner-nuts-assortment-pecans-hazelnuts-walnuts-p.jpg'%}">
+          <div class="breadcrumbs-custom-body parallax-content context-dark">
+            <div class="container">
+              <h2 class="text-transform-capitalize breadcrumbs-custom-title">Admin Login</h2>
+              <h5 class="breadcrumbs-custom-text">Nutritive food solutions for health, lifestyle and disease management.</h5>
+            </div>
+          </div>
+        </div>
+        <div class="breadcrumbs-custom-footer">
+          <div class="container">
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="#">Pages</a></li>
+              <li class="active">About Us</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    <div class="main">
+        <div class="container-fluid p-0">
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="{% static 'images/signup-img.png'%}" alt="">
+                </div>
+                <div id="login-section">
+                    <form id="login_form" action="{{ request.get_full_path }}" method="post" class="well register-form">
+                    <h2>{% trans 'Login' %}</h2>
+                    {% csrf_token %}
+                    {% if login_form.non_field_errors %}
+                        {% for err in login_form.non_field_errors %}
+                        <div class="form-text text-danger">
+                            {{ err }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% for field in login_form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <div class="form-input">
+                                {{ login_form.username.label_tag }}
+                                {{ login_form.username }}
+                            </div>
+                            <small class="form-text text-success" id="custom_text"></small>
+                            <small class="form-text text-danger" id="custom_error"></small>
+                            {% if login_form.username.help_text %}
+                            <small class="form-text text-muted">{{ login_form.username.help_text|safe }}</small>
+                            {% endif %}
+                            {% if login_form.username.errors %}
+                            <small class="form-text text-danger">{{ login_form.username.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group col-12" id="password-block">
+                            <div class="form-input">
+                                {{ login_form.password.label_tag }}
+                                {{ login_form.password }}
+                            </div>
+                            {% if login_form.password.help_text %}
+                            <small class="form-text text-muted">{{ login_form.password.help_text|safe }}</small>
+                            {% endif %}
+                            {% if login_form.password.errors %}
+                            <small class="form-text text-danger">{{ login_form.password.errors }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="login-font"><a href="{% url 'customer:password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
+                    <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-primary" data-loading-text="{% trans " Logging in... " %}">{% trans 'Login' %}</button>
+                    <p class="login-font mt-2"><a href="{% url 'customer:register' %}">{% trans "Create an account" %}</a></p>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock page-content %}
+
+ {% block custombodyend %}
+    <!-- JS -->
+    <script src="{% static 'js/register.js'%}"></script>
+    <script>
+        $(document).ready(function(){
+            $("header").removeClass("header-creative-wrap");
+            $("header").removeClass("context-dark");
+        });
+    </script>
+{% endblock %}

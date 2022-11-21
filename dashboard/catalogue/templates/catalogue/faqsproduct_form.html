@@ -1,0 +1,91 @@
+{% extends 'oscar/dashboard/layout.html' %}
+
+{% load i18n %}
+
+{% block title %}
+{{ title }} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+    </li>
+    <li>
+        <a href="{% url 'dashboard:faqsproduct_list' %}">{% trans "Product FAQS" %}</a>
+    </li>
+    <li class="active">Product FAQS</li>
+</ul>
+{% endblock %}
+
+{% block headertext %}
+    Add new Product FAQS
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="table-header">
+    <h2>product FAQS</h2>
+</div>
+
+<form method="post" class="well form-stacked wysiwyg" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'oscar/dashboard/partials/form_fields.html' with form=form %}
+    <div class="form-actions">
+        <button class="btn btn-lg btn-primary" type="submit" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>
+        {% trans "or" %} <a href="{% url 'dashboard:faqsproduct_list' %}">{% trans "cancel" %}</a>.
+    </div>
+</form>
+
+{% endblock dashboard_content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function(){
+            var user_list = [];
+
+            setTimeout(function(){
+                // $('#id_user').select2('destroy');
+                initiateSelect2();
+            }, 1000)
+
+            function initiateSelect2(){
+                // function formatRepoSelection (data) {
+                //     return data.id || data.text;
+                // }
+
+                $('#id_user').select2({
+                    placeholder: "Search Users",
+                    width: '100%',
+                    delay: 1000,
+                    minimumInputLength: 2,
+                    data: user_list, 
+                    // templateSelection: formatRepoSelection,
+                    ajax: {
+                        url: `/accounts/api/v1/user-list-api`,
+                        data: function (params) {
+                            var query = {
+                                'q': params.term,
+                            }
+                            return query;
+                        },
+                        processResults: function (data) {
+                            res = [];
+                            // console.log(data)
+                            data.results.forEach(object => {
+                                res.push({ 
+                                    'id': object.id, 
+                                    'text': `${object.full_name} | ${object.mobile_number} | ${object.email}`,
+                                });
+                            });
+                            return {
+                                results: res
+                            };
+                        }
+                    }
+                });    
+            }
+
+        });
+    </script>
+{% endblock %}    

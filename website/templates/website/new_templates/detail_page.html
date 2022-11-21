@@ -1,0 +1,957 @@
+{% extends "website/new_templates/components/frame.html" %}
+{% load static %}
+{% load image_tags %}
+{% load purchase_info_tags %}
+{% load basket_tags %}
+{% load display_tags %}
+{% load go_to_cart_product %}
+{% load i18n %}
+{% load arithmatic_ope %}
+
+{% block seo %}
+    <title>Natural Heart Health | Maximize Nutrition Intake Naturally | Instaeats</title>
+    <meta name="title" content="{{product.meta_title|default:''}}"/>
+    <meta name="description" content="{{product.meta_description|default:''}}"/>
+    <meta name="keywords" content="{% if product.meta_keywords %}{% for obj in product.meta_keywords %}{% if forloop.last %}{{ obj }}{% else %}{{obj}},{% endif %}{% endfor %}{% endif %}"/>
+{% endblock %}
+
+{% block page-content %}
+
+    <!-- *************************** client_logobx Start *************************** -->
+
+    <section class="detail_bx section_pdng">
+        <div class="container">
+            <div class="dtl_pgbx row">
+                <div class="dtl_slider col-6">    
+                    <div class="dtl-bx">                        
+                        <div id="dtl_sldrm" class="owl-carousel owl-theme owl-loaded owl-drag">
+                            {% with all_images=product.get_all_images %}
+                            {% for image in all_images %}
+                            {% with image=image.original %}
+                            <div class="item">
+                                <div class="dtlsldbx">
+                                    {% oscar_thumbnail image "546x546" upscale=True as thumb %}
+                                    <img class="prd_itm_img" src="{{thumb.url}}">
+                                </div>
+                            </div>
+                            {%endwith%}
+                            {% endfor %}
+                            {% endwith %}
+                        </div>                    
+                    </div>
+                </div>
+
+                <div class="dtl_data col-6 featured-product-card">
+                    <h1 class="dtl_ttl">{{ product.get_title|truncatechars:50 }}</h1>
+                    <p class="dtl_tagline">({{ product.tagline|safe|striptags|truncatechars:50 }})</p>                
+                    <div class="rating">
+                        <span class="ctryrpt with_star" style="color:orange">
+                            {% if product.product_rating == 1.0 %}
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                            {% elif product.product_rating == 2.0 %}
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                            {% elif product.product_rating == 3.0 %}
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line"></i>
+                                <i class="ri-star-line"></i>
+                            {% elif product.product_rating == 4.0 %}
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line"></i>
+                            {% elif product.product_rating == 5.0 %}
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                            {% endif %}
+                        </span>
+                        <span class="cnt_vl">{%if product.product_rating_count %}{{product.product_rating_count}}{%endif%}</span>
+                    </div>
+                    <p class="dtl_dps">{{ product.description|safe|striptags }}</p>
+                    {% go_to_cart_product  product=product request=request.basket.all_lines as available %} 
+                    <div class="pack_prsbx">
+                        <div class="pp_hdtl">
+                            <div class="pp_ttl_unbsbtn">
+                                <h1>Pricing</h1>    
+                                <div class="unbx_btxb">
+                                   
+                                    <a href="javascript:void(0);" id="unboxing-video" data-bs-toggle="modal" data-bs-target="#unbxkingmdl">Unboxing</a>
+                                      
+                                </div>
+                            </div>
+                            <div class="vsp_btnbx">
+                                <a class="" href="#suggested_plan">View Subscription Plan</a>                                
+                            </div>                            
+                        </div>
+                        <ul class="pkul">
+                            {% for child in product.variants_list%}
+                            <li class="ppckbx {% if not available.line and child == product.variants_list.0 or child.id == available.line.product.id %}active{% endif %}" data-product="{{child.id}}" data-product-id="{{available.line.product.id}}" data-line-id="{{available.line.id}}" data-cart-id="{{request.basket.id}}">
+
+                                <div class="nd_dtl_prslst">
+                                    <!-- <div class="nd_icon">                                        
+                                        <i class="ri-checkbox-circle-fill"></i>
+                                    </div> -->
+                                    <div class="nd_dtlbx">
+                                        <h3>{{child.title}}</h3>
+                                        <div class="nd_dtn">
+                                            {% if child.title == "Pack of 6 Days"%}
+                                            <p class="prpckt">₹{{child.stockrecords.first.price_excl_tax|div:6}} /  </p>
+                                            <div class="ppbbtm">Recommended</div>
+                                            {% elif child.title == "Pack of 15 Days"%}
+                                            <p class="prpckt">₹{{child.stockrecords.first.price_excl_tax|div:15}} /  </p>                                    
+                                            <div class="ppbbtm">
+                                                <i class="ri-star-s-fill"></i> Bestseller
+                                            </div>
+                                            {% elif child.title == "Pack of 30 Days"%}
+                                            <p class="prpckt">₹{{child.stockrecords.first.price_excl_tax|div:30}} /  </p>
+                                            <!-- <div class="ppbbtm">💰Big Saving </div> -->
+                                            {% endif %}
+
+                                            {% if child.title == "Pack of 6 Days" %}
+                                            <p>6 Packets, </p>
+                                            {% elif child.title == "Pack of 15 Days" %}
+                                            <p>15 Packets, </p>
+                                            {% elif child.title == "Pack of 30 Days" %}
+                                            <p>30 Packets, </p>                                
+                                            {% endif %}  
+                                            <p>
+                                                <span>Expiry :</span>
+                                                <span>6 Month, </span>
+                                            </p>
+                                            <p>
+                                                <span>Weight :</span>
+                                                {% for av in child.attribute_values.all %}
+                                                <span>{{ av.value_as_html }}</span>
+                                                {% endfor %}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="nd_prsbx">
+                                        <div class="nd_prbx">
+                                            {% if child.stockrecords.first.price_excl_tax != child.stockrecords.first.price_retail %}
+                                            <p class="text-decoration-line-through">₹{{child.stockrecords.first.price_retail}}</p>
+                                            <h2>₹{{child.stockrecords.first.price_excl_tax}}</h2>                                            
+                                            {% else %}
+                                            <h2>₹{{child.stockrecords.first.price_excl_tax}}</h2>                                
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="nd_svdb">
+                                            {% if child.percent_discount %}
+                                            <p class="savdclr">
+                                                Save {{child.percent_discount}}%
+                                            </p>
+                                            {% endif %}
+                                        </div>                                        
+                                    </div>
+                                </div>                                
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <p class="fst-italic">
+                            <span class="fw-bold">Note: </span> 
+                            Get free Diet Plan and Community Support with every order 
+                        </p>
+                    </div>
+
+                    {% purchase_info_for_product request product as session %}
+                    {% if session.availability.is_available_to_buy %}
+                    <div class="button_bx mbl_btm">
+                        <a class="btn_fill detail-go-to-cart-btn" {% if not available.status == True %}style="background-color:#38b245; border-color: #38b245;display:none;"{% else %}style="background-color:#38b245; border-color: #38b245;"{% endif %}  href="{% url 'basket:summary' %}">                        
+                            Go To Cart
+                        </a>                       
+                        <a class="btn_fill detail-add-to-cart-btn" {% if available.status == True %}style="display:none;"{% endif %} href="javascript:void(0);">                        
+                            <span class="cart-loader-remove">Add To Basket</span>
+                            <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                        </a>
+                        <a class="btn_outline detail-buy-now-btn" href="javascript:void(0);">Buy Now</a>
+                    </div>
+                    {% else %}
+                    <div class="">
+                        {% if product.variants_list|length > 0 %}
+                            {% with product=product.variants_list.0 %}
+                                {% include "catalogue/partials/add_to_basket_form.html" %}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- *************************** client_logobx End *************************** -->
+
+
+    <!-- *************************** Customers Story  Start *************************** -->
+    
+    <section class="cstm_reviews_wrapper section_pdng">
+        <div class="container">
+            <div class="review_list">
+                <div class="head_wth_ank">
+                    <div class="ttl_h">
+                        <h2 class="">Customers Story</h2>
+                    </div>
+                    <div class="ank_h">
+                        <a href="/review/">See all</a>
+                    </div>
+                </div>    
+                <div id="wcaoce" class="owl-carousel owl-theme owl-loaded owl-drag">
+                    {% for review in video_review %}
+                    <div class="cstmrvvdo">
+                        <a href="javascript:void(0);" class="cstmstoryclick" data-video-url="https://www.youtube.com/embed/{{review.video_id}}">
+                            <img class="ytbicon" loading="lazy" src="{% static 'new_templates_assets/images/icon/ic_youtube.png' %}" alt="">
+                            <img src="https://img.youtube.com/vi/{{review.video_id}}/0.jpg" alt="">
+                        </a>
+                     </div>
+                    {% endfor %} 
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- *************************** Customers Story  End *************************** -->
+
+
+
+
+
+    <!-- *************************** How It Works ? Start *************************** -->
+
+    <section class="section_hiw_bx section_pdng bg_gray-light">
+        <div id="how_it_works">
+            {% include 'website/new_templates/how_it_works.html' %}
+        </div>
+    </section>
+
+    <!-- *************************** How It Works ? End *************************** -->
+
+
+
+    <!-- *************************** Suggested Plan Start *************************** -->
+    
+    <section class="section_sgstd_pln_bx section_pdng">
+        <div id="suggested_plan">
+            
+            {% include 'website/new_templates/suggested_plan.html' with recommended_product=product %}
+         </div>
+    </section>
+    
+    <!-- *************************** Suggested Plan End *************************** -->
+
+
+
+<!-- *************************** Know How Healthy Are You? Start *************************** -->
+
+<section class="section_khhay_bx section_pdng">
+    <div class="container">
+        <div class="khhay_box">
+            <div class="khhay_data">
+                <h3>Know How Healthy Are You?</h3>
+                <p>To know what vitamin your body needs, Take The Free Vitamin Deficiency Test now!</p>
+            </div>
+            <div class="khhay_btn">
+                <a class="btn tt_tbn" href="{% url 'website:defficiency_assessment' %}" target="_blank">
+                    Take Deficiency Test <i class="ri-arrow-right-line"></i>
+                </a>                 
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- *************************** Know How Healthy Are You? End *************************** -->
+
+
+
+
+<!-- *************************** Why Men's Health Superfood Mix? Start  *************************** -->
+<section class="improve mv_whh section_pdng">
+    <div class="container">        
+        <div class="row">
+            <div class="col-lg-6 wwhim">
+                <div class="imp_content">
+                    <h2>Why Men's Health Superfood Mix?</h2>
+                    <ul>
+                        <li>To increase awareness and support men's health with full power, we are here with a miraculous snack that is the solution to all the daily health improvement of men. InstaEats Men's Health is a unique formulated solution that helps fulfil the diet's micronutrient gaps and daily health requirements.
+                            &nbsp; InstaEats Men's Health is&nbsp;a scientifically formulated 20-in-1 nutritious combination of superfoods that includes: &nbsp; 
+                            Brazil nuts, dried coconuts and other nuts and seeds fulfil the requirement for testosterone formation.&nbsp; 
+                            Dates and berries contain flavonoids and estradiol, which have positive effects on increasing sperm count and sperm quality.&nbsp; 
+                            Berries and nuts are good sources of beneficial fats, protein, fibre, and selenium, a true super food for your testosterone levels and retain several other advantages.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="health_img text-center">
+                    <img class="img-fluid" src="{% static 'new_templates_assets/images/icon/wmhsm.png' %}">                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- *************************** Why Men's Health Superfood Mix? End  *************************** -->
+
+
+
+
+<!-- *************************** FAQ Start  *************************** -->
+
+{% if product_faqs %}
+    <section class="dtl_faqsection section_pdng">
+        <div class="container">
+            <div class="faq-accordian">
+                <div class="head">
+                    <h1 class="">Faq's</h1>
+                    <!-- <h2> Let us Help You With Your Queries</h2> -->
+                </div>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    {% for faq in product_faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-heading{{faq.id}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapse{{faq.id}}" aria-expanded="false" aria-controls="flush-collapse{{faq.id}}">
+
+                                {{faq.question|safe|striptags}}
+                                <span class="arrouw-btn"></span>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse{{faq.id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{faq.id}}"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">{{faq.answer|safe|striptags}}
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+<!-- *************************** FAQ End  *************************** -->
+
+
+
+
+
+    <!-- *************************** Essential Products Start *************************** -->
+    
+    {% with recommended_products=product.sorted_recommended_products|slice:":6" %}
+    {% if recommended_products %}
+    
+    <section class="similar_products_bx section_pdng">
+        <div class="container">
+            <div class="head_wth_ank">
+                <div class="ttl_h">
+                    <h2 class="">Similar Products</h2>
+                </div>
+                <div class="ank_h">
+                    
+                    
+                    {% with product.categories.all|first as cata_first%}
+                    <a href="{% url 'website:product_list' %}?category_list={% for cat in product.categories.all %}{{cat.id}},{% endfor %}">See all </a>
+                    <!-- <input type="text" style="display: none;" id="prod-cata" value="{{cata_first.slug}}"> -->
+                    {% endwith %}
+                    
+                </div>
+            </div>
+
+            <div class="prdnewslider webitempdt">       
+                {% for product in recommended_products %}
+                <div class="item list-product-card mb-2">             
+                    <div class="imgbdrbx">
+                        <div class="prdt">
+                            <div class="m_dea">
+                                <a href="{{ product.get_absolute_url}}">
+                                    {% with image=product.primary_image %}
+                                    {% oscar_thumbnail image.original "297x297" upscale=True as thumb %}
+                                    <img class="prd_itm_img" alt="{{product.title}}" src="{{thumb.url}}">
+                                    {% endwith %}
+                                </a>
+                                {% go_to_cart_product  product=product request=request.basket.all_lines as available %} 
+                                {% if available.basket_product %}
+                                    {% if available.line.product.percent_discount > 0 %}
+                                        <div class="discount_percent">
+                                            <span class="pts discount-price">{{available.line.product.percent_discount}}%</span>
+                                            <span class="oft">off</span>
+                                        
+                                        </div>
+                                    {%endif%}
+                                {%else%}
+                                    {% if product.variants_list.0.percent_discount > 0 %}
+                                        <div class="discount_percent">
+                                            <span class="pts discount-price">{{product.variants_list.0.percent_discount}}%</span>
+                                            <span class="oft">off</span>
+                                        </div>
+                                    {%endif%}
+                                {%endif%}
+                            </div>
+                            <div class="data_bx">
+                                <h1><a href="{{ product.get_absolute_url}}">{{ product.title|safe|striptags}}</a></h1>
+                                <p>{{ product.tagline|safe|striptags|truncatechars:50 }}</p>                            
+                                <div class="star_bx">                            
+                                    <span class="ctryrpt with_star" style="color:orange">
+                                        {% if product.product_rating == 1.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 2.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 3.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 4.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 5.0 %}
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        {% endif %}
+                                    </span>
+                                    <span class="cnt_vl">{%if product.product_rating_count%}{{product.product_rating_count}}{%endif%}</span>
+                                </div>
+
+                                <div class="bnyftul">
+                                    <ul class="bnyftlst">
+                                        <li>{{product.product_benefit_1}}</li>
+                                        <li>{{product.product_benefit_2}}</li>
+                                    </ul>
+                                </div>
+                                
+                                {% go_to_cart_product  product=product request=request.basket.all_lines as available %} 
+                                <div class="dt_slctor">                                 
+                                    <select class="form-control variant-select" data-line-id="{{available.line.id}}" data-cart-id="{{request.basket.id}}">
+                                        {% for child in product.variants_list %}
+                                            {% if child.title == available.basket_product %}
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}} selected>{{child.title}}</option>
+                                            {% else %}
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="price_bx">
+                                    {% if available.basket_product %}
+                                        <h2 class="lssprs price-retail">₹{{available.line.stockrecord.price_retail}}</h2>
+                                        <h2 class="acprc selling-price">₹{{available.line.unit_price_excl_tax}}</h2>
+                                    {% else %}
+                                        <h2 class="lssprs price-retail">₹{{product.variants_list.0.stockrecords.first.price_retail}}</h2>
+                                        <h2 class="acprc selling-price">₹{{product.variants_list.0.stockrecords.first.price_excl_tax}}</h2>
+                                    {% endif %}                          
+                                </div>  
+
+                                <div class="freedlrybx">
+                                    <p><span><img src="{% static 'website/images/ic_check.png' %}" alt="about"></span> FREE Prime Delivery</p>
+                                </div>  
+                            </div>
+
+                            <div class="btn_crtby">
+                                {% if product.variants_list|length > 0 %}
+                                    {% with products=product.variants_list.0 %}
+                                        <div class="w-50 go-to-cart-btn" {% if not available.status == True %} style="display: none;" {% endif %}>
+                                            <a class="btn btn_fill" style="background-color: #38b245; border-color: #38b245;" href="{% url 'basket:summary' %}">                                                
+                                                Added
+                                                <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                            </a>
+                                        </div>
+                                        {% purchase_info_for_product request product as session %}
+                                        <div class="w-50" {% if available.status == True %} style="display: none;" {% endif %}>
+                                            <a class="btn btn_fill popup-add-to-cart-btn" href="javascript:void(0);" data-ptitle="{{product.title}}">                                                
+                                                Add To Cart
+                                                <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                            </a>
+                                        </div>  
+                                        <div class="w-50">
+                                            <a class="btn_outline item-add-to-cart-btn" href="javascript:void(0);">Buy Now</a>
+                                        </div>
+                                    {% endwith %}
+                                {% endif %}
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% endwith %}
+    <div class="modal fade csmtvideomdl" id="unbxkingmdl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">          
+              <button type="button" class="btn-close" id="hide-unbox" data-bs-dismiss="modal" aria-label="Close"><i class="ri-close-fill"></i></button>
+            </div>
+            <div class="modal-body">
+                <iframe class="ifrmvideo" id="playerID" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div> 
+          </div>
+        </div>
+      </div>
+    <!-- *************************** Essential Products End *************************** -->
+{% endblock %}
+
+{% block custombodyend %}
+    <script>
+        $('.see-similar-product').on('click',function(){
+            
+            let value=$('#prod-cata').val()
+            location.href = `${location.origin}/product?category=${value}`;
+            // $.ajax({
+            //     url: `${location.origin}/catalogue/product-list-filter?category=${value}`,
+            //     type: "get",
+            //     headers: {
+            //         'X-CSRFToken': '{{csrf_token}}'
+            //     },
+            //     // data:filterData,
+            //     success: function (response) {
+            //         location.href = `${location.origin}/product`;
+                    
+            //     },
+            //     error: function (error) {
+                    
+            //         console.error(error);
+            //     },
+            // });
+            
+        })
+        $(document).ready(function(){
+            $('.pkul li.ppckbx').click( function(){
+                $('li.active').removeClass('active');
+                $(this).addClass('active');  
+                var product_id = $(this).data('product');
+                var cartId = $(this).data('cartId');
+                var lineId = $(this).data('lineId')
+                var currentSelected = this;
+                removeBasketProduct(lineId,cartId,product_id, currentSelected);
+            });
+            
+            
+            $('body').on('click', '.detail-add-to-cart-btn', function(){
+                var current_button = $(this);
+                var productName = $(this).data('ptitle');
+                $(current_button).find('.cart-btn-loader').removeClass('d-none');
+                $(current_button).find('.cart-loader-remove').addClass('d-none');
+                var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+                // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+                
+                var productId = $('.pkul li.ppckbx.active').data('product');
+                // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+                var productApiUrl = `${location.origin}/api/products/${productId}/`;
+                var quantity = 1;
+                console.log(productApiUrl);
+                $.ajax({
+                    url: addToCartApiUrl,
+                    type: "post",
+                    headers: {
+                        'X-CSRFToken': '{{csrf_token}}'
+                    },
+                    data: JSON.stringify({
+                        "url": productApiUrl,
+                        "quantity": quantity,
+                    }),
+                    contentType: "application/json",
+                    
+                    success: function (response) { 
+                                    
+                        console.log(response);
+                        var text = document.getElementById("shopping-cart-lenn").innerHTML;
+                        console.log(text)
+                        text = Number(text) + 1;
+                        document.getElementById("shopping-cart-lenn").innerHTML = String(text);
+                        $('#shopping-cart-lenn').text(String(text));
+                        var auth_cart =$('.cntr').find('shopping-cart-lenn')
+                        $('.nav-link').find('#shopping-cart-lenn').text(String(text))
+                        // $('.nav-small-cart-btn').find('#shopping-cart-len').text(String(text))
+                        $(current_button).find('.cart-btn-loader').addClass('d-none');
+                        $(current_button).find('.cart-loader-remove').removeClass('d-none');
+                        $(current_button).hide();
+                        $('.pkul li.ppckbx.active').data('lineId', response.current_line_id);
+                        $(current_button).hide();
+                        $('.detail-go-to-cart-btn').show();
+                        $('#popup-success-message').text();
+
+                        $("#success-adcrtmdl").addClass("active")
+                        // addToCartSuccessPopup.show();
+                        setTimeout(function(){                                
+                                        $("#success-adcrtmdl").removeClass("active");
+                                        // addToCartSuccessPopup.hide();
+                                    },2500);
+                        // alert('product added successfully');
+                    },
+                    error: function (error) {
+                        console.error(error);
+                        $(current_button).find('.cart-btn-loader').addClass('d-none');
+                        $(current_button).find('.cart-loader-remove').removeClass('d-none');
+                        if(error.responseJSON && error.responseJSON.reason.url){
+                            alert(error.responseJSON.reason.url);
+                        }
+                        else if (error.responseJSON.reason){
+                            alert(error.responseJSON.reason);
+                        }
+                        else{
+                            alert('You cannot add this product');
+                        }
+                    },
+                });
+            });
+
+
+            $('body').on('click', '.detail-buy-now-btn', function(){
+                console.log('click')
+                var current_button = $(this);
+                var productName = $(this).data('ptitle');
+                var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+                // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+               
+                var productId = $('.pkul li.ppckbx.active').data('product');
+                // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+                var productApiUrl = `${location.origin}/api/products/${productId}/`;
+                var quantity = 1;
+                console.log(productApiUrl);
+                $.ajax({
+                    url: addToCartApiUrl,
+                    type: "post",
+                    headers: {
+                        'X-CSRFToken': '{{csrf_token}}'
+                    },
+                    data: JSON.stringify({
+                        "url": productApiUrl,
+                        "quantity": quantity,
+                    }),
+                    contentType: "application/json",
+                    
+                    success: function (response) {                        
+                        console.log(response);
+                        location.href = `${location.origin}/basket`;
+                    },
+                    error: function (error) {
+                        console.error(error);
+                        $(current_button).find('.cart-btn-loader').addClass('d-none');
+                        $(current_button).find('.cart-loader-remove').removeClass('d-none');
+                        if(error.responseJSON && error.responseJSON.reason.url){
+                            // alert(error.responseJSON.reason.url);
+                        }
+                        else if (error.responseJSON.reason){
+                            alert(error.responseJSON.reason);
+                        }
+                        else{
+                            alert('You cannot add this product');
+                        }
+                    },
+                });
+            });
+
+
+        });
+$('.cstmstoryclick').click(function(){
+                var videoUrl = $(this).data('videoUrl');
+                $('#ifrmvideo').attr('src', videoUrl);
+                $('#videomdl').modal('show');
+            });
+            
+$('#hide-dietitions').click(function(){                
+    var hideDietitions = document.getElementById('videomdl');
+    if (hideDietitions){
+        hideDietitions.addEventListener('hidden.bs.modal', function (event) {
+            $('#ifrmvideo').attr('src', "");
+        
+        });
+    }
+});
+
+
+
+removeBasketProduct = function(lineId, cartId, productId, currentSelect){
+    console.log(lineId, cartId, productId, currentSelect)
+    if(lineId){
+        var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+        $.ajax({
+            url: deleteURL,
+            type: "delete",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            success: function (response) {
+                console.log(response);
+                productAdd(productId, currentSelect);
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
+    }
+}
+
+$('body').on('change', '.variant-select', function(){             
+    var retail_price = $(this).find('option:selected').data('retailPrice');
+    var selling_price = $(this).find('option:selected').data('sellingPrice');
+    var discount_price = $(this).find('option:selected').data('discount');
+    // var product_description = $(this).find('option:selected').data('description');
+    var product_id = $(this).val();
+    $(this).parents('.list-product-card').find('.price-retail').text(retail_price);
+    $(this).parents('.list-product-card').find('.selling-price').text(selling_price);
+    // $(this).parents('.list-product-card').find('.product_description').text(product_description);
+    $(this).parents('.list-product-card').find('.discount-price').text(`${discount_price}% `);
+    var productId = $(this).val();
+    var cartId = $(this).data('cartId');
+    var lineId = $(this).data('lineId')
+    var currentSelect = this;
+    removeBasketProduct(lineId,cartId,productId, currentSelect);
+});
+
+
+productAdd = function(productId, current_button){
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    console.log(productId);
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {
+            console.log(response);
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            // location.reload()
+        },
+        error: function (error) {
+            console.error(error);
+        
+        },
+    });
+}
+// on add to cart click
+$('body').on('click', '.popup-add-to-cart-btn', function(){
+   
+   var current_button = $(this);
+   var productName = $(this).data('ptitle');
+   $(current_button).find('.cart-btn-loader').removeClass('d-none');
+   $(current_button).find('.cart-loader-remove').addClass('d-none');
+   // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+   var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+   var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+   // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+   var productApiUrl = `${location.origin}/api/products/${productId}/`;
+   var quantity = 1;
+   console.log(productApiUrl);
+   $.ajax({
+       url: addToCartApiUrl,
+       type: "post",
+       headers: {
+           'X-CSRFToken': '{{csrf_token}}'
+       },
+       data: JSON.stringify({
+           "url": productApiUrl,
+           "quantity": quantity,
+       }),
+       contentType: "application/json",
+       
+       success: function (response) {    
+                             
+           console.log(response);
+           var text = document.getElementById("shopping-cart-lenn").innerHTML;
+            console.log(text)
+            text = Number(text) + 1;
+            document.getElementById("shopping-cart-lenn").innerHTML = String(text);
+            $('#shopping-cart-lenn').text(String(text));
+            $('.nav-link').find('#shopping-cart-lenn').text(String(text))
+           $(current_button).find('.cart-btn-loader').addClass('d-none');
+           $(current_button).find('.cart-loader-remove').removeClass('d-none');
+           $(current_button).hide();
+           $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+           
+           $(current_button).parents('.w-50').hide();
+           $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+           $('#popup-success-message').text();
+
+            $("#success-adcrtmdl").addClass("active")
+            // addToCartSuccessPopup.show();
+            setTimeout(function(){                                
+                            $("#success-adcrtmdl").removeClass("active");
+                            // addToCartSuccessPopup.hide();
+                        },2500);
+
+       },
+       error: function (error) {
+           console.error(error);
+           $(current_button).find('.cart-btn-loader').addClass('d-none');
+           $(current_button).find('.cart-loader-remove').removeClass('d-none');
+           if(error.responseJSON && error.responseJSON.reason.url){
+            //    alert(error.responseJSON.reason.url);
+           }
+           else if (error.responseJSON.reason){
+               alert(error.responseJSON.reason);
+           }
+           else{
+               alert('You cannot add this product');
+           }
+       },
+   });
+});
+
+
+// buy now button click of product
+$('body').on('click', '.item-add-to-cart-btn', function(){
+    var current_button = $(this);
+    var productName = $(this).data('ptitle');
+    $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {                        
+            console.log(response);
+            location.href = `${location.origin}/basket`
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            $(current_button).hide();
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            $(current_button).parents('.w-50').hide();
+            $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});
+$('#unboxing-video').click(function(){
+           
+           var video = "https://www.youtube.com/embed/"+'{{object.video_id}}'
+           console.log(video)
+           $('#playerID').attr('src', video);
+           $('#unbxkingmdl').modal('show');
+       });  
+
+$('#hide-unbox').click(function(){                
+    var hideDietitions = document.getElementById('unbxkingmdl');
+    if (hideDietitions){
+        hideDietitions.addEventListener('hidden.bs.modal', function (event) {
+            $('#playerID').attr('src', "");
+        
+        });
+    }
+});
+
+
+       $('body').on('click', '.snbtn', function(){
+    var current_button = $(this);
+    
+    // var productName = $(this).data('ptitle');
+    // $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    // $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.spplan_rr').find('.prod_id').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {                        
+            console.log(response);
+            location.href = `${location.origin}/basket`
+            // $(current_button).find('.cart-btn-loader').addClass('d-none');
+            // $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            // $(current_button).hide();
+            // $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            // $(current_button).parents('.w-50').hide();
+            // $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});       
+
+</script>
+{% endblock %}

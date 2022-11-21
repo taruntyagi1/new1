@@ -1,0 +1,49 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block profile_breadcrumbs %}
+    <section class="breadcrumb-list mt-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0">
+                    <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                    <li class="breadcrumb-item active">Wish Lists</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+    {% block profile_heading %}
+        <h3>{% if wishlist %}
+                {{ wishlist.name }}
+            {% else %}
+                {% trans "Create" %}
+            {% endif %}</h3>
+    {% endblock %}
+
+    {% include "oscar/partials/alert_messages.html" %}
+
+    <form method="post" data-behaviours="lock">
+        {% csrf_token %}
+        {% if not wishlist %}
+            <p>{% trans "What should your new wish list be called?" %}</p>
+        {% endif %}
+        {% include "oscar/partials/form_fields.html" %}
+        {% if product %}
+            <p>
+                {% blocktrans with title=product.get_title %}
+                    After your wishlist is created, <strong>{{ title }}</strong> will be added.
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+        <div class="form-group">
+            <button class="btn btn-red" type="submit" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>
+            {% trans "or" %} <a href="#" onclick="history.go(-1);return false" >{% trans "cancel" %}</a>.
+        </div>
+    </form>
+
+{% endblock profile_content %}

@@ -1,0 +1,168 @@
+{% extends "frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+    {% block customheadend %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}
+{% block page-content %}
+    <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
+ 
+      <section class="breadcrumbs-custom">
+        <div class="parallax-container" data-parallax-img="{% static 'images/about-us-6.png'%}">
+          <div class="breadcrumbs-custom-body parallax-content context-dark">
+            <div class="container">
+              <h2 class="text-transform-capitalize breadcrumbs-custom-title">Checkout</h2>
+              <h5 class="breadcrumbs-custom-text">You are almost there! Enter shipping details and review invoicing<br class="d-none d-md-block">  amount before making your payment. Happy shopping!</h5>
+            </div>
+          </div>
+        </div>
+        <div class="breadcrumbs-custom-footer">
+          <div class="container">
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="grid-shop.html">Shop</a></li>
+              <li class="active">Checkout</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Section checkout form-->
+      <section class="section section-sm section-first bg-default text-md-left">
+          <div class="container">
+              <div class="row row-50 justify-content-center">
+                  <div class="col-lg-12 mx-auto shipping-address-form">
+                      {% block shipping_address %}
+                      <div class="">
+                          <div class="sub-header">
+                              <h2 class="shipping-subheading">{% trans "BILLING ADDRESS" %}</h2>
+                          </div>
+                          {% if user.is_authenticated %}
+                              {% if addresses %}
+                                  <h3 class="shipping-subheading">{% trans "An address from your address book?" %}</h3>
+                                  <div class="choose-block">
+                                      <div class="row">
+                                          {% for address in addresses %}
+                                              {% block select_address_form %}
+                                                  <div class="col-12">
+                                                      <div class="well">
+                                                          <address>
+                                                              {% block select_address_fields %}
+                                                                  {% for field in address.active_address_fields %}
+                                                                      <span>{{ field }}</span>{% if not forloop.first %}<br/>{% endif %}
+                                                                  {% endfor %}
+                                                              {% endblock %}
+                                                          </address>
+                                                          <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                                              {% csrf_token %}
+                                                              <div class="row row-30">
+                                                                <input type="hidden" name="action" value="ship_to" />
+                                                                <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                                                {% if address.is_default_for_shipping %}
+                                                                    <button type="submit" class="button button-primary button-zakaria mt-0" data-loading-text="{% trans 'Saving...' %}"><i class="icon-ok"></i> {% trans "Ship to your default shipping address" %}</button>
+                                                                {% else %}
+                                                                    <button type="submit" class="button button-primary button-zakaria mt-0" data-loading-text="{% trans 'Saving...' %}">{% trans "Ship to this address" %}</button>
+                                                                {% endif %}
+                                                                <div class="dropdown ml-3">
+                                                                  <a href="{% url 'checkout:user-address-update' pk=address.id %}">
+                                                                    <button class="button button-primary button-zakaria mt-0 dropdown-toggle mt-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Edit address" %}</button>
+                                                                  </a>
+                                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                    <a href="{% url 'checkout:user-address-delete' pk=address.id %}" class="dropdown-item btn-remove-address">{% trans "Delete" %}</a>
+                                                                  </div>
+                                                              </div>
+                                                          </form>
+                                                      </div>
+                                                  </div>
+                                                  {% if forloop.counter|divisibleby:2 %}
+                                                      </div><div class="row">
+                                                  {% endif %}
+                                              {% endblock %}
+                                          {% endfor %}
+                                      </div>
+                                  </div>
+                                  <h3 class="mt-5 shipping-subheading">{% trans "Or a new address?" %}</h3>
+                              {% endif %}
+                          {% endif %}
+
+                          {% block new_address_form %}
+                              <div class="well">
+                                  <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
+                                      {% csrf_token %}
+                                      <div class="row mt-2">
+                                      <div class="row">
+                                      {% include "oscar/partials/form_fields.html" with form=form style='horizontal' %}
+                                      </div>
+                                      </div>
+                                      <div class="col-12 text-center mt-5">
+                                          <div class="col-12">
+                                              <button type="submit" class="button button-primary button-zakaria" data-loading-text="{% trans 'Continuing...' %}">{% trans "Continue" %}</button>
+                                              {% trans "or" %} <a href="{% url 'basket:summary' %}">{% trans "return to basket" %}</a>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                          {% endblock %}
+                      </div>
+                      {% endblock shipping_address %}
+                  </div>
+              </div>
+          </div>
+
+      </section>
+  
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+
+        $("#new_shipping_address .form-control").addClass("form-input");
+        $("#new_shipping_address label").addClass("form-label");
+        $("#new_shipping_address .form-group").addClass("form-wrap col-lg-6");
+        $("#new_shipping_address div.col-sm-7").removeClass("col-sm-7");
+        $("#new_shipping_address .form-wrap").find('div').addClass("col-12 pl-3");
+        $("#new_shipping_address span.help-block").addClass("checkbox-inline text-transform-capitalize");
+        $("#new_shipping_address label.control-label").removeClass("col-sm-4");
+        $("#new_shipping_address label.control-label").addClass("col-12");
+        $("#new_shipping_address .form-control").focus(function(){
+            $(this).parents(".form-wrap").find('label').addClass('d-none');
+        });
+        $("#new_shipping_address label.control-label").css("opacity","0");
+        $("#new_shipping_address #id_first_name").attr('placeholder', 'First Name');
+        $("#new_shipping_address #id_last_name").attr('placeholder', 'Last Name');
+        $("#new_shipping_address #id_line1").attr('placeholder', 'First line of address');
+        $("#new_shipping_address #id_line2").attr('placeholder', 'Second line of address');
+        $("#new_shipping_address #id_line3").attr('placeholder', 'Third line of address');
+        $("#new_shipping_address #id_line4").attr('placeholder', 'City');
+        $("#new_shipping_address #id_state").attr('placeholder', 'State');
+        $("#new_shipping_address #id_postcode").attr('placeholder', 'Post / Zip-code');
+        $("#new_shipping_address #id_phone_number").attr('placeholder', 'Phone number');
+        $("#new_shipping_address #id_notes").attr('placeholder', 'Instructions');
+        $("#id_title").hide();
+        $("#id_title").parents(".form-group.form-wrap").hide();
+        /*$("#new_shipping_address .form-control").focusout(function(){
+            $(this).parents(".form-wrap").find('label').removeClass('focus');
+        });*/
+        $('#new_shipping_address .form-control').blur(function() {
+            if ($('input:text').val().length == 0) { // zero-length string AFTER a trim
+                
+                $(this).parents(".form-wrap").find('label').addClass('focus');
+            }
+        });
+        $('#id_country').val('IN');
+        $("#id_phone_number").attr("value", "+91");
+    });
+</script>
+{% endblock %}

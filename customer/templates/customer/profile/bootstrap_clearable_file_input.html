@@ -1,0 +1,20 @@
+<div class="">
+    {% if widget.is_initial %}
+<!--    <div class="input-group-prepend">-->
+<!--        <span class="input-group-text">{{ widget.initial_text }}:</span>-->
+<!--        <span class="input-group-text"><a href="{{ widget.value.url }}" target="_blank"><i class="fas fa-eye"></i></a></span>-->
+<!--    </div>-->
+    {% if not widget.required %}
+<!--    <div class="form-check border" style="border-radius: .25rem; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; margin-bottom: 0; border-top-left-radius: 0; border-bottom-left-radius: 0;">-->
+<!--        <input class="form-check-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" />-->
+<!--        <label for="{{ widget.checkbox_id }}" class="form-check-label ml-2">{{ widget.clear_checkbox_label }}</label>-->
+<!--    </div>-->
+    {% endif %}
+</div>
+<div class="input-group form-input mt-3">
+<!--    <div class="input-group-prepend">-->
+<!--        <span class="input-group-text">{{ widget.input_text }}: </span>-->
+<!--    </div>-->
+    {% endif %}
+    <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} />
+</div>

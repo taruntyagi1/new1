@@ -1,0 +1,363 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+
+{% block seo %}
+    <title>Our Testimonials | Instaeats</title>
+    <meta name="title" content="Our Testimonials | Instaeats"/>
+    <meta name="description" content="Our Testimonials | Not Sure Which Is The Right Plan For You? Get Instant Help From A Leading Health Coach."/>
+    <!-- <meta name="keywords" content="{% if product.meta_keywords %}{% for obj in object.meta_keywords %}{% if forloop.last %}{{ obj }}{% else %}{{obj}},{% endif %}{% endfor %}{% endif %}"/> -->
+
+{% endblock %}
+{% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+{% endblock %}
+{% block page-content %}
+
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Reviews</h3>
+                <ul class="br_submenu">
+                    <li><a href="{% url 'website:homepage'%}">Home</a></li>
+                    <li>Reviews</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cstm_reviews_wrapper">
+    <div class="container">
+        <div class="cstm_reviews">
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <div class="rating_review">
+                        <img class="img-fluid" src="{% static 'website/images/logo.png' %}" alt="">
+                        <div class="r_rating">
+                            <h1>Customer Reviews</h1>
+                            <h2 class="cntbx">{{rating_data.avg_rating}}</h2>                            
+                            <div class="review">
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-half-fill"></i>                                
+                            </div>
+                            <div class="re_verify">
+                                <span class="revwbx">{{rating_data.total_rating}} + Reviews</span>
+                                <span class="vrfybx"><i class="ri-shield-check-line"></i> Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="reviw_Progess">
+                        <span>5</span>
+                        <i class="ri-star-s-fill"></i>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="prs_psnt">{{rating_data.percent_for_rating_5}}%</span>
+
+                    </div>
+                    <div class="reviw_Progess">
+                        <span>4</span>
+                        <i class="ri-star-s-fill"></i>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="prs_psnt">{{rating_data.percent_for_rating_4}}%</span>
+
+                    </div>
+                    <div class="reviw_Progess">
+                        <span>3</span>
+                        <i class="ri-star-s-fill"></i>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="prs_psnt">{{rating_data.percent_for_rating_3}}%</span>
+
+                    </div>
+                    <div class="reviw_Progess">
+                        <span>2</span>
+                        <i class="ri-star-s-fill"></i>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="prs_psnt">{{rating_data.percent_for_rating_2}}%</span>
+
+                    </div>
+                    <div class="reviw_Progess">
+                        <span>1</span>
+                        <i class="ri-star-s-fill"></i>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 3%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="prs_psnt">{{rating_data.percent_for_rating_1}}%</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review_list">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist"> 
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                        type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Video Reviews</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                        type="button" role="tab" aria-controls="pills-home" aria-selected="true">Verified Reviews</button>
+                </li>
+            </ul>
+
+
+            <ul class="nav subctgrybx" role="tablist"> 
+                <li class="sub-item active"><button class="at-link" type="button">All</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Diabetes</button></li>                
+                <li class="sub-item"><button class="at-link" type="button">PCOS</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Thyroid</button></li>                
+                <li class="sub-item"><button class="at-link" type="button">Women's health</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Men's Health</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Skin health</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Kids health</button></li>                
+                <li class="sub-item"><button class="at-link" type="button">Digestion</button></li>
+                <li class="sub-item"><button class="at-link" type="button">Keto health</button></li>                                
+            </ul>
+
+
+
+
+
+
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="verify_review_wrapper newvrwbx">
+                        
+                        <div class="vrwbxdata">
+                            {% for review in text_review %}
+                            <div class="vrwrptr">
+                                <div class="verify_review_box">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="review_b_top">
+
+
+                                                {% if review.user.name %}
+                                                    <span class="ttname">{{review.user.name.0}}</span>
+                                                    {%else%}
+                                                    <span class="ttname">{{review.user_name.0}}</span>
+                                                    <!-- <span class="ttname bg-white"><img src="{% static 'website/images/logo.png' %}" alt=""></span> -->
+                                                    {% endif %}
+
+
+
+
+                                                <!-- {% if request.user.profile_picture %}
+                                                <span class="ttname">
+                                                    {{request.user.get_full_name.0}}                                                    
+                                                </span>
+                                                <span class="ttname"><img class="mda_pic" src="{{MEDIA_URL}}{{request.user.profile_picture}}" alt=""></span>
+                                                {%else%}
+                                                <span class="ttname"><img src="{% static 'website/images/logo.png' %}" alt=""></span>                                    
+                                                {%endif%} -->
+
+
+                                                <!-- <img class="img-fluid" src="{% static 'website/images/logo.png' %}" alt=""> -->
+                                                <div class="verify_details">
+                                                    
+                                                    {% if review.user.name %}
+                                                    <h5 class="card-title">{{review.user.name}}</h5>
+                                                    {%else%}
+                                                    <h5 class="card-title">{{review.user_name}}</h5>                                                    
+                                                    {% endif %}
+
+                                                    <!-- {{review.user_email}} -->
+
+
+                                                    <div class="verify_rating">
+                                                        <div class="review">
+                                                            <i class="ri-star-s-fill"></i>
+                                                            <i class="ri-star-s-fill"></i>
+                                                            <i class="ri-star-s-fill"></i>
+                                                            <i class="ri-star-s-fill"></i>
+                                                            <i class="ri-star-half-fill"></i>  
+                                                        </div>
+                                                        <div class="rating_date">
+                                                            {{review.created_on|date:"SHORT_DATETIME_FORMAT"  }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+
+                                            {% if review.review %}
+                                            <div class="review_verify_text">
+                                                <!-- <span>Nice</span> -->
+                                                <p>{{review.review|safe|striptags}}</p>
+                                                <p><a class="rmmdlshow" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#rvw_rdmr" 
+                                                    data-datetime="{{review.created_on}}" 
+                                                    data-image="{% if request.user.profile_picture %}{{MEDIA_URL}}{{request.user.profile_picture}}{%else%}{% static 'website/images/logo.png' %}{%endif%}" 
+                                                    data-title="{% if review.user.name %}{{review.user.name}}{%else%}{{review.user_name}}{% endif %}" 
+                                                    data-description="{{review.review|safe|striptags}}" 
+                                                    href="javascript:void(0);">Read More</a></p>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    
+                    <div class="video_review_wrapper">
+                        <div class="vrw_bx">
+                            {% for review in video_review %}
+                            <div class="vrw_rptr">
+                                <div class="verify_review_box">
+                                    <iframe src="https://www.youtube.com/embed/{{review.video_id}}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>    
+            </div>  
+
+        </div>
+
+
+    </div>
+</section>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade mdlcstmmdl" id="rvw_rdmr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">       
+ 
+        <div class="modal-body">
+
+            <div class="vrwbxdata position-relative">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style="border: none; background: transparent; font-size: 30px; position: absolute; right: -9px; top: -17px; z-index: 9;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="vrwrptr" id="reviewmdl"></div>
+            </div>
+           
+            
+        </div>   
+         
+      </div>
+    </div>
+  </div>
+
+  
+
+<!-- *************************** We Proudly Own Our Customer's Happiness End *************************** -->
+
+
+
+
+{%endblock%}
+
+<!-- <script src="js/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script> -->
+
+
+
+{% block custombodyend %}
+<script src="js/jquery.min.js"></script>
+<script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+
+    $(document).ready(function () {
+             
+            $('body').on('click', '.rmmdlshow', function(){        
+               
+                var buttonData=$(this).data();
+                console.log( $(this).parents('.verify_review_box').find('.ttname').css('backgroundColor'))
+                var backgroundColor = $(this).parents('.verify_review_box').find('.ttname').css('backgroundColor')
+                // $('#ttnamee').css('backgroundColor', backgroundColor)    
+                $("#reviewmdl").html(`
+                <div class="verify_review_box">
+                        <div class="bg-transparent border-0 card">
+                            <div class="card-body p-0">
+                                <div class="review_b_top mb-2">
+
+                                    <span class="ttname" id="ttnamee" style="background-color:${backgroundColor}">${buttonData.title[0]}</span>
+
+
+                                    <div class="verify_details">                                        
+                                        <h5 class="card-title">${buttonData.title}</h5>                                        
+                                        <div class="verify_rating">
+                                            <div class="review">
+                                                <i style="font-size: 18px;" class="ri-star-s-fill"></i>
+                                                <i style="font-size: 18px;" class="ri-star-s-fill"></i>
+                                                <i style="font-size: 18px;" class="ri-star-s-fill"></i>
+                                                <i style="font-size: 18px;" class="ri-star-s-fill"></i>
+                                                <i style="font-size: 18px;" class="ri-star-half-fill"></i>  
+                                            </div>
+                                            <div class="rating_date">
+                                                <span>${buttonData.datetime}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="review_verify_ttx">                                    
+                                    <p>${buttonData.description}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                `);                
+                console.log(buttonData);
+            });           
+    });
+    
+    
+        $(window).scroll(function () {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 50) {
+                $(".header").addClass("top-fixed");
+            } else {
+                $(".header").removeClass("top-fixed");
+            }
+        });
+    </script>
+{% endblock %}

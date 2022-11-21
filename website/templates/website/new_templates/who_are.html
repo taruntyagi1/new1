@@ -1,0 +1,35 @@
+{% load static %}
+{% load image_tags%}
+
+
+ <div class="col-lg-6 offset-lg-0 col-md-8 offset-md-2 col-10 offset-1">
+    {% comment %} {% for object in blog_object  %} {% endcomment %}
+    
+    <div class="video-section-content">                                    
+        <h1>Who we Are</h1>
+        <h2 class="c-dark">{{blog_object.description|safe|striptags}}</h2>
+        <p>{{blog_object.title|safe|striptags}}</p>
+        
+        <div class="button-group tdt_rm_btnbx">
+            <a class="btntn tdt_btn" href="{% url 'website:defficiency_assessment' %}">Take Defeciency Test</a>
+            <a class="btntn rm_btnb"  href="https://www.youtube.com/embed/zv-Sjzvhwrc"class="button button-light">Read More...</a>
+            <script>
+                  $(document).ready(function() {
+
+                    $('.btntn rm_btnb,. button button-light').magnificPopup({
+                        disableOn: 700,
+                        type: 'iframe',
+                        mainClass: 'mfp-fade',
+                        removalDelay: 160,
+                        preloader: false,
+
+                        fixedContentPos: false
+                    });
+                    });
+
+            </script>
+        </div>
+    </div>
+    {% comment %} {% endfor %} {% endcomment %}
+    {% comment %} {% endfor %} {% endcomment %}
+</div>

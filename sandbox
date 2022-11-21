@@ -1,0 +1,359 @@
+#!/bin/bash
+
+#******************************************************************
+# This shell script create and maintains development environmants
+# with the help of docker containers.
+#
+# Following docker images are used:
+# app-server: ubuntu:18.04
+# database: postgres:10.6
+#
+# To use run:
+# ./sandbox <required action>
+#******************************************************************
+
+## variable
+action=$1
+app_name="if_sudofire"
+local_settings="$app_name/_settings/local.py"
+
+# images
+server_image='ubuntu:18.04'
+database_image='postgres:10.6'
+container_prefix='if_sudo'
+
+# packages
+packages='python3 python3-dev python3-pip libjpeg-dev libpng-dev gcc wget'
+
+#database
+database_name='if_sudofire'
+database_username='if_sudofire'
+database_password='if_sudofire'
+
+# virtualenv
+venv='venv'
+host_python='/usr/bin/python3'
+requirements_file='requirements.txt'
+
+# info
+function info() {
+    local if_db_container_exist="$(docker ps -a | grep $container_prefix-database)"
+
+    if [ "$if_db_container_exist" ]
+    then
+        local db_container_ip="$(docker inspect -f '{{.NetworkSettings.IPAddress}}' $container_prefix-database)"
+    fi
+
+    echo "
+
+██╗███████╗    ███████╗██╗   ██╗██████╗  ██████╗ ███████╗██╗██████╗ ███████╗
+██║██╔════╝    ██╔════╝██║   ██║██╔══██╗██╔═══██╗██╔════╝██║██╔══██╗██╔════╝
+██║█████╗      ███████╗██║   ██║██║  ██║██║   ██║█████╗  ██║██████╔╝█████╗
+██║██╔══╝      ╚════██║██║   ██║██║  ██║██║   ██║██╔══╝  ██║██╔══██╗██╔══╝
+██║██║         ███████║╚██████╔╝██████╔╝╚██████╔╝██║     ██║██║  ██║███████╗
+╚═╝╚═╝         ╚══════╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝
+
+
+Development environment info:
+
+    Project Name: $app_name
+    Local Settings: $local_settings
+    Python: $python
+
+    Server Image: $server_image
+    Database Image: $database_image
+    Container Prefix: $container_prefix
+
+    Packages Installed: $packages
+
+    Database Name: $database_name
+    Database Username: $database_username
+    Database Password: $database_password
+    Database Host: $db_container_ip
+
+"
+}
+
+# handling database
+function build_database() {
+    echo "building database"
+    docker run \
+        --name $container_prefix-database \
+        -e POSTGRES_DB=$database_name \
+        -e POSTGRES_USER=$database_username \
+        -e POSTGRES_PASSWORD=$database_password \
+        -d $database_image
+}
+
+function start_database() {
+    local if_container_running="$(docker inspect -f '{{.State.Running}}' $container_prefix-database)"
+
+    if [ $if_container_running == 'false' ]
+    then
+        echo "starting database container $container_prefix-database"
+        docker start $container_prefix-database
+    fi
+
+    local container_ip="$(docker inspect -f '{{.NetworkSettings.IPAddress}}' $container_prefix-database)"
+    sed -r -i "0,/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/s//$container_ip/" $local_settings
+}
+
+function stop_database() {
+    local if_container_running="$(docker inspect -f '{{.State.Running}}' $container_prefix-database)"
+
+    if [ $if_container_running == 'true' ]
+    then
+        echo "stoping database container $container_prefix-database"
+        docker stop $container_prefix-database
+    fi
+}
+
+function destroy_database() {
+    stop_database
+
+    echo "destroying database container $container_prefix-database"
+    docker rm $container_prefix-database
+    docker volume prune -f
+}
+
+function rebuild_database() {
+    destroy_database
+    build_database
+}
+
+
+# handle server_image
+
+function build_server() {
+    local install_string='apt update; apt upgrade -y; apt install -y '$packages
+
+    echo "building server"
+    docker run \
+        --name $container_prefix-server \
+        -v $(pwd):/src \
+        -p 8000:8000 \
+        -it -d $server_image
+
+    start_server
+    docker exec -it $container_prefix-server bash -c "$install_string"
+}
+
+function start_server() {
+    local if_container_running="$(docker inspect -f '{{.State.Running}}' $container_prefix-server)"
+
+    if [ $if_container_running == 'false' ]
+    then
+        echo "starting server container $container_prefix-server"
+        docker start $container_prefix-server
+    fi
+}
+
+
+function stop_server() {
+    local if_container_running="$(docker inspect -f '{{.State.Running}}' $container_prefix-server)"
+
+    if [ $if_container_running == 'true' ]
+    then
+        echo "stoping server container $container_prefix-server"
+        docker stop $container_prefix-server
+    fi
+}
+
+function destroy_server() {
+    stop_server
+
+    echo "destroying server container $container_prefix-server"
+    docker rm $container_prefix-server
+    docker volume prune -f
+}
+
+function rebuild_server() {
+    destroy_server
+    build_server
+}
+
+# host venv
+
+function build_venv() {
+    echo "building virtualenv $venv using $python..."
+
+    virtualenv -p $python $venv
+    setisfy_venv
+}
+
+function destroy_venv() {
+    if [ -d "$venv" ]; then
+        rm -r $venv
+    fi
+}
+
+function setisfy_venv() {
+    if [ -d "$venv" ]; then
+        $venv/bin/pip install -r $requirements_file
+    fi
+}
+
+function rebuild_venv() {
+    destroy_venv
+    set_python
+    build_venv
+}
+
+function install() {
+    if [ -d "$venv" ]; then
+        $venv/bin/pip install $2
+        $venv/bin/pip freeze > $requirements_file
+    fi
+
+    pip
+}
+
+function set_python() {
+    if [ -d "$venv" ]; then
+        python="$venv/bin/python"
+    else
+        python=$host_python
+    fi
+}
+
+## container commands
+function pip() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/pip3 install -r /src/"$requirements_file
+}
+
+function runserver() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py runserver 0.0.0.0:8000"
+}
+
+function migrate() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py migrate"
+}
+
+function createsuperuser() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py createsuperuser"
+}
+
+function flush() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py flush"
+}
+
+function shell() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py shell"
+}
+
+function makemigrations() {
+    $python manage.py makemigrations $2
+}
+
+function startapp() {
+    $python manage.py startapp $2
+}
+
+function collectstatic() {
+    start_database
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash -c "/usr/bin/python3 /src/manage.py collectstatic --noinput"
+}
+
+
+function cli() {
+    start_server
+
+    docker exec \
+        -it $container_prefix-server \
+        bash
+}
+
+
+## hybrid commands
+function build() {
+    info
+    set_python
+    build_database
+    build_server
+    start_database
+    start_server
+    build_venv
+    pip
+    migrate
+}
+
+function destroy() {
+    destroy_server
+    destroy_database
+    destroy_venv
+}
+
+function rebuild() {
+    destroy
+    build
+}
+
+function start() {
+    start_database
+    start_server
+    pip
+    setisfy_venv
+    makemigrations
+    migrate
+    runserver
+}
+
+function stop() {
+    stop_server
+    stop_database
+}
+
+function restart() {
+    stop
+    start
+}
+
+function flush_db() {
+    stop
+    rebuild_database
+    sleep 5
+    migrate
+}
+
+set_python
+
+if [ ! $action  ]
+then
+    info
+else
+    $action "$@"
+fi

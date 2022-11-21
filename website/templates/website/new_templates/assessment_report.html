@@ -1,0 +1,843 @@
+{% load static %}
+{% load go_to_cart_product %}
+{% load purchase_info_tags %}
+<html>
+
+<head>
+    <title>Instaeats</title>
+    <meta name="theme-color" content="#5BB974" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=12; IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)">
+    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/favicon.png' %}">
+
+
+    <link rel="icon" type="image/x-icon" href="{% static 'new_templates_assets/images/favicon.png' %}">   
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/owl.carousel.css' %}" />        
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/font-awesome.min.css' %}">
+
+    <!-- https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/old_site_css/style.css' %}?v=0.1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/stylesheet.css' %}" />    
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/css/full_site-responsive.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'new_templates_assets/slider/slick.css' %}" />    
+
+    <style>
+        .section_report{
+            min-height: 100vh;
+            height: unset;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- *************************** Report Header - Start *************************** -->
+    <section class="section_report">
+        
+
+            <div class="rh_head">
+                <div class="container">
+                    <div class="rh_logo">
+                        <a href="{{homepage_url}}">
+                            <img src="{% static 'new_templates_assets/images/black_logo_withbg.png' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="rh_logo">
+                        <a class="rh_dr" target="_blank" href="{% url 'website:defficiency_report_pdf' object.pk %}">
+                            <!-- <img src="{% static 'new_templates_assets/images/icon/pdf-Icon.png' %}" alt=""> -->
+                            Download Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="sr_dtls_bx">
+                    
+                    <div>
+                        <div class="objt_dtlbx">
+                            <h1>Hey {{object.name}}!</h1>                    
+                            <h3>Let’s have a look on your report</h3>
+                            <!-- <p>You have been diagnosed with multiple vitamin and mineral deficiencies.</p> -->
+                        </div>
+
+                        <div class="cstmr_info_wrap">
+                            <h4>My Report </h4>
+                            <div class="cstmr_info">
+                                <div class="info_details">
+                                    <span>Name: </span>
+                                    <span class="cstmr_name">{{object.name}}</span>
+                                </div>
+                                <div class="info_details">
+                                    <span>Age:</span>
+                                    <span>{{object.age}}</span>
+                                </div>
+
+                                <div class="info_details">
+                                    <span>Gender:</span>
+                                    <span>{{object.gender}}</span>
+                                </div>
+
+                                <div class="info_details">
+                                    <span>Mobile No.:</span>
+                                    <span>{{object.mobile_number|default:'N/A'}}</span>
+                                </div>
+                                <div class="info_details">
+                                    <span>Report Status:</span>
+                                    <span>FINAL</span>
+                                </div>
+                                <div class="info_details">
+                                    <span>Medical Condition:</span>
+                                        <span>{% if object.medical_condition %}
+                                            
+                                            {{object.medical_condition|join:', ' |default:'N/A'}}
+                                            {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="info_details">
+                                    <span>Report ID:</span>
+                                    <span>{{object.sys_id}}</span>
+                                </div>
+                                <!-- <div class="info_details">
+                                    <span>Lab No :</span>
+                                    <span>012208220085</span>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cstmr_info_wrap">
+                        <h4>My Report </h4>
+                        <div class="cstmr_info">
+                            <div class="info_details">
+                                <span>Name : </span>
+                                <span class="cstmr_name">{{object.name}}</span>
+                            </div>
+                            <div class="info_details">
+                                <span>Age  :</span>
+                                <span>{{object.age}}</span>
+                            </div>
+
+                            <div class="info_details">
+                                <span>Gender :</span>
+                                <span>{{object.gender}}</span>
+                            </div>
+
+                            <div class="info_details">
+                                <span>Email I'd :</span>
+                                <span>info@instaeats.in</span>
+                            </div>
+                            <div class="info_details">
+                                <span>Report Status :</span>
+                                <span>FINAL</span>
+                            </div>
+                            <div class="info_details">
+                                <span>Address :</span>
+                                <span>N/A</span>
+                            </div>
+                            <div class="info_details">
+                                <span>Medical Condition :</span>
+                                <span>{% if object.medical_condition %}
+                                    {{object.medical_condition|join:', '}}
+                                {% endif %}</span>
+                            </div>
+                            <div class="info_details">
+                                <span>Report ID :</span>
+                                <span>{{object.sys_id}}</span>
+                            </div>
+                            <!-- <div class="info_details">
+                                <span>Lab No :</span>
+                                <span>012208220085</span>
+                            </div> -->
+
+                        </div>
+                    </div>
+                    <div class="rprt_dtl_wrap">
+                        <h1>You may have Multiple Vitamins & Mineral Deficiencies</h1>
+                        <!-- <p>Identified Deficiencies :</p> -->
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="rpt_dtlsbx">
+                                    <h2>Suspected Deficiencies &  Associated Consequences</h2>  
+
+                                        {% with object.get_deficiency_report as deficiency_report %}
+                                            {% for  deficiency in deficiency_report.deficiency_obj_list %}  
+                                                {% if forloop.counter <= 8%}
+                                                <div class="reprt_detil_info">
+                                                    <div class="reprt_name">
+                                                        <h3>{{deficiency.deficiency_name}} :</h3>
+                                                    </div>
+                                                    <div class="reprt_data">
+                                                        <h4>
+                                                            
+                                                            <strong>{{deficiency.consequences}}</strong>
+                                                        </h4>
+                                                        <!-- <p>Symptoms :({{deficiency.selected_symptoms|join:', '}})</p> -->
+                                                    </div>
+                                                </div>                                        
+                                                {% endif %}
+                                        
+                                            {% empty %}
+                                            <div class="empty_defnces"><P>That’s amazing ! it seems you have no micronutrients deficiency</P></div>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    
+                                </div>    
+                            </div>
+    
+                            <div class="col-5">
+                                <div class="reprt_img">
+                                <img src="{% static 'new_templates_assets/images/grl_img.png' %}" alt="">
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="rpt_dtlsbx bx_rptbs">
+                            {% with object.get_deficiency_report as deficiency_report %}
+                            {% for  deficiency in deficiency_report.deficiency_obj_list %}  
+                            {% if forloop.counter < 9%}
+                            <div class="reprt_detil_info rptdtlrbx">
+                                <div class="reprt_name">
+                                    <h3>{{deficiency.deficiency_name}} :</h3>
+                                </div>
+                                <div class="reprt_data">
+                                    <h4>
+                                        <strong>{{deficiency.consequences}}</strong>
+                                    </h4>
+                                    
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+                            
+                        </div> -->
+    
+                        <div class="impnote_bx text-center">
+                            <p><strong>IMPORTANT INFORMATION!</strong> This test is for informational purposes only and is not intended to be, nor should be construed as a substitute for advice, diagnosis.</p>
+                            <!-- and/or treatment from a qualified medical professional. If you have any kind of medical  condition whatsoever, or are experiencing symptoms of a medical condition, consult your doctor. -->
+                            <!-- <p><a class="imgbtn" href="{% url 'website:defficiency_report_pdf' object.pk %}"><i class="ri-file-pdf-line"></i> Download Report</a></p>                             -->
+                        </div>
+    
+                        
+    
+    
+                    </div>
+
+                    <div class="reprt_cetgry">
+                        <h3>The Micronutrients Deficiencies Behind your Health Condition</h3>
+                        <ul class="reprt_lst">
+                            {% with object.get_deficiency_report as deficiency_report %}
+                                {% for deficiency in deficiency_report.deficiency_obj_list %}
+                                    <li>
+                                        <div class="icon_ttl">
+                                            {% if deficiency.deficiency_name == 'Iron' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/iron_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Magnesium' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/magnesium_1_new.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin B1' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_b_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin B2' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_b_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin C' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_c.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Folate' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_c.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin D' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_d.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin B6' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/vitamin_d.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Zinc' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/zinc.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin A' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/VITAMIN_A.svg' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Calcium' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/calcium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Potassium' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Biotin' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin B5' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin B12' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin E' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Chromium' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Sodium' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% elif deficiency.deficiency_name == 'Vitamin K' %}
+                                            <span><img src="{% static 'new_templates_assets/images/icon/potassium_1.png' %}" alt=""></span>
+                                            {% endif %}
+                                            <h3>{{deficiency.deficiency_name}}</h3>
+                                        </div>
+                                        <div class="rpt_dts">
+                                            <p>{{deficiency.consequences}}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endwith %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- *************************** Report Header - End *************************** -->
+
+
+    <!-- *************************** Our Recommendations - Start *************************** -->
+
+    <section class="sectionour_rcmndtns section_pdng">
+        <div class="container">
+            <div class="sr_bx_n">
+                <div class="head_snd text-center">
+                    <h3><span>Our </span> Recommendations</h3>
+                </div>
+                <div class="row recmndtmnt_row">
+                    {% if recommended_product %}
+                    <div class="col-4 recmndtmnt_col list-product-card">
+                        <div class="or_bxr">
+                            <div class="media_img">
+                                <a href="{{ recommended_product.get_absolute_url}}">
+                                <img class="img-fluid" src="{{ MEDIA_URL }}{{recommended_product.primary_image.original}}" alt="">
+                                </a>
+                            </div>
+
+                            <div class="data_bx" style="display: none;">
+                                <h1><a href="/product-new/d">{{recommended_product.title}}</a></h1>
+                                <p>Fulfil your child's daily nutrition need</p>                            
+                                <div class="star_bx">                            
+                                    <span class="ctryrpt with_star" style="color:orange">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-line"></i>
+                                        <i class="ri-star-line"></i>
+                                        <i class="ri-star-line"></i>
+                                    </span>                                
+                                    <span class="cnt_vl"></span>
+                                </div>
+                                <div class="bnyftul">
+                                    <ul class="bnyftlst">
+                                        <li>{{recommended_product.product_benefit_1}}</li>
+                                        <li>{{recommended_product.product_benefit_2}}</li>
+                                    </ul>
+                                </div>                                                         
+                                {% go_to_cart_product  product=recommended_product request=request.basket.all_lines as available %} 
+                                    <div class="dt_slctor">                                 
+                                        <select class="form-control variant-select" data-line-id="{{available.line.id}}" data-cart-id="{{request.basket.id}}">
+                                            {% for child in recommended_product.variants_list %}
+                                                {% if child.title == available.basket_product %}
+                                                
+                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}} selected>{{child.title}}</option>
+                                                {% else %}
+                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="price_bx">
+                                        {% if available.basket_product %}
+                                            <h2 class="lssprs price-retail">₹{{available.line.stockrecord.price_retail}}</h2>
+                                            <h2 class="acprc selling-price">₹{{available.line.unit_price_excl_tax}}</h2>
+                                        {% else %}
+                                            <h2 class="lssprs price-retail">₹{{recommended_product.variants_list.0.stockrecords.first.price_retail}}</h2>
+                                            <h2 class="acprc selling-price">₹{{recommended_product.variants_list.0.stockrecords.first.price_excl_tax}}</h2>
+                                        {% endif %}                          
+                                    </div>   
+                                    <div class="btn_crtby">
+                                        {% if recommended_product.variants_list|length > 0 %}
+                                            {% with products=recommended_product.variants_list.0 %}
+                                                <div class="w-50 go-to-cart-btn" {% if not available.status == True %} style="display: none;" {% endif %}>
+                                                    <a class="btn btn_fill" style="background-color: #38b245; border-color: #38b245;" href="{% url 'basket:summary' %}">                                                
+                                                        Added
+                                                        <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                                    </a>
+                                                </div>
+                                                {% purchase_info_for_product request recommended_product as session %}
+                                                <div class="w-50" {% if available.status == True %} style="display: none;" {% endif %}>
+                                                    <a class="btn btn_fill popup-add-to-cart-btn" href="javascript:void(0);" data-ptitle="{{product.title}}">                                                
+                                                        Add To Cart
+                                                        <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                                    </a>
+                                                </div>  
+                                                <div class="w-50">
+                                                    <a class="btn_outline item-add-to-cart-btn" href="javascript:void(0);">Buy Now</a>
+                                                </div>
+                                            {% endwith %}
+                                        {% endif %}
+                                    </div> 
+                            </div>
+                             <h3>
+                                Recommended Nutrition
+                                <!-- {{recommended_product.title}} -->
+                            </h3>
+                            <p>
+                                {{ recommended_product.description|safe|striptags|truncatechars:80 }}
+                            </p>
+                            <div class="sr_btn">
+                                <a class="" href="{{ recommended_product.get_absolute_url}}">View Detail</a>
+                                <a class="btnbynow item-add-to-cart-btn"  href="javascript:void(0);">Buy Now</a>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-4 recmndtmnt_col">
+                        <div class="or_bxr">
+                            <div class="media_img">
+                                <img class="img-fluid" src="{% static 'new_templates_assets/images/icon/or_icon_03.svg' %}" alt="">
+                            </div>                
+                            <h3>Dietary Changes</h3>
+                            <!-- <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Do's</p> -->
+                            {% if recommended_product.diet_modification_dos|safe%}                            
+                                {{recommended_product.diet_modification_dos|safe|striptags|truncatechars:"100"}}
+                            {% else %}  
+                            <!-- N/A   -->
+
+                            {%endif %}    
+                            <!-- <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Dont's</p> -->
+                            {% if recommended_product.diet_modification_donts|safe%}
+                            <!-- {{recommended_product.diet_modification_donts|safe|striptags|truncatechars:"100"}}  -->
+                            {% else %}
+
+
+                            <!-- N/A -->
+                            {% endif %}           
+                            <div class="sr_btn">
+                                <a class="" href="javascript:void(0);">Read More...</a>
+                                <a class="btnbynow" href="{% url 'website:contact_us' %}" style="background: var(--theme-color-darker-10);">Consult Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 recmndtmnt_col">
+                        <div class="or_bxr">
+                            <div class="media_img">
+                                <img class="img-fluid" src="{% static 'new_templates_assets/images/icon/or_icon_02.svg' %}" alt="">
+                            </div>                
+                            <h3>Lifestyle Modiﬁcation</h3>
+                            <!-- <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Do's -->
+                            </p>
+                            {% if recommended_product.lifestyle_modification_dos|safe %}
+                            {{recommended_product.lifestyle_modification_dos|safe|striptags|truncatechars:"100"}}
+                            {% else %}
+                            N/A
+                            {% endif %}
+                            <!-- <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Dont's -->
+                            </p>
+                            {% if recommended_product.lifestyle_modification_donts|safe %}
+                            <!-- {{recommended_product.lifestyle_modification_donts|safe|striptags|truncatechars:"100"}} -->
+                            {% else %}
+                            N/A
+                            {% endif %}
+                            <div class="sr_btn">
+                                <a class="" href="javascript:void(0);">Read More...</a>
+                                <a class="btnbynow" href="{% url 'website:contact_us' %}" style="background: var(--theme-color-darker-10);">Consult Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- *************************** Our Recommendations - Start *************************** -->
+
+
+
+
+
+    <!-- *************************** Suggested Plan Start *************************** -->
+    
+    <section class="section_sgstd_pln_bx section_pdng">
+        <div id="suggested_plan">
+           
+            {% include 'website/new_templates/suggested_plan.html'  %}
+            
+        </div>
+    </section>
+
+    <!-- *************************** Suggested Plan End *************************** -->
+
+
+
+
+    <!-- *************************** How It Works ? Start *************************** -->
+
+    <section class="section_hiw_bx section_pdng bg_gray-light" style="display: none">
+        <div id="how_it_works">
+            {% include 'website/new_templates/how_it_works.html' %}
+        </div>
+    </section>
+
+    <!-- *************************** How It Works ? End *************************** -->
+
+
+
+
+
+    <!-- *************************** Know How Healthy Are You? Start *************************** -->
+
+    <!-- <section class="section_khhay_bx section_pdng">
+        <div class="container">
+            <div class="khhay_box">
+                <div class="khhay_data">
+                    <h3>Know How Healthy Are You?</h3>
+                </div>
+                <div class="khhay_btn">
+                    <button type="button" class="btn tt_tbn">Take Test</button>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- *************************** Know How Healthy Are You? End *************************** -->
+
+
+    <!-- *************************** We Proudly Own Our Customer's Happiness Start *************************** -->
+
+    <section class="section_wpooch_bx section_pdng">
+        <div id="wpooch">
+            {% include 'website/new_templates/wpooch.html' %}
+        </div>
+    </section>
+
+    <!-- *************************** We Proudly Own Our Customer's Happiness End *************************** -->
+
+
+
+
+
+
+    <!-- *************************** FAQ Start  *************************** -->
+    {% if product_faqs %}
+    <section class="dtl_faqsection section_pdng">
+        <div class="container">
+            <div class="faq-accordian">
+                <div class="head">
+                    <h1 class="">Faq's</h1>
+                    <!-- <h2> Let us Help You With Your Queries</h2> -->
+                </div>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    {% for faq in product_faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-heading{{faq.id}}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapse{{faq.id}}" aria-expanded="false" aria-controls="flush-collapse{{faq.id}}">
+
+                                {{faq.question|safe|striptags}}
+                                <span class="arrouw-btn"></span>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse{{faq.id}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{faq.id}}"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">{{faq.answer|safe|striptags}}
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+    <!-- *************************** FAQ End  *************************** -->
+
+
+    <section class="nswihlhc section_pdng">
+        <div class="container">
+            <div id="nswihlh_page">
+                {% include 'website/new_templates/nswihlhc.html' %}
+            </div>
+        </div>
+    </section>
+
+
+
+    {% include 'website/new_templates/components/footer.html' %}
+
+  
+	<!--<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>-->
+
+
+
+
+    <script src="{% static 'new_templates_assets/js/jquery.min.js' %}"></script>	
+	<script src="{% static 'new_templates_assets/js/custom_jquery.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/slider/jquery-migrate-1.2.1.min.js' %} "></script>
+    <script type="text/javascript" src="{% static 'new_templates_assets/slider/slick.min.js' %} "></script>
+
+
+</body>
+
+
+
+
+<script>
+
+console.log('hello')
+
+// var addToCartErrorPopup = new bootstrap.Modal(document.getElementById('adcrtmdl'), {});
+// var addToCartSuccessPopup = new bootstrap.Modal(document.getElementById('success-adcrtmdl'), {});
+// on change of variant
+$('body').on('change', '.variant-select', function(){     
+           
+    var retail_price = $(this).find('option:selected').data('retailPrice');
+    var selling_price = $(this).find('option:selected').data('sellingPrice');
+    var discount_price = $(this).find('option:selected').data('discount');
+    // var product_description = $(this).find('option:selected').data('description');
+    var product_id = $(this).val();
+    $(this).parents('.list-product-card').find('.price-retail').text(retail_price);
+    $(this).parents('.list-product-card').find('.selling-price').text(selling_price);
+    // $(this).parents('.list-product-card').find('.product_description').text(product_description);
+    // $(this).parents('.list-product-card').find('.discount-price').text(`${discount_price}% `);
+    var productId = $(this).val();
+    var cartId = $(this).data('cartId');
+    var lineId = $(this).data('lineId')
+    var currentSelect = this;
+    removeBasketProduct(lineId,cartId,productId, currentSelect);
+});
+
+removeBasketProduct = function(lineId, cartId, productId, currentSelect){
+    console.log(lineId, cartId, productId, currentSelect)
+    if(lineId){
+        var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+        $.ajax({
+            url: deleteURL,
+            type: "delete",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            success: function (response) {
+                console.log(response);
+                productAdd(productId, currentSelect);
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
+    }
+}
+
+productAdd = function(productId, current_button){
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    console.log(productId);
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {
+            console.log(response);
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            // location.reload()
+        },
+        error: function (error) {
+            console.error(error);
+        
+        },
+    });
+}
+
+$('body').on('click', '.popup-add-to-cart-btn', function(){
+   console.log("click")
+   
+   var current_button = $(this);
+   var productName = $(this).data('ptitle');
+   $(current_button).find('.cart-btn-loader').removeClass('d-none');
+   $(current_button).find('.cart-loader-remove').addClass('d-none');
+   // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+   var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+   var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+   // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+   var productApiUrl = `${location.origin}/api/products/${productId}/`;
+   var quantity = 1;
+   console.log(productApiUrl);
+   $.ajax({
+       url: addToCartApiUrl,
+       type: "post",
+       headers: {
+           'X-CSRFToken': '{{csrf_token}}'
+       },
+       data: JSON.stringify({
+           "url": productApiUrl,
+           "quantity": quantity,
+       }),
+       contentType: "application/json",
+       
+       success: function (response) {    
+                             
+           console.log(response);
+        //    var text = document.getElementById("shopping-cart-lenn").innerHTML;
+        //    console.log(text)
+        //    text = Number(text) + 1;
+        //    document.getElementById("shopping-cart-lenn").innerHTML = String(text);
+        //    $('#shopping-cart-lenn').text(String(text));
+           $(current_button).find('.cart-btn-loader').addClass('d-none');
+           $(current_button).find('.cart-loader-remove').removeClass('d-none');
+           $(current_button).hide();
+           $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+           
+           $(current_button).parents('.w-50').hide();
+           $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+       },
+       error: function (error) {
+           console.error(error);
+           $(current_button).find('.cart-btn-loader').addClass('d-none');
+           $(current_button).find('.cart-loader-remove').removeClass('d-none');
+           if(error.responseJSON && error.responseJSON.reason.url){
+               alert(error.responseJSON.reason.url);
+           }
+           else if (error.responseJSON.reason){
+               alert(error.responseJSON.reason);
+           }
+           else{
+               alert('You cannot add this product');
+           }
+       },
+   });
+});
+
+$('body').on('click', '.item-add-to-cart-btn', function(){
+    var current_button = $(this);
+    var productName = $(this).data('ptitle');
+    $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {                        
+            console.log(response);
+            location.href = `${location.origin}/basket`
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            $(current_button).hide();
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            $(current_button).parents('.w-50').hide();
+            $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});
+
+
+$('body').on('click', '.snbtn', function(){
+    var current_button = $(this);
+    
+    // var productName = $(this).data('ptitle');
+    // $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    // $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.spplan_rr').find('.prod_id').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {                        
+            console.log(response);
+            location.href = `${location.origin}/basket`
+            // $(current_button).find('.cart-btn-loader').addClass('d-none');
+            // $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            // $(current_button).hide();
+            // $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            // $(current_button).parents('.w-50').hide();
+            // $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});
+</script>
+</html>

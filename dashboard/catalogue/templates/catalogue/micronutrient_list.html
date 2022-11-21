@@ -1,0 +1,93 @@
+{% extends 'oscar/dashboard/layout.html' %}
+
+{% load i18n %}
+{% load staticfiles %}
+{% load image_tags %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Micronutrient deficiency" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <a href="{% url 'dashboard:micronutrient_create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-plus"></i> {% trans "Add New" %}</a>
+        <h1>{% trans "Micronutrient deficiency" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+
+    <div class="table-header">
+        <h2><i class="icon-file icon-large"></i>{{ queryset_heading }}</h2>
+    </div>
+
+
+    {% if object_list %}
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        
+                   
+                        <th>Heading</th>
+                        <th>Description</th>
+                        
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            
+                         
+                            <td>
+                              
+                                {{object.heading|safe|striptags}}
+
+                            </td>
+                            
+                            <td>
+                                {{object.description}}
+                            </td>
+                           
+                           
+                            
+                            <td>
+                                <form method="post" id="delete-form-{{forloop.counter}}">
+                                    {% csrf_token %}
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                                                {% trans "Actions" %}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+                                                <input type="hidden" name="image" value="{{object.id}}">
+                                                
+                                                <li><a id="edit_page_{{ object.id }}" href="{% url 'dashboard:micronutrient_update' pk=object.id %}">{% trans "Edit" %}</a></li>
+                                                <li><a id="delete_page_{{ object.id }}" role="button" onclick="document.getElementById('delete-form-{{forloop.counter}}').submit();">{% trans "Delete" %}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "oscar/dashboard/partials/pagination.html" %}
+    {% else %}
+        <table class="table table-striped table-bordered table-hover">
+            <tr><td>{% trans "No pages found." %}</td></tr>
+        </table>
+    {% endif %}
+
+{% endblock dashboard_content %}
+
+{% block extrascripts %}
+{{ block.super }}
+{% endblock %}

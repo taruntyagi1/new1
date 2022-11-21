@@ -1,0 +1,37 @@
+{% load static%}
+
+{% load image_tags%}
+
+<section class="lsnmd_section section_pdng">
+    <div class="container">
+        {% comment %} {% for obj in banner_images %} {% endcomment %}
+        <div class="row lsnmdbx">
+            <div class="align-items-center col-6 d-flex">
+                <div class="media_datab">
+                    <h3>
+
+                        <span>{{section_object.title}}</span>
+                        
+                    </h3>
+                    <!-- <p>Hidden hunger affects more than 2 billion individuals, nearly 30% of the global population? In India, over 80% of adolescents suffer from hidden hunger, according to UNICEF's 2019 report.</p> -->                        
+
+                    <p> {{section_object.description}} </p>
+                    <p>From developing advanced science-backed research to cultivating 100% natural ingredients, our team has created the first ever scientifically proven superfood mixes that actually works.</p>                        
+                    <!-- <p>The vision is to defeat micronutrient deficiency by spreading awareness , Assessment of your body's requirements at the micronutrient level through our AI bot and fulfilling nutrition needs through superfoods and nutrition coaching is what we strive for and do the best for your health. Join in our efforts to enhance your daily well-being.</p>                             -->
+                    
+                    <p><a class="abt_rm" data-bs-toggle="modal" data-bs-target="#abt_mdl_more" href="javascript:void(0);">Read More</a></p>
+                </div>                    
+            </div>
+            <div class="col-6">
+                <div class="media-img">
+                    <h3>
+                        <span>Lets Say NO to</span>
+                        Micronutrient deficiency
+                    </h3>
+                    <img class="img-fluid" src="{{ MEDIA_URL }}{{ section_object.image }}" alt="">
+                </div>                    
+            </div>                
+        </div>
+        {% comment %} {% endfor %} {% endcomment %}
+    </div>
+</section>

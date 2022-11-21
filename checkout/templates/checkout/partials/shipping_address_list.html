@@ -1,0 +1,44 @@
+{% if addresses %}
+
+<!-- <h3 class="adbttlb">Address</h3> -->
+                                
+{% for address in addresses %}
+ 
+<div class="select_addres address_list">
+    <div class="">
+        <div class="addres_check">
+            <label class="adrschcntr">
+                <span>{{address.first_name}}&nbsp{{address.last_name}}</b></span>  
+                ({{address.phone_number}})
+                <input type="radio" name="address" id="address_{{address.id}}" value="{{address.id}}">
+                <span class="adrschkmrk"></span>
+            </label>                                           
+            <div class="edit_btn">
+                <a href="javascript:void(0);" class="btn_edit edit-user-address"  data-address="{{address.id}}" id="address-{{address.id}}">Edit</a>
+            </div>
+        </div>
+
+        <div class="addres1">
+            <span>{{ address.line1}}, {{address.state}}, {{address.city}}, {{address.country}}, {{address.postcode}}, {% if address.alternate_mobile_number %}{{address.alternate_mobile_number}}{%endif%}</span>
+        </div>
+
+        
+        <div class="dilver_btn" >
+            <a href="javascript:void(0);" id="dadrs-{{address.id}}" data-adders="{{address.id}}" class="deliver_address_btn">
+                Proceed
+                <!-- Deliver Here -->
+            </a>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{%endfor%}
+{%endif%}
+
+<div class="smallloader">
+    <span class="smldrbx" style="border-top-color: transparent;"></span>
+</div>

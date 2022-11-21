@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="ft_sml">
+            <img src="{%static 'website/images/ftr_logo.png' %}" alt="">
+            <h3>India's First Personalised & Most Healthiest Superfood Mix for daily nutrition and wellness.</h3>
+            <div class="social_media_links">
+                <a target="_blank" href="https://www.facebook.com/instaeatsindia"><img src="{%static 'website/images/ig_fb.png' %}" alt=""></a>
+                <a target="_blank" href="https://g.co/kgs/qH7Z2r"><img src="{%static 'website/images/ic_g.png' %}" alt=""></a>
+                <a target="_blank" href="https://twitter.com/InstaeatsI"><img src="{%static 'website/images/ic_t.png' %}" alt=""></a>
+                <a target="_blank" href="https://www.instagram.com/instaeatsindia/"><img src="{%static 'website/images/ic_i.png' %}" alt=""></a>
+                <a target="_blank" href="https://www.linkedin.com/in/instaeats-india-a26323243/"><img src="{%static 'website/images/ic_l.png' %}" alt=""></a>
+            </div>
+        </div>
+        <div class="ft_rpt">
+            <h3>Quick link</h3>
+            <ul class="ft_ql_lst">
+                <li><a href="{{homepage_url}}">Home</a></li>
+                <li><a href="{% url 'website:about_us' %}">About Us</a></li>
+                <li><a href="{{homepage_url}}">Shop</a></li>
+                <li><a href="{% url 'website:faq' %}">FAQs</a></li>
+                <li><a href="{% url 'website:contact_us' %}">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="ft_rpt">
+            <h3>More link</h3>
+            <ul class="ft_ql_lst">
+                <li><a target="_blank" href="{% url 'website:shipping_policy' %}">Shipping Policy</a></li>
+                <li><a target="_blank" href="{% url 'website:privacy_policy' %}">Privacy Policy</a></li>
+                <li><a target="_blank" href="{% url 'website:return_policy' %}">Returns & Refund Policy</a></li>
+                <li><a target="_blank" href="{% url 'website:terms_of_use' %}">Terms Of Service</a></li>                  
+            </ul>
+        </div>
+        <div class="ft_rpt">
+            <h3>Contact Us</h3>
+            <p><span>Call :</span>+91-8800945109</p>
+            <p><span>Email :</span>info@instaeats.in</p>
+            <p><span>Address :</span>Urban Nutrition Pvt Ltd Building No. 1505, 2nd Floor Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi 110003 INDIA</p>
+        </div>
+    </div>
+    <div class="ft_btm_bx">
+        <p>©  2022 Instaeats.  All rights reserved. </p>
+    </div>
+</footer>
+
+
+
+

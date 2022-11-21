@@ -1,0 +1,209 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+{% block customheadend %}
+<!--<link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+{% endblock %}
+{% block page-content %}
+
+<body>
+
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="brdcmbx">
+                <div class="brd-d">
+                    <h3>Health Store</h3>
+                    <ul class="br_submenu">
+                        <li><a href="javascript:void(0);">Home</a></li>                            
+                        <li>Contact us</li>
+                    </ul>
+                </div>
+                <div class="brd_dea">
+                    <img src="{ static 'website/images/lstbnrimg.png' %}" alt="">
+                </div>                    
+            </div>
+        </div>
+    </section>
+<!-- Get in touch-->
+
+<section class="section section-xl bg-default text-md-left">
+    <div class="container">
+
+        <div class="row gitchbx">
+            <div class="col-6 mb_vd-d-none">
+
+                <div class="cntimgmeda">
+                    <div>
+                        <div class="media_i">
+                            <img data-src="{% static 'website/images/ic_fp_grls.png' %}" class="img-fluid lazy">                        
+                        </div>
+                        <h3>Get Your Customized Superfood Mix Recommended by Certified Dietitians</h3>
+                        <!-- <img class="img-fluid" src="{% static 'website/images/img_lgnpstr.png' %}" alt=""> -->
+                    </div>
+                </div>
+
+
+
+                
+            </div>
+            <div class="col-6">
+                <div class="get-in-form-box">
+                    <div class="title-classic">
+                        <h3 class="title-classic-title">Book Consultation</h3>
+                        <p class="title-classic-subtitle">We are available 7 days from 10am to 7pm via e-mail, WhatsApp or by phone.
+                            You can also use our quick contact form to ask a question about our products.</p>
+                    </div>
+                    <form id="contact_us_form" class="rd-form git_frm form" data-form-output="form-output-global" data-form-type="contact" method="post">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            {% for err in form.non_field_errors %}
+                            <div class="form-text text-danger">
+                                {{ err }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% for field in form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
+
+
+
+                        <div class="mb_wdth50">
+
+                            <div class="frmitmbx">
+                                <div class="form-item">
+                                    {{ form.first_name }}
+                                    <label class="ttl_nm" for="id_first_name">First Name</label>
+
+                                    {% if form.first_name.help_text %}
+                                    <small class="form-text text-muted">{{ form.first_name.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.first_name.errors %}
+                                        <small class="form-text text-danger">{{ form.first_name.errors }}</small>
+                                    {%else%}
+                                    {% endif %}
+                                    <!-- <input type="text" id="id_name" class="form-control" name="first_name" autocomplete="off" value=" " placeholder=" " required=""> -->
+                                    
+                                </div>
+                            </div>
+
+                            <div class="frmitmbx">
+                                <div class="form-item">
+                                    {{ form.last_name }}
+                                    <label class="ttl_nm" for="id_last_name">Last  Name</label>
+                                    {% if form.last_name.help_text %}
+                                    <small class="form-text text-muted">{{ form.last_name.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if form.last_name.errors %}
+                                        <small class="form-text text-danger">{{ form.last_name.errors }}</small>
+                                    {% endif %}                                </div>
+                            </div>
+                          
+                        </div>
+
+                        <div class="frmitmbx">
+                            <div class="form-item">
+                                {{ form.email }}
+                                <label class="ttl_nm" for="id_email">Please Enter Email id</label>
+                                {% if form.email.help_text %}
+                                    <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
+                                {% endif %}
+                                {% if form.email.errors %}
+                                    <small class="form-text text-danger">{{ form.email.errors }}</small>
+                                {% endif %}                               </div>
+                        </div>
+
+                        <div class="frmitmbx">
+                            <div class="form-item">
+                                {{ form.phone }}
+                                <label class="ttl_nm" for="id_phone">Please Enter Phone Number</label>
+                                {% if form.phone.help_text %}
+                                <small class="form-text text-muted">{{ form.phone.help_text|safe }}</small>
+                                {% endif %}
+                                {% if form.phone.errors %}
+                                    <small class="form-text text-danger">{{ form.phone.errors }}</small>
+                                {% endif %}                             </div>
+                        </div>
+
+                        <div class="frmitmbx">
+                            <div class="form-item">
+                                {{form.message}}
+                                <label class="ttl_nm" for="id_message">Please Enter Message</label>
+                                <span class="form-validation"></span>
+                                {% if form.message.help_text %}
+                                <small class="form-text text-muted">{{ form.message.help_text|safe }}</small>
+                                {% endif %}
+                                {% if form.message.errors %}
+                                <small class="form-text text-danger">{{ form.message.errors }}</small>
+                                {% endif %}                          </div>
+                        </div>
+
+
+
+
+
+                        
+                                        
+                     
+                
+                     
+                            
+                            <div class="get-btn">
+                                    <button class="button button-lg button-primary" type="submit">Book Now</button>
+                            </div>        
+                    </form>            
+            </div>
+            </div>
+            
+        </div>
+      
+
+    </div>
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                $('#contact_us_form').html(`
+                    <div class="show row text-center" role="alert">
+                        <div class="col-12  my-5">
+                            <h4 class="text-capitalize">Thank You for showing your Interest. Our team will get back to you soon.</h3>
+                        </div>
+                    </div>
+                `);
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed');
+        ShowLoader()
+    }); 
+    
+    
+    $(window).on("load", function () {      
+        HideLoader()
+    })
+    
+        $(document).ready(function(){
+            $("header").removeClass("header-creative-wrap");
+            $("header").removeClass("context-dark");
+        });
+
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="preloader">
+    <div class="preloader-body">
+        <div class="cssload-bell">
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "partials/messages.html" %}
+<div class="page">
+    {% include "components/header.html" %}
+
+    {% block page-content %}
+
+
+    {% endblock page-content %}
+
+    {% include "components/footer.html" %}
+</div>
+{% endblock content %}

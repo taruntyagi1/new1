@@ -1,0 +1,87 @@
+{% extends "website/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+{% include 'website/new_templates/components/inner_header.html' %}
+
+
+    <div class="loaderbx" id="preloader">
+        <div class="loader">
+            <div class="ldrmbx">
+                <span class="ldrbx" style="border-top-color: transparent;"></span>
+            </div>
+            <!-- <img src="{% static 'website/images/logo.png' %}"> -->
+        </div>
+    </div>
+    <div class="main_loader d-none" >
+        <div class="v-align">           
+            <div class="loader">
+              <aside class="loader__box loader--left">
+                <span class="loader__circle"><img src="{% static 'new_templates_assets/images/white_logo_withbg.png' %}" alt=""></span>
+              </aside>
+              <aside class="loader__box loader--right">
+                <span class="loader__circle"><img src="{% static 'new_templates_assets/images/black_logo_withbg.png' %}" alt=""></span>
+              </aside>
+            </div> 
+            <div class="tttxtbx">
+                Loading
+            </div>           
+          </div>
+    </div>
+    {% block alert-messages %}
+    {% comment %}
+        {% include "partials/messages.html" %}
+      
+    {% endcomment %}
+
+    <!-- {% if messages %}
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content alert-message-modal">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="popup-message-text">
+                        {% for message in messages %}
+                        {% if 'safe' in message.tags %}
+                        
+                            {{ message|safe }}
+                        
+                        {% else %}
+
+                            {{ message }}
+
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content alert-message-modal">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="popup-message-text">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}     -->
+    {% endblock %}
+
+    {% block page-content %}
+
+
+    {% endblock page-content %}
+
+{% include 'website/new_templates/components/footer.html' %}
+
+{%endblock%}

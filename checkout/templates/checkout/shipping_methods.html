@@ -1,0 +1,90 @@
+{% extends "frame.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load image_tags %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+{% load shipping_tags %}
+
+{% block page-content %}
+
+<!--+breadcrumbs-->
+<section class="breadcrumbs-custom">
+    <div class="parallax-container" data-parallax-img="{% static 'images/120687531-various-nuts-in-bowls-on-white-background-top-view-banner-nuts-assortment-pecans-hazelnuts-walnuts-p.jpg'%}">
+        <div class="breadcrumbs-custom-body parallax-content context-dark">
+        <div class="container">
+            <h2 class="text-transform-capitalize breadcrumbs-custom-title">Shipping Method</h2>
+            <h5 class="breadcrumbs-custom-text">Nutritive food solutions for health, lifestyle and disease management.</h5>
+        </div>
+        </div>
+    </div>
+    <div class="breadcrumbs-custom-footer">
+        <div class="container">
+        <ul class="breadcrumbs-custom-path">
+            <li><a href="{{homepage_url}}">Home</a></li>
+            <li class="active">Shipping Method</li>
+        </ul>
+        </div>
+    </div>
+</section>
+
+<section id="basket-page" class="my-5 card-header">
+    <div class="basket-title">
+        <div class="container-fluid">
+            <div class="row">
+                <h5 class="col-md-7 col-6">Method</h5>
+                <h5 class="col-md-2 col-1">Cost</h5>
+                <h5 class="col-md-3 col-5"></h5>
+            </div>
+        </div>
+    </div>
+    {% for method in methods %}
+        <div class="basket-items">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-7 col-6">
+                        <h6>{{ method.name }}</h6>
+                        {% if method.description %}
+                            <p>{{ method.description|safe }}</p>
+                        {% endif %}
+                        {% if method.is_discounted %}
+                            <small>
+                                {% shipping_charge_discount method basket as discount %}
+                                {% blocktrans with amount=discount|currency:basket.currency name=method.discount_name %}
+                                    This includes a discount of <strong>{{ amount }}</strong> as
+                                    your basket qualifies for the <strong>{{ name }}</strong> offer.
+                                {% endblocktrans %}
+                            </small>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2 col-1 px-0">
+                        {% shipping_charge method basket as charge %}
+                        {% if charge.is_tax_known %}
+                            {{ charge.incl_tax|currency:basket.currency }}
+                        {% else %}
+                            {{ charge.excl_tax|currency:basket.currency }}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3 col-5 pr-0">
+                        <form method="post" action="{% url 'checkout:shipping-method' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="method_code" value="{{ method.code }}" />
+                            <button type="submit" class="btn btn-lg btn-primary shiping-method-choose-btn" data-loading-text="{% trans 'Submitting...' %}">{% trans "Select option" %}</button>
+                        </form>
+                    </div>    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+{% endblock %}

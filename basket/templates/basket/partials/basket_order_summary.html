@@ -1,0 +1,112 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+{% load arithmatic_ope %}
+{% load order_amount %}
+
+<h3 class="crt_ttl">Order Summary</h3>
+
+<p>
+    <span>Price <a href="javascript:void(0);" style="color:gray">({{request.basket.all_lines|length}} items)</a></span>
+    
+    <span>&#8377;{{ basket.total_incl_tax_excl_discounts }}</span>                                    
+</p>
+
+<p>
+    <span>Shipping Charges</span>
+    <span style="color: #388e3c;">Free</span>
+    <!-- <span class="text-start">Calculated at the next step</span> -->
+</p>
+<p>
+    <span>Discount</span>
+
+    {% order_amount total_amount=basket.total_incl_tax_excl_discounts|subtract:order_total.incl_tax as available %} 
+    <span style="color: #388e3c;"> &#8377;{{available}}</span>                                   
+</p>    
+
+
+
+{% if voucher_form %} 
+
+    <div class="crt_dtls prmcodebx"> 
+    
+        {%if not request.basket.vouchers.all%}
+    
+            <form class="rd-form rd-mailform rd-form-inline rd-form-coupon" action="{% url 'basket:vouchers-add' %}" method="post" id="voucher_form">                                         
+                {% csrf_token %}
+            
+                <div id="probtnlnk" class="">
+                    <label for="" class="aplyclck"><i class="ri-coupon-3-fill"></i> Do You Have A Promo Code?</label>
+                    <a class="aplyclck" href="javascript:void(0);">Apply</a>
+                </div>      
+            
+                <div class="form-group" id="procodebx">                                    
+                    <div class="aplycpnbx">
+                        <input type="text" placeholder="Enter Promo Code" name="code" id="id_code" class="form-control">
+                        <a class="cpnaplyed voucher_form_submit"  href="javascript:void(0);">Apply</a>
+                    </div>
+                </div>
+            
+            
+            </form> 
+        {%else%}
+            <div id="prmocrdaplyd" >
+                <div class="appliedcpnbx">
+            
+                
+                    <div>{{request.basket.vouchers.first.code}}</div>
+                    <div>
+                        <form action="{% url 'basket:vouchers-remove' pk=request.basket.vouchers.first.id %}" method="POST" id="voucher_delete_btn">
+                            {% csrf_token %}
+                            <a class="resetclk voucher_remove" data-code="{{request.basket.vouchers.first.code}}" href="javascript:void(0);">Remove</a>
+                        </form>
+                    </div>
+                
+                 </div>
+            </div>
+        
+        {%endif%}
+
+
+        {% if messages %}
+            <div class=""  id="adcrtmdl">
+                {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                    {{ message|safe }}
+                {% else %}
+                    {{ message }}
+                {% endif %}
+
+                {% endfor %}
+            </div>
+        {% else %}
+        {%endif%}
+
+    </div>
+
+{% endif %}
+
+<div class="crt_dtls ordrsmry">
+{% order_amount total_amount=order_total.incl_tax as available %} 
+<div class="crt_amnt">
+    <span>Total Amount</span>
+    {% if order_total.is_tax_known %}
+        {%if available %}
+        <span>&#8377;{{ available }}</span>
+        {%endif%}
+    {% else %}
+        <span>&#8377;{{ order_total.excl_tax }}</span>
+    {% endif %}
+    
+</div>
+
+<div class="butbx">                
+    <!-- <a class="btn_outline_green" href="{{homepage_url}}">Continue Shopping</a> -->
+    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+</div> 

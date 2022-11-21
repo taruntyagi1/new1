@@ -1,0 +1,78 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>instaeats</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <link rel="stylesheet" href="{% static 'website/css/remixicon.css' %}">
+        <link rel="stylesheet" href="{% static 'website/css/stylesheet.css' %}">
+        <link rel="stylesheet" href="{% static 'website/css/responsive.css' %}">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"/> 
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>  -->
+</head>
+<body>
+    <header>
+    <div class="carthead">
+        <div class="container">
+            <div class="cart_logo">
+            <div class="logo">
+                <a href="javascript:void(0);" class="navbar-brand">
+                    <img src="{% static 'website/images/logo.png' %}">
+                </a>
+            </div>
+            <div class="cart_log_btn">
+                <a href="{% url 'customer:login' %}" class="login_btn"><i class="ri-user-3-line"></i>Login</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</header>
+
+<section class="breadcrumb cart-breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d p-4">
+               
+                <ul class="br_submenu">
+                    
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+    
+<section class="er_p_wrapper">
+<div class="e404_content text-center">
+<img src="{% static 'website/images/404.png' %}">
+<h3>PAGE NOT FOUND</h3>
+<p>We're Sorry, the page you requested could not be found<br>Please go back to the homepage</p>
+<a href="{%url 'website:homepage'%}" class="btn er_p">Go Home</a>
+</div>
+</section>
+
+    
+
+    
+    <script src="{% static 'website/js/jquery.min.js' %}"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        
+    
+    <script>
+        $(window).scroll(function() {    
+            var scroll = $(window).scrollTop();
+            if (scroll >= 50) {                
+                $(".header").addClass("top-fixed");
+            } else {                
+                $(".header").removeClass("top-fixed");
+            }
+        });
+    </script>
+</body>
+</html>

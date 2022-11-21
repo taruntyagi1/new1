@@ -1,0 +1,121 @@
+{% extends "website/frame.html" %}
+{% load i18n %}
+
+{% block page-content %}
+
+<section class="breadcrumb-list mt-100">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0">
+                <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                <li class="breadcrumb-item active">Shipping Address</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% block checkout_nav %}
+                    {% include 'checkout/nav.html' with step=1 %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-5 mx-auto shipping-address-form">
+                {% block shipping_address %}
+                <div class="">
+                    <div class="sub-header">
+                        <h2>{% trans "Where should we ship to?" %}</h2>
+                    </div>
+                    {% if user.is_authenticated %}
+                        {% if addresses %}
+                            <h3>{% trans "An address from your address book?" %}</h3>
+                            <div class="choose-block">
+                                <div class="row">
+                                    {% for address in addresses %}
+                                        {% block select_address_form %}
+                                            <div class="">
+                                                <div class="well">
+                                                    <address>
+                                                        {% block select_address_fields %}
+                                                            {% for field in address.active_address_fields %}
+                                                                <span>{{ field }}</span>{% if not forloop.first %}<br/>{% endif %}
+                                                            {% endfor %}
+                                                        {% endblock %}
+                                                    </address>
+                                                    <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="action" value="ship_to" />
+                                                        <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                                        {% if address.is_default_for_shipping %}
+                                                            <button type="submit" class="btn btn-success btn-large ship-address" data-loading-text="{% trans 'Saving...' %}"><i class="icon-ok"></i> {% trans "Ship to your default shipping address" %}</button>
+                                                        {% else %}
+                                                            <button type="submit" class="btn btn-primary btn-large ship-address" data-loading-text="{% trans 'Saving...' %}">{% trans "Ship to this address" %}</button>
+                                                        {% endif %}
+
+                                                        <div class="btn-group address-controls">
+                                                            <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm">{% trans "Edit address" %}</a>
+                                                            <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="{% url 'checkout:user-address-delete' pk=address.id %}" class="btn-remove-address">{% trans "Delete" %}</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            {% if forloop.counter|divisibleby:2 %}
+                                                </div><div class="row">
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <h3>{% trans "Or a new address?" %}</h3>
+                        {% endif %}
+                    {% endif %}
+
+                    {% block new_address_form %}
+                        <div class="well">
+                            <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
+                                {% csrf_token %}
+                                {% include "oscar/partials/form_fields.html" with form=form style='horizontal' %}
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="btn btn-lg btn-primary" data-loading-text="{% trans 'Continuing...' %}">{% trans "Continue" %}</button>
+                                        {% trans "or" %} <a href="{% url 'basket:summary' %}">{% trans "return to basket" %}</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    {% endblock %}
+                </div>
+                {% endblock shipping_address %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+    // js for fix navbar at the top
+        $('.header').addClass('scrolled');
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+        $( ".scrolledMenu" ).show();
+        $( ".headerMenu" ).hide();
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+
+        $('.form-group div').removeClass('col-sm-7');
+        $('#id_notes').attr('rows','4');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "frame.html" %}
+{% load staticfiles %}
+{% load purchase_info_tags %}
+{% load currency_filters %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block page-content %}
+<section class="breadcrumb-list mt-100">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0">
+                <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'catalogue:site_latest_product' %}" class="color-primary">Search "{{ query }}"</a></li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="product-list-section border-bottom border-theme-primary py-lg-5 py-md-5 py-3">
+    <div class="container">
+        {% if page.object_list %}
+        <div class="row">
+            <div class="col">
+                <p>
+                    {% blocktrans with q=query %}
+                        Products matching "{{ q }}"
+                    {% endblocktrans %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-12">
+                <div class="container-fluid">
+                    {% if page.object_list %}
+                    <div class="row align-items-center justify-content-start">
+                        {% for result in page.object_list %}
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="pro-list-block mb-4">
+                                <div class="tertiary-bg-color round-corner p-2">
+									<div class="pro-img">
+                                        <a href="{{ result.object.get_absolute_url}} ">
+                                            <span class="pro-likes"><i class="fas fa-heart fa-2x mr-1"></i></span>
+                                            <img src="{{MEDIA_URL}}{{result.object.primary_image.original}}" alt="{{result.object.get_title}}">
+                                        </a>
+									</div>
+									<div class="text">
+										<div class="latest-bag-detail text-center">
+											<p class="py-1 m-0"><a class="prod-name" href="{{ result.object.get_absolute_url }}" title="{{ result.object.get_title }}">{{ result.object.get_title|truncatewords:4 }}</a></p>
+                                            <!-- price of product  -->
+                                            {% if result.object.stockrecords.first.price_excl_tax %}
+                                            <div class="row align-items-center">
+                                                <div class="mx-auto">
+                                                    <h5 class="price_color text-center">
+                                                        <span><strong>Rs. {{ result.object.stockrecords.first.price_excl_tax }}</strong></span>
+                                                        {% if result.object.stockrecords.first.price_retail %}
+                                                        <span class="overline">Rs. {{ result.object.stockrecords.first.price_retail }}</span>
+                                                        {% endif %}
+                                                        {% if result.object.stockrecords.first.get_percentage_discount %}
+                                                        <br>
+                                                        <span class="text-danger">({{ result.object.stockrecords.first.get_percentage_discount }} % OFF)</span>
+                                                        {% endif %}
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+										</div>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <p class="nonefound">{% trans "No products found." %}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if paginator.num_pages > 1 %}
+    <section class="text-right">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="page-item">
+                    {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
+                    <a class="page-link" href="#">Page {{ page_num }} of {{ total_pages }}</a>
+                    {% endblocktrans %}
+                </li>
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </section>
+    {% endif %}
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+	<script>
+        $(document).ready(function(){
+        // js for fix navbar at the top
+            $('.header').addClass('scrolled');
+			$( ".hamburger" ).hide();
+			$( ".cross" ).hide();
+			$( ".scrolledMenu" ).show();
+			$( ".headerMenu" ).hide();
+			$( ".hamburger" ).hide();
+			$( ".cross" ).hide();
+			location.pathname == '/catalogue/product/' ? $('#active-item').addClass('active-category') : $('#active-item').removeClass('active-category');
+        });
+	</script>
+{% endblock %}

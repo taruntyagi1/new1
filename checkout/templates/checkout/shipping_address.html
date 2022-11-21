@@ -1,0 +1,2238 @@
+{% extends "website/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+{% load order_amount %}
+{% load arithmatic_ope %}
+{% block customheadend %}
+<style>
+
+    body{background: #f1f3f6;}
+
+    @media (max-width: 980px) {
+        header.header{display: none;}
+        .cart_head{box-shadow: none; margin: 0px;}
+        /* body{background: #fff;}  */
+        .whatsappbtn{display: none;} 
+        .scrollup{display: none !important;}   
+        {% if request.user.is_authenticated %}    
+            .cart-login_details{display: none;} 
+            /* .select_addres{display: none;}  */
+        {%endif%}
+    }
+    
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+    /* header.header{display: none !important;}
+    #navbarCollapse{display: none !important;} 
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;} */
+    
+  
+</style>
+{% endblock %}
+{% block page-content %}
+
+
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Payment</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>
+                    <li><a href="{%url 'basket:summary'%}">Cart</a></li>        
+                    <li><a href="javascript:void(0);">Shipping</a></li>
+                   
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+<section class="cart_section checkout-section">
+    <div class="container">
+        <div class="">
+
+            <div id="mbadrshead">
+                <div class="cart_head">                                
+                    <h3 class="crth_ttl">
+                        <a href="javascript:void(0);" onclick="history.back()">
+                            <!-- <span><i class="ri-arrow-left-line"></i></span> -->
+                            <span><img src="{% static 'website/images/bckarwn.svg' %}" alt=""></span>
+                        </a>
+                        Order Summary
+                    </h3>                                
+                </div>
+                <div class="top_stepsbx">
+                    <ul class="tpstp_li">
+                      
+                        <li {%if not request.user.is_authenticated %}style="display:block;" class="active"{%else%}style="display:none;"{%endif%}>
+                            <span>1</span>
+                            <span>Login</span>
+                        </li>                    
+                        <li class="active" {%if not request.user.is_authenticated %}style="display:none;"{%else%}class="actchexked"style="display:block;"{%endif%}>
+                            <span style="background: #dbffdf; color: #38b245; font-size: 16px;"><i class="ri-check-line"></i></span>
+                            <span>Login</span>
+                        </li>
+
+
+                        <li  {% if user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%}>
+                            <span>2</span>
+                            <span>Address</span>
+                        </li>
+                        <li class="active address-actve" {% if user.is_authenticated %}style="display:block;"{%else%}style="display:none;"{%endif%}>
+                            <span>2</span>
+                            <span>Address</span>
+                        </li>
+
+                        <li class="active" {% if not addresses %}style="display:none;"{%else%}style="display:none;"{%endif%}>
+                            <span>3</span>
+                            <span>Order</span>
+                        </li>
+                        <li class="order-actve">
+                            <span>3</span>
+                            <span>Order</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="crt_box ordersmrybx">
+                <div class="crt_item">
+                    <div class="cart_details mbcrtgtlpage wrap-reverse">
+                        <div class="cart-login_details " id="lgnbx_n">
+                            <a href="javascript:void(0);" class="login-tab_btn active" {% if user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%}>
+                                <div class="login_tab">
+                                    <div class="cart_info_login">
+                                        <span>1</span>
+                                        <span>Login</span>                                                
+                                    </div>    
+                                </div>    
+                            </a>
+                            <div class="logout_detail" style="display: none">                                            
+                                <div class="row">
+                                    <div class="col-6 m_w-100">
+
+                                        <div class="cartform">
+                                            
+
+                                            <div class="nlgnfrmbx">
+                                                <p>
+                                                    <span>Name : </span>
+                                                    <span id="set-mobile-number">{{request.user.get_full_name}}</span>
+                                                </p>
+                                                <p>
+                                                    <span>Phone : </span>
+                                                    <span id="set-mobile-number">{{request.user.mobile_number}}</span>
+                                                </p>
+                                                <p><a class="store-logout-key" href="javascript:void(0);">Logout & Sign in to another Account</a></p>                                                
+                                                <div class="cart-btn">
+                                                    <a href="javascript:void(0);" class="cart_form_btn continue_checkout_button">Continue Checkout</a>
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mview_bx">
+                                        <div class="secure_login">
+                                            <h5>Advantages of our secure login</h5>
+                                            <ul class="advan">
+                                                <li><i class="ri-truck-fill"></i>Easily Track Orders,Hassle free Returns</li>
+                                                <li><i class="ri-notification-3-fill"></i>Get Relevant Alerts and Recommendations </li>
+                                                <li><i class="ri-star-s-fill"></i>Whistlist,Reviews,Ratings and more</li>
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="login_info" {%if not request.user.is_authenticated %}style="display:block;"{%else%}style="display:none;"{%endif%}>                                
+                                <div class="row" >
+                                    <div class="col-6">
+
+                                        <div class="cartform">
+                                            
+                                            <form id="login_form" method="post" class="well login-form" autocomplete="off">
+
+
+                                                <div class="form-group mobile-number-entered field numbrbx">                                                    
+                                                    <div class="mobile_number_seprater" style="padding-right: 0px; line-height: 30px; font-size: 15px;">
+                                                        <span style="padding-right: 5px; border-right: 1px solid #c2c2c2;">+91</span>
+                                                        <span style="color:grey;opacity: 0;">|</span>
+                                                    </div>
+                                                   <input type="text" class="form-control field-control" style="padding-left: 38px;" name="login-username" id="id_login-username" maxlength="10" placeholder=" " oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                               
+                                                   <label for="id_login-username">Enter Mobile Number</label>
+                                                   
+                                                    <div class="cus-border"></div>
+                                                    <div class="change mobile-number-enable" style="display: none"><a href="javascript:void(0);">Change?</a></div>                                                    
+                                                </div>
+                       
+
+                                                <!-- <div class="form-group field" id="bx_first_name" style="display: none;">
+                                                    <input type="text" class="form-control field-control name-input" id="id_first_name" name="first_name" placeholder=" ">
+                                                    <label for="id_first_name">Enter First Name</label>
+                                                    <div class="cus-border"></div>
+                                                </div>
+                                                <small class="form-text text-danger lgn_err" id="custom_f_name_error"></small>                                  
+
+                                                <div class="form-group field" id="bx_email" style="display: none;">
+                                                    <input type="email" class="form-control field-control email-input" name="email" id="id_email" placeholder=" ">
+                                                    <label for="id_email">Enter Email ID</label>
+                                                    <div class="cus-border"></div>
+                                                </div> -->
+                                                <div class="form-group field" id="bx_email_otp" style="display: none;">
+                                                    <input type="text" class="form-control field-control otp-input" maxlength="6" name="email_otp" placeholder=" " id="id_email_otp" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                                    <label for="id_email_otp">Enter OTP</label>
+                                                    <div class="cus-border"></div>
+                                                    <a class="resentotp" id="resent-otp-btn" href="javascript:void(0);">Resend</a>                                                  
+                                                </div> 
+                                                <small class="form-text text-danger lgn_err" id="custom_error" style="color:red"></small>
+                                                <small class="form-text text-danger lgn_err" id="custom_otp_error" style="color:red"></small>    
+                                                <small class="form-text text-danger lgn_err" id="custom_register_error" style="color:red"></small>                                  
+                                     
+                                                <p>By continuing, you agree to Instaeats <a href="{%url 'website:privacy_policy'%}"> Terms of Use</a> and <a href="{%url 'website:privacy_policy'%}">Privacy Policy</a></p>
+                                                
+                                                <div class="cart-btn newlogin">
+                                                    <a href="javascript:void(0);" class="cart_form_btn mobile_number_submit">Continue</a>
+                                                    
+                                                    <a href="javascript:void(0);" class="cart_form_btn login_submit" style="display: none;">Continue</a>
+                                                    <a href="javascript:void(0);" class="cart_form_btn register_submit" style="display: none;">Continue</a>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="secure_login">
+                                            <h5>Advantages of our secure login</h5>
+                                            <ul class="advan">
+                                                <li><i class="ri-truck-fill"></i>Easily Track Orders,Hassle free Returns</li>
+                                                <li><i class="ri-notification-3-fill"></i>Get Relevant Alerts and Recommendations </li>
+                                                <li><i class="ri-star-s-fill"></i>Whistlist,Reviews,Ratings and more</li>
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- {%if not request.user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%} -->
+                            
+                            <div class="cart-login-detail-hide" {%if not request.user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%}>
+                                <div class="login_tab p-3 visited">
+                                    <div class="align-items-center d-flex justify-content-between">
+                                        <div>
+                                            <div class="cart_info_login">
+                                                <span>1</span>
+                                                <span>Login<i class="ri-check-line"></i></span>
+                                            </div>
+                                            <div class="custm_name">
+                                                <span><b>{{request.user.get_full_name|default:''}}</b> {{request.user.mobile_number|default:''}}</span>    
+                                            </div>
+                                        </div>                                        
+                                        <div class="login_info_change">
+                                            <a href="javascript:void(0);" class="info_change change_information">Change?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        
+                      
+
+                        <div class="cart_adress_details" {% if user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%}>
+                            <a href="javascript:void(0);" class="login-tab_btn">
+                                <div class="login_tab">
+                                    <div class="cart_info_login">
+                                        <span>2</span>
+                                        <span>Delivery Address</span>                                                
+                                    </div>
+                                </div> 
+                            </a> 
+                        </div>
+                       
+                        <div id="da_bx" class="cart_adress_details_box" {% if user.is_authenticated %}style="display:block;"{%else%}style="display:none;"{%endif%}>
+                            <a href="javascript:void(0);" class="login-tab_btn active">
+                                <div class="login_tab">
+                                    <div class="cart_info_login">
+                                        <span>2</span>
+                                        <span>Delivery Address</span>                                                
+                                    </div>
+                                </div> 
+                            </a>
+                            
+                            <div class="confirm_addres d-none" id="editfrm">                                
+                            </div>    
+                        </div>
+                      
+                        
+                        {% if request.user.is_authenticated %}
+                             
+
+                        <div id="newfrm_bx" class="new_adres_form" {% if addresses %} style="display: none;"{%endif%}>
+                            <!-- {% if not addresses %}style="display:none;"{%else%}style="display:none;"{%endif%} -->
+                            
+                            <div class="" id="nwaddhead">
+                                <div class="cart_head">                                
+                                    <h3 class="crth_ttl">
+                                        <a href="javascript:void(0);" class="bckarwcancel">
+                                            <!-- <span><i class="ri-arrow-left-line"></i></span> -->
+                                            <span><img src="{% static 'website/images/bckarwn.svg' %}" alt=""></span>
+                                        </a>
+                                        Add Address
+                                    </h3>                                
+                                </div>
+                                <div class="top_stepsbx">
+                                    <ul class="tpstp_li">
+                                        <li {%if not request.user.is_authenticated %}style="display:block;"{%else%}style="display:none;"{%endif%}>
+                                            <span>1</span>
+                                            <span>Login</span>
+                                        </li>                    
+                                        <li class="active" {%if not request.user.is_authenticated %}style="display:none;"{%else%}class="actchexked"style="display:block;"{%endif%}>
+                                            <span style="background: #dbffdf; color: #38b245; font-size: 16px;"><i class="ri-check-line"></i></span>
+                                            <span>Login</span>
+                                        </li>
+                
+                
+                                        <li  {% if user.is_authenticated %}style="display:none;"{%else%}style="display:block;"{%endif%}>
+                                            <span>2</span>
+                                            <span>Address</span>
+                                        </li>
+                                        <li class="active" {% if user.is_authenticated %}style="display:block;"{%else%}style="display:none;"{%endif%}>
+                                            <span>2</span>
+                                            <span>Address</span>
+                                        </li>
+                
+                                        <li class="active" {% if not addresses %}style="display:none;"{%else%}style="display:none;"{%endif%}>
+                                            <span>3</span>
+                                            <span>Order</span>
+                                        </li>
+                                        <li >
+                                            <span>3</span>
+                                            <span>Order</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                            
+                            
+                            
+                            <div class="nwadrsbx">
+                                <div class="cart_info_login">
+                                    <span>2</span>
+                                    <span>Delivery Address</span>
+                                </div>                                
+                             </div>
+                            
+
+                               
+                            
+                                <form id="address-form"  class="form">
+                                    <div class="row pb-4">
+                                        <div class="col-6 mb_wdthfrm">
+
+                                            <div class="frmitmbx">
+                                                <div class="form-item">                                                
+
+                                                    <input type="text" id="id_name" class="form-control" name="first_name" autocomplete="off" value="{{request.user.first_name}}" placeholder=" " required>
+
+                                                    <label class="ttl_nm" for="id_name">First Name</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6 mb_wdthfrm">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">                                                
+
+                                                    <input type="text" id="id_last_name" class="form-control" name="last_name" value="{{request.user.last_name}}" autocomplete="off" placeholder=" " required>
+
+                                                    <label class="ttl_nm" for="id_last_name">Last Name</label>
+                                                </div>                                            
+                                            </div>
+                                        </div>
+                                    <!-- </div>
+
+
+                                    <div class="row pb-4"> -->
+                                        <div class="col-6">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">     
+
+                                                    <input type="text" id="id_phone_number" class="form-control" name="phone_number" value="{{request.user.mobile_number|cut:'+91'}}" autocomplete="off" placeholder=" " maxlength="10" required oninput="this.value=this.value.replace(/[^0-9]/g,'');">                                                                                           
+
+                                                    <label class="ttl_nm" for="id_phone_number">Enter Your Phone Number</label>
+                                                </div>                                            
+                                            </div>
+                                            <small class="text-danger" id="address-phone-error"></small>
+                                            <p class="aanllb">
+                                                <a style="font-size: 12px;font-weight: 500;color: #2874f0;" href="javascript:void(0);" id="add-alternate-number">
+                                                <i class="ri-add-line" style="color: #2874f0;"></i> Add alternate Number </a> 
+                                                <span style="font-size: 12px; font-weight: 500; font-style: italic; color: #646464;">(If Required)</span>
+                                            </p>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">     
+
+                                                    <input type="text" id="id_address_email" class="form-control" name="email" value="{{request.user.email|default:''}}" autocomplete="off" placeholder=" " required >                                                                                           
+
+                                                    <label class="ttl_nm" for="id_address_email">Enter Your Email</label>
+                                                </div>                                            
+                                            </div>
+                                            <small class="text-danger" id="address-email-error"></small>
+                                        </div>    
+
+                                        <div class="col-6 alternate d-none">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">
+                                                    <input type="text" id="id_alternate_mobile_number" class="form-control" name="alternate_mobile_number"  autocomplete="off" placeholder=" " maxlength="10"  oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                                    <label class="ttl_nm" for="id_alternate_mobile_number">Enter Alternate Number</label>
+                                                </div>                                            
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">
+                                                    <!-- <input type="text" id="id_state" class="form-control" name="state" autocomplete="off" placeholder=" " required>                                                     -->
+                                                    <select id="id_state" name="state" class="form-control">
+                                                        <option value="">Choose State</option>
+                                                        
+                                                        <option value="Andhra Pradesh">Andhra Pradesh</option>   
+                                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>   
+                                                        <option value="Assam">Assam</option>     
+                                                        <option value="Bihar">Bihar</option>   
+                                                        <option value="Chhattisgarh">Chhattisgarh</option>   
+                                                        <option value="Goa">Goa</option>   
+                                                        <option value="Gujarat">Gujarat</option>   
+                                                        <option value="Haryana">Haryana</option>   
+                                                        <option value="Himachal Pradesh">Himachal Pradesh</option>   
+                                                        <option value="Jharkhand">Jharkhand</option>   
+                                                        <option value="Karnataka">Karnataka</option>   
+                                                        <option value="Kerala">Kerala</option>   
+                                                        <option value="Madhya Pradesh">Madhya Pradesh</option>   
+                                                        <option value="Maharashtra">Maharashtra</option>   
+                                                        <option value="Manipur">Manipur</option>   
+                                                        <option value="Meghalaya">Meghalaya</option>   
+                                                        <option value="Mizoram">Mizoram</option>   
+                                                        <option value="Nagaland">Nagaland</option>   
+                                                        <option value="Odisha">Odisha</option>   
+                                                        <option value="Punjab">Punjab</option>   
+                                                        <option value="Rajasthan">Rajasthan</option>   
+                                                        <option value="Sikkim">Sikkim</option>   
+                                                        <option value="Tamil Nadu">Tamil Nadu</option>   
+                                                        <option value="Telangana">Telangana</option>   
+                                                        <option value="Tripura">Tripura</option>   
+                                                        <option value="Uttar Pradesh">Uttar Pradesh</option>   
+                                                        <option value="Uttarakhand">Uttarakhand</option>   
+                                                        <option value="West Bengal">	West Bengal</option>   
+                                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>  
+                                                        <option value="Chandigarh">Chandigarh</option>   
+                                                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>   
+                                                        <option value="Daman and Diu">Daman and Diu</option>   
+                                                        <option value="Delhi">Delhi</option>   
+                                                        <option value="Lakshadweep">Lakshadweep</option> 
+                                                        <option value="Pondicherry">Pondicherry</option>    
+                                                                                                  
+                                                    </select>
+                                                    <label class="ttl_nm" for="id_state">Enter Your State</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- </div> -->
+                                    
+    
+
+
+
+                                        <div class="form-group d-none">
+                                            <div class="frmitmbx">
+                                                <div class="form-item">     
+                                                    <input type="text" id="id_notes" class="form-control" name="notes"  autocomplete="off" placeholder=" " required>                                                
+                                                    <label class="ttl_nm" for="id_notes">Shipping Note</label>
+                                                </div>
+                                            </div>
+                                            <p class="m-0 pb-3"><i>Tell us anything we should know when delivering your order.</i></p>
+                                        </div>
+
+                                        <!-- <div class="row pb-4"> -->
+                                            <div class="col-6 mb_wdthfrm">
+                                                <div class="frmitmbx">
+                                                    <div class="form-item">
+                                                        <input type="text" id="id_line4" class="form-control" name="line4"  autocomplete="off" placeholder=" " required>
+                                                        <label class="ttl_nm" for="id_line4">City/District/Town</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb_wdthfrm">
+                                                <div class="frmitmbx">
+                                                    <div class="form-item">
+                                                        <input type="text" class="form-control" name="postcode" id="id_postcode" autocomplete="off" placeholder=" " required  oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                                        <label class="ttl_nm" for="id_postcode">Enter Your Pin Code</label>
+                                                    </div>                                                
+                                                </div>
+                                            </div>                                            
+                                        <!-- </div>
+
+                                        <div class="row pb-4"> -->
+                                            <div class="col-12">
+                                                <div class="frmitmbx">
+                                                    <div class="form-item">
+                                                        <textarea type="text" id="id_line1" class="form-control" cols="10" rows="4" name="line1" autocomplete="off" placeholder=" " required></textarea>
+                                                        <!-- <input type="text" id="id_line1" class="form-control" name="line1"  autocomplete="off" placeholder="Enter Your Address" required> -->
+                                                        <label class="ttl_nm" for="id_line1">Address (Area and Street)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row pb-4 d-none">
+                                            
+                                            <div class="col-6">
+                                                <div class="frmitmbx">
+                                                    <div class="form-item">
+                                                        <select id="id_country" name="country" class="form-control">
+                                                            <option value="">Choose Country</option>
+                                                            {% for country_name in country %}
+                                                            <option value="{{country_name.pk}}">{{country_name.printable_name}}</option>     
+                                                            {%endfor%}                                               
+                                                        </select>
+                                                        <label class="ttl_nm" for="id_country">Choose Country</label>
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
+                                        </div>
+                                       
+                                        <!-- <div id="pn_err_msg" style="color:#ff6161; margin-bottom: 10px; margin-top: -15px;"></div> -->
+
+                                        <div id="pn_err_msg" style="color:#ff6161; margin-bottom: 10px; margin-top: -15px;"></div>
+
+                                    <div class="form-btn">
+                                        <a href="#" class="btn save-btn save_shipping_address" data-address-id="">Save And Continue</a>
+                                        <a href="#" class="btn cancel-btn">Cancel</a>
+                                    </div>
+                                    </form>
+                        </div>
+
+                        
+                        
+                       
+                        <div class="add_new an_btn btn_oe">
+                            <a href="#" class="add_new">+ Add a New Address</a>
+                        </div>
+                        
+                        <!-- <div class="add_new an_btn btn_tw d-none">
+                            <a href="#" class="add_new">+ Add a New Address</a>
+                        </div> -->
+                        {%endif%}
+
+
+
+                        
+                        <div class="cart-login_details shipping_address_show">
+                            
+                            
+                            <div class="login_tab p-3 visited">
+                                <div class="align-items-center d-flex justify-content-between">
+                                    <div>
+                                        <div class="cart_info_login">
+                                            <span>2</span>
+                                            <span class="web_dlve">Delivery Address<i class="ri-check-line"></i></span>
+                                            <span class="mb_dlve">Deliver to: </span>
+                                        </div>
+                                        <div class="custm_name">
+                                            <b>
+                                                <span id="id_title1"></span>
+                                                <span id="id_f_name"></span>
+                                                <span id="id_l_name"></span>
+                                                <span class="d-none" id="id_phone_number1"></span>
+
+                                            </b>
+                                            <span id="id_line"></span>
+                                            <span id="id_line1"></span>                                        
+                                            <span id="id_state1"></span>
+                                            <span class="d-none" id="id_country1"></span>
+                                            <span id="id_postcode1"></span>
+                                            <span id="id_phone_number1"></span>
+                                            <span id="id_alternate_mobile_number1"></span>
+                                        </div>
+                                    </div>                                        
+                                    <div class="login_info_change">
+                                        <a href="javascript:void(0);" class="info_change change-user-address" id="address_id">Change?</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="cart_order_summary">
+
+                            <a href="javascript:void(0);" class="login-tab_btn">
+                                <div class="login_tab">
+                                    <div class="cart_info_login">
+                                        <span>3</span>
+                                        <span>Order Summary</span>                                                
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="cart-login_details details_order_wrapper obrbxn">
+                            
+                            <a href="javascript:void(0);" class="login-tab_btn active">
+                                <div class="login_tab">
+                                    <div class="cart_info_login">
+                                        <span>3</span>
+                                        <span>Order Summary</span>                                                
+                                    </div>    
+                                </div>    
+                            </a>
+
+                            <div class="details_order_wrapper">
+                                
+                                <div class="details_order crbsmbx">
+                                    <div class="cart_section ordrsmry">
+                                        {% for line in orders %}
+                                            <div class="cartbx">
+                                                <div>
+                                                    <img class="img-fluid" src="{{ MEDIA_URL }}{{ line.product.primary_image.original }}" alt="">                                                        
+                                                </div>                                                    
+                                                <div class="crt_data">
+                                                    <h3>{{line.product.get_complete_title}}</h3>
+                                                    {% if line.product.get_tag_line %}
+                                                    <p>({{ line.product.get_tag_line|safe }})</p>
+                                                    {% endif %}
+                                                    
+                                                    <div class="quatity_box">
+                                                         
+
+                                                        <div class="serving">
+
+                                                            {% for child in line.product.parent.variants_list %}
+                                                                {% if child == line.product %}
+                                                                {{child.title}}                                                                
+                                                                
+                                                                {%endif%}
+                                                                {% endfor %} 
+
+
+                                                            <!-- <select id="inputState" class="form-control variant-select d-none" data-line-id="{{line.id}}">
+                                                                {% for child in line.product.parent.variants_list %}
+                                                                {% if child == line.product %}
+                                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}  selected>{{child.title}}</option>
+                                                                
+                                                                {%else%}
+                                                                <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                                                {%endif%}
+                                                                {% endfor %} 
+                                                            </select> -->
+                                                        </div>
+                                                        <div class="plus-minus-input">
+                                                            <span style="font-weight: 500; margin-right: 5px;">Qty:</span>
+                                                            <span>{{line.quantity}}</span>
+                                                        </div>
+                                                        
+                                                    </div>
+
+
+                                                    <div class="mbl_ofrprs">
+                                                        <h2>₹{{ line.unit_price_incl_tax }}</h2>
+                                                        {% if line.product.percent_discount != 0 %}
+                                                        <div class="prd_discount">({{line.product.percent_discount}}%off)</div>
+                                                        {%endif%}
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="crtprs_value">
+                                                    <div class="crtprs">
+                                                        {% if line.product.stockrecords.first.price_retail != line.unit_price_incl_tax %}
+                                                        <h3>₹{{ line.product.stockrecords.first.price_retail}}</h3>
+                                                        <h2>₹{{ line.unit_price_incl_tax }}</h2>
+                                                        {%else%}
+                                                        <h2>₹{{ line.unit_price_incl_tax }}</h2>
+                                                        {%endif%}
+                                                    </div>
+                                                    {% if line.product.percent_discount != 0 %}
+                                                    <div class="prd_discount">({{line.product.percent_discount}}%off)</div>
+                                                    {%endif%}
+                                                    <div class="remove_btn pt-2">
+                                                        <!-- <a href="javascript:void(0);" class="float-end">Remove</a> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {%endfor%}
+
+                                        </div>
+                                    </div>
+                                </div>                              
+                            </div>
+                        </div>
+                        <div class="butbx place_order">  
+                            <div class="bpobtmmssg">
+                                <P>Order confirmation email will be sent to your email id. </P>
+                            </div>              
+                                
+                            <div class="btm_pricebx">
+                                
+                                <div class="bmpric pbbtmprsc">
+                                    <span>Total Amount </span>                                    
+                                    {% order_amount  total_amount=request.basket.total_incl_tax as available %}
+                                        <span>&#8377;{{ available }}</span>
+                                        <!-- <a href="javascript:void();">View price details</a> -->
+                                </div>
+                                <div class="btm_ankbtn">
+                                    <a class="btn_fill_green order-place-btn" href="javascript:void(0);">Place Order</a>                
+                                    <!-- <a class="btn_fill_green" href="/checkout/checkout/">Proceed To Checkout</a> -->
+                                </div>
+                            </div>
+
+                                
+                            
+                        </div> 
+                            
+                    </div>
+                    <div class="crt_dada onlymv_bx">
+                        <div class="stickybxr">
+                            <div class="crt_dtls">
+                                <h3 class="crt_ttl">Order Summary</h3>
+                                <p>
+                                    <span>Price <a href="{% url 'basket:summary' %}">({{request.basket.all_lines|length}} item)</a></span>
+                                
+                                    <span>&#8377;{{ request.basket.total_incl_tax_excl_discounts }}</span>                                    
+                                </p>
+                                <p>
+                                    <span>Shipping Charges</span>
+                                    <span style="color: #388e3c;">Free</span>
+                                </p>
+                                <p>
+                                    <span>Discount</span>
+                                
+                                    {% order_amount total_amount=basket.total_incl_tax_excl_discounts|subtract:request.basket.total_incl_tax as available %} 
+                                    <span style="color: #388e3c;"> &#8377;{{available}}</span>                                   
+                                </p>    
+                                <div class="crt_amnt">
+                                    <span>Total Amount</span>
+                                    {% order_amount  total_amount=request.basket.total_incl_tax as available %} 
+                                        <span>&#8377;{{ available }}</span>
+                                
+                                </div>
+                                <!-- <div class="butbx">                
+                                    
+                                    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>                
+                                </div>               -->
+                            </div>
+                            <div class="safebx">Safe and Secure Payments.100% Natural & Authentic products.</div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="paymentsection payment-create-btn" id="order-payment-create">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</div>
+  
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script src="{% static 'js/register.js'%}"></script>
+<script>
+    $(window).on("load", function () {
+        // $(".deliver_address_btn").id = checkAddressId;
+        // let checkAddressId = sessionStorage.getItem("storeAddressId");
+        // console.log(checkAddressId)
+        // if (checkAddressId){
+        //     var id = 'address_'+checkAddressId
+        //     $(`#${id}`).prop("checked", true);
+        //     $(`#${id}`).parents('.select_addres').addClass('active');
+        //     $(".deliver_address_btn").click()
+        // }
+        ShippingAddressList();
+        {% if not addresses %}
+            $('.add_new').hide();
+            $('.add_new.an_btn').addClass('hideactv');
+        {% endif %}
+    });
+       
+    $(document).ready(function(){
+     
+    
+        // $('#id_login-username').keyup(function(){
+            
+        //     if ($('#id_login-username').val().length == 10){
+        //         // $(this).val("+91" + $(this).val());
+        //         $(this).parents('.form-group').addClass('mobile-number-entered');
+        //         sendOtp();
+        //         document.getElementById('id_login-username').readOnly = true;
+             
+        //     }
+        //     else{
+        //         $(this).parents('.form-group').removeClass('mobile-number-entered');
+        //         $('#custom_text').html('');
+        //         $('#custom_error').html('Please Enter Valid Mobile Number');
+        //     }
+           
+        // });
+
+        $('#id_login-username').focus();        
+        ShippingAddressList = function(){
+            $.ajax({
+                type : "get",
+                url : `${location.origin}/checkout/shipping-address/list`,
+                
+                success : function(response) {
+                    // console.log(response)
+                    if(response){
+                        $('.confirm_addres').removeClass('d-none')
+                    }
+                    $('.confirm_addres').html(response)
+                
+                    let checkAddressId = sessionStorage.getItem("storeAddressId");
+                    console.log(checkAddressId)
+                    {%if addresses.first%}
+                        if (checkAddressId==null){
+                            var addressId = '{{addresses.first.id}}';
+                            var id = 'address_'+addressId
+                            $(`#${id}`).prop("checked", true);
+                            $(`#${id}`).parents('.select_addres').addClass('active');
+                        }
+                    {%endif%}
+       
+                    if (checkAddressId){
+                        var id = 'dadrs-'+checkAddressId
+                        var selectedId = 'address_'+checkAddressId
+                        console.log(id)
+                        $(`#${selectedId}`).prop("checked", true);
+                        $(`#${selectedId}`).parents('.select_addres').addClass('active');
+                        $(`#${id}`).click()
+                    }                  
+                },
+
+                error: function (error) {
+                        console.error(error);
+                    
+                }
+
+            });
+        }
+
+
+
+        
+
+        {% if not addresses %}
+            $('.cart_adress_details').hide();
+            $('.cart_adress_details_box').hide();
+
+        {%endif%}
+
+        
+
+        $('.mobile_number_submit').click(function(){
+            if ($('#id_login-username').val().length == 10){
+                // $(this).val("+91" + $(this).val());
+                $('#id_login-username').parents('.form-group').addClass('mobile-number-entered');
+                $('#preloader').show();
+                sendOtp(); 
+                $('#custom_error').html('');
+
+                // $('.mobile_number_seprater').removeClass('d-none');
+                document.getElementById('id_login-username').readOnly = true;
+            }
+            else if ($('#id_login-username').val().length > 1 & $('#id_login-username').val().length < 10 ){
+                $('#id_login-username').parents('.form-group').removeClass('mobile-number-entered');
+                $('#custom_text').html('');
+                $('#custom_error').html('Please Enter Valid Mobile Number');
+            }
+            else if ($('#id_login-username').val().length < 1){
+                $('#id_login-username').parents('.form-group').removeClass('mobile-number-entered');
+                $('#custom_text').html('');
+                $('#custom_error').html('Mobile number field is required');
+            }
+
+            $('.name-input').val('');
+            $('.email-input').val('');
+
+            $('#id_email_otp').focus();
+            
+
+        });
+
+        $('#id_login-username').focus('');
+        
+
+
+
+        $('.mobile-number-enable').click(function(){
+            // $('.mobile_number_seprater').addClass('d-none');
+            $(this).parents('.form-group').addClass('mobile-number-entered');
+            $('#id_login-username').val('');
+            
+            $('.change').hide();
+
+            $('#id_email_otp').hide();
+            $('#bx_email_otp').hide();
+
+            $('#id_first_name').hide();
+            $('#bx_first_name').hide();
+            
+            $('#id_email').hide();
+            $('#bx_email').hide();
+
+            $('.login_submit').hide();
+            $('.register_submit').hide();
+            $('.mobile_number_submit').show();
+            $('.otp-input').val('');
+            
+            $('#custom_error').text('');
+            $('#custom_f_name_error').text('');
+            $('#custom_otp_error').text('');
+            $('#custom_register_error').text('');
+        
+            document.getElementById('id_login-username').readOnly = false;
+           
+        });
+       
+        $('#resent-otp-btn').click(function(){
+            sendOtp();
+        });
+
+        $('.login_submit').click(function(){
+            
+            $('#custom_error').html('');
+            $('#custom_otp_error').text('');
+            $('#custom_register_error').text('');
+            $('#preloader').show();
+            validateOtp();
+        });
+
+        $('#addnadrs').click(function(){
+            $("#new_shipping_address_form").show();
+            $("#spng_adrsbx").hide();
+            $("#addnadrs").hide();    
+            $("#closenadrs").show();                    
+        });
+
+        $('#closenadrs').click(function(){
+            $("#new_shipping_address_form").hide();
+            $("#spng_adrsbx").show();
+            $("#addnadrs").show();    
+            $("#closenadrs").hide();            
+        });
+        $('.aplyclck').click(function(){
+            $("#procodebx").show();
+            $("#probtnlnk").hide();
+        });
+        $('.cpnaplyed').click(function(){
+            $("#probtnlnk").hide();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").show();
+        });
+        $('.resetclk').click(function(){
+            $("#probtnlnk").show();
+            $("#procodebx").hide();
+            $("#prmocrdaplyd").hide();
+        });
+
+
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+
+        
+        $("#id_country").addClass("form-control");
+        $("#new_shipping_address .form-control").addClass("form-input");
+        $("#new_shipping_address label").addClass("form-label");
+        $("#new_shipping_address .form-group").addClass("form-wrap col-lg-6");
+        $("#new_shipping_address div.col-sm-7").removeClass("col-sm-7");
+        $("#new_shipping_address .form-wrap").find('div').addClass("col-12 pl-3");
+        $("#new_shipping_address span.help-block").addClass("checkbox-inline text-transform-capitalize");
+        $("#new_shipping_address label.control-label").removeClass("col-sm-4");
+        $("#new_shipping_address label.control-label").addClass("col-12");
+        $("#new_shipping_address .form-control").focus(function(){
+            $(this).parents(".form-wrap").find('label').addClass('d-none');
+        });
+        // $("#new_shipping_address label.control-label").css("opacity","0");
+        $("#new_shipping_address #id_first_name").attr('placeholder', 'First Name');
+        $("#new_shipping_address #id_last_name").attr('placeholder', 'Last Name');
+        $("#new_shipping_address #id_line1").attr('placeholder', 'First line of address');
+        $("#new_shipping_address #id_line2").attr('placeholder', 'Second line of address');
+        $("#new_shipping_address #id_line3").attr('placeholder', 'Third line of address');
+        $("#new_shipping_address #id_line4").attr('placeholder', 'City');
+        $("#new_shipping_address #id_state").attr('placeholder', 'State');
+        $("#new_shipping_address #id_postcode").attr('placeholder', 'Post / Zip-code');
+        $("#new_shipping_address #id_phone_number").attr('placeholder', 'Phone number');
+        $("#new_shipping_address #id_notes").attr('placeholder', 'Instructions');
+        $("#id_title").hide();
+        $("#id_title").parents(".form-group.form-wrap").hide();
+        /*$("#new_shipping_address .form-control").focusout(function(){
+            $(this).parents(".form-wrap").find('label').removeClass('focus');
+        });*/
+        $('#new_shipping_address .form-control').blur(function() {
+            if ($('input:text').val().length == 0) { // zero-length string AFTER a trim                
+                $(this).parents(".form-wrap").find('label').addClass('focus');
+            }
+        });
+        
+        $('#id_country').val('IN');
+
+        // $("#id_phone_number").attr("value", "+91");
+
+        $('.shipping-form-submit').click(function () {
+            $('#new_shipping_address_form').submit();
+            // console.log('abc');
+        });
+
+        $('.change ').hide();
+        $('#id_email_otp').hide();
+        $('#bx_email_otp').hide();
+        
+        // $('.register_submit').hide();
+
+        $('#id_first_name').hide();
+        $('#bx_first_name').hide();        
+
+        $('#id_email').hide();
+        $('#bx_email').hide();
+        
+
+
+
+
+
+        var timerBtn = document.querySelector('#timer');
+        var sendOtp = function(){
+            
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/generate-otp.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_login-username').val(),
+                    "purpose": "login"
+                    },
+                success : function(success) {
+                    $('#preloader').hide();
+                    if(success.status){
+                        
+                        console.log("success");
+                        $('#custom_error').html('');
+                        $('#custom_f_name_error').text('');
+                        $('#custom_text').html(`${success.text}`);
+                        $('.change ').show();
+
+                        $('#id_email_otp').show();
+                        $('#bx_email_otp').show();
+                        
+
+                        
+                        $('#password-block').addClass("d-none");
+                        $('#otp-btn').addClass("d-none");
+                        $('.mobile_number_submit').hide();
+                        $('.login_submit').show();
+                    }
+                    else{
+                        // new code
+                        $('#custom_text').html('');
+                        $('#custom_error').html('');
+                        $('#custom_otp_error').text('');
+                        $('#custom_register_error').text('');
+                        $('#preloader').show();
+                        $('.change').show();
+                        userRegister();
+
+                        // old code
+                        // $('.change').show();
+                        // $('#id_first_name').show();
+                        // $('#bx_first_name').show();                        
+
+                        // $('#id_email').show();
+                        // $('#bx_email').show();                        
+
+
+                        // $('.register_submit').show();
+                        $('.login_submit').hide();
+                        $('.mobile_number_submit').hide();
+                        // $('#custom_error').html(`${success.text}`);
+                        // $('#custom_text').html('');
+
+                    }
+                },
+                error: function(error) {
+                    $('#preloader').hide();
+                    $('.change').show();
+                    console.log(error)
+                    $('#custom_error').html(error.responseJSON.mobile_number[0]);
+                    
+                    $('#custom_text').html('')
+                    $('.mobile_number_submit').show();
+                   
+                    
+                },
+            });
+        }
+
+
+        var validateOtp = function(){
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/validate-otp.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_login-username').val(),
+                    "otp":$('#id_email_otp').val(),
+                    // "purpose": "login"
+                    },
+                success : function(success) {
+                    $('#preloader').hide();
+                    $('#custom_error').html('');
+                    $('#custom_otp_error').text('');
+                    $('#custom_register_error').text('');
+                    if(success.status){
+                        
+                        console.log("success");
+
+
+
+                        // if ($(window).width() < 960) {
+                        //     alert('0');
+                        //     $('#lgnbx_n.cart-login_details').hide();
+                        // };
+
+
+                        // $('#custom_error').html('');
+                        // $('#custom_text').html(`${success.text}`);
+                        
+                        location.reload()
+                    
+                    }
+                    // else{
+                    
+                    //     $('#custom_error').html(`${success.text}`);
+                    //     $('#custom_text').html('');
+
+                    // }
+
+
+
+
+
+                },
+                error: function(error) {
+                    $('#preloader').hide();
+                    console.log(error);
+                    if(error.responseJSON.detail){
+                        $('#custom_otp_error').text(`${error.responseJSON.detail}`);
+                    }
+                    else if(error.responseJSON.text){
+                        $('#custom_otp_error').text(`${error.responseJSON.text}`);
+                    }
+                    else if(error.responseJSON.otp){
+                        $('#custom_otp_error').text(`${error.responseJSON.otp[0]}`);
+                    }
+                    
+                    else{
+                        $('#custom_otp_error').text(``);
+                    }
+                    
+                    
+                    // $('#custom_text').html('')
+                    // $('#custom_error').html('Please Enter OTP');
+                    
+                },
+            });
+        }
+
+
+        var userRegister = function(){
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/user-add.json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "mobile_number":"+91"+$('#id_login-username').val(),
+                    "first_name":$('#id_first_name').val(),
+                    "email":$('#id_email').val(),
+                   
+                    },
+                success : function(success) {
+                    $('#preloader').hide();
+                    if(success.status){
+                        // console.log('abc');
+                        $('#custom_error').html('');
+    
+                        $('#custom_otp_error').text('');
+                    
+                        $('#custom_register_error').text('');
+                       
+                        $('#id_email_otp').show();
+                        $('#bx_email_otp').show();
+
+                        // $('#bx_email').hide();
+                        // $('.register_submit').hide();
+                        // $('#id_first_name').hide();
+                        // $('#bx_first_name').hide();
+                        
+                        $('#id_email').hide();
+                        $('.login_submit').show();
+                        // console.log("success");
+                        $('#custom_error').html('');
+                        $('#custom_f_name_error').text('');
+                        $('#custom_text').html(`${success.text}`);
+
+                        
+                    }
+                    else{
+                        $('#custom_f_name_error').text('');
+                        $('#custom_error').html(`${success.text}`);
+                        $('#custom_text').html('');                   
+
+                    }
+                },
+                
+                error: function(error) {
+                    $('#preloader').hide();
+                    console.log(error);
+                    if (error.responseJSON.email){
+                        $('#custom_register_error').html(`${error.responseJSON.email[0]}`);
+                    }
+                    
+                    
+                    if (error.responseJSON.first_name){
+                        $('#custom_f_name_error').html(`${error.responseJSON.first_name[0]}`);
+                    }
+                    
+                    // setTimeout(function() {                
+                    //     $('#custom_register_error').hide();
+                    // }, 3000);
+                    
+                },
+            });
+        }
+
+
+        
+
+        $('.register_submit').click(function(){
+            $('#custom_text').html('');
+            $('#custom_error').html('');
+            $('#custom_otp_error').text('');
+            $('#custom_register_error').text('');
+            $('#preloader').show();
+            userRegister();
+        });
+
+
+
+        if ($(window).width() < 960) {
+          
+
+            {% if request.user.is_authenticated  and not addresses %}  
+                // $('.cart_adress_details_box').removeClass(d-none);
+                // $('.add_new.an_btn').addClass('hideactv');
+                // $('.cart_adress_details').hide();      
+                $('#lgnbx_n').hide(); 
+                $('#mbadrshead').hide();
+                $('.add_new').click();
+
+                // $('.cart_adress_details').show();
+            {%elif  request.user.is_authenticated %}
+                $('#lgnbx_n').hide(); 
+            {%endif%}
+
+            $('.add_new').click(function(){
+                    $('#mbadrshead').hide();
+                    $('#lgnbx_n').hide(); 
+                    $('.add_new.an_btn').removeClass('hideactv');
+                    $('.cart_adress_details').hide();   
+                    $('.mbcrtgtlpage').removeClass('wrap-reverse');       
+                    $('#address-form').get(0).reset();          
+                    $('.save_shipping_address').attr('data-address-id', '');
+                });
+
+                $('.bckarwcancel').click(function(){
+                    $('.mbcrtgtlpage').addClass('wrap-reverse');
+                });
+                
+
+
+                $('.cancel-btn').click(function(){
+                    $('#da_bx').show();  
+                    $('#mbadrshead').show();
+                    $('#lgnbx_n').hide();
+                    $('.add_new').show()
+                    // $('.add_new.an_btn').removeClass('hideactv');
+                    $('.mbcrtgtlpage').addClass('wrap-reverse');
+                   
+                    // $('.confirm_addres').removeClass('d-none');
+
+                    {% if not addresses %}
+                        $('.add_new').show();
+                        $('.new_adres_form').show();
+                        // $('.add_new').removeClass('d-none');
+                        $('.cart_adress_details_box').hide();
+                        $('.cart_adress_details').show();
+                    {%endif%}
+                    $('.cart_adress_details').show();
+                    $('.cart_adress_details_box').show();
+                   
+                    
+
+                });
+                $('.bckarwcancel').click(function(){
+                    $('.new_adres_form').hide();
+                    $('.add_new').show();
+                    $('#da_bx').show();
+                    // $('#da_bx').removeClass('mb-0');
+                    $('#mbadrshead').show();
+                    $('#lgnbx_n').hide();
+                    $('.add_new.an_btn').removeClass('hideactv');
+                    
+                });
+                $('body').on('click', '.edit-user-address', function(){
+                    $('#mbadrshead').hide();
+                    $('.mbcrtgtlpage').removeClass('wrap-reverse');
+                    $('#lgnbx_n').hide();
+                    $('.add_new.an_btn').addClass('hideactv');
+                    // $('.add_new.an_btn').addClass('d-none');
+                    
+                    // ShippingAddressList();
+                }); 
+                
+        }
+        else {
+             
+        };
+
+        // if(window.matchMedia("(max-width: 990px)").matches){
+            // } else{
+                 
+            // }
+
+        
+
+        // $('.new_adres_form').hide();
+        $('.add_new').click(function(){
+            $('#address-form').get(0).reset();
+            $('.save_shipping_address').attr('data-address-id', '');
+            $('.save_shipping_address').data('addressId', '');
+            // $('.save_shipping_address').data('addressId', '');
+            $('.new_adres_form').show();
+            $('.add_new.an_btn').hide();
+            $('#da_bx').hide();
+            // $('#da_bx').addClass('mb-0');
+            $('.cart_adress_details').hide();
+            
+            $('.order-actve').removeClass('active');
+            $('.address-actve').addClass('active');
+
+            $('#preloader').show();
+            setTimeout(function() {
+                $('#preloader').hide();
+            }, 300);
+
+            // $('#lgnbx_n').hide();
+        });
+        $('#add-alternate-number').click(function(){
+            $('.alternate-mn').removeClass('d-none');
+            $('.alternate').removeClass('d-none');
+            $('.alternate-m').addClass('d-none');
+            $('.aanllb').addClass('d-none');
+            $('#id_alternate_mobile_number').focus();
+        });
+       
+
+
+
+        $('.cancel-btn').click(function(){
+            $('#da_bx').show();
+            $('.new_adres_form').hide();
+            $('.add_new').show();
+            
+            $('.order-actve').removeClass('active');
+            $('.address-actve').addClass('active');
+           
+            // $('.confirm_addres').removeClass('d-none');
+            {% if not addresses %}
+                
+                $('.add_new').show();
+                $('.cart_adress_details_box').hide();
+                $('.cart_adress_details').show();
+            {%endif%}
+
+            // $('#da_bx').removeClass('mb-0');
+            $('.alternate-mn').addClass('d-none');
+            $('.alternate').addClass('d-none');            
+            $('.alternate-m').removeClass('d-none');
+            $('#add-alternate-number').removeClass('d-none');
+            $('.cart_adress_details').hide();
+            $('.cart_adress_details_box').show();
+           
+            
+            // $('#lgnbx_n').show();
+            
+            // $('#preloader').show();
+            // setTimeout(function() {
+            //     $('#preloader').hide();
+            // }, 300);
+
+        });
+       
+
+            $(document).ready(function(){
+
+                $('.store-logout-key').click(function(){
+                    sessionStorage.setItem("storeData", "Data_store")
+                    window.location.href = `${location.origin}/accounts/logout`;
+
+                });
+                
+
+                $('#id_name').change(function(){
+                    $('#id_name').removeClass('invalid');
+                });
+                $('#id_last_name').change(function(){
+                    $('#id_last_name').removeClass('invalid');
+                });
+                $('#id_line1').change(function(){
+                    $('#id_line1').removeClass('invalid');
+                });
+                $('#id_phone_number').change(function(){
+                    $('#id_phone_number').removeClass('invalid');
+                });
+                $('#id_notes').change(function(){
+                    $('#id_notes').removeClass('invalid');
+                });
+                $('#id_line4').change(function(){
+                    $('#id_line4').removeClass('invalid');
+                });
+                $('#id_state').change(function(){
+                    $('#id_state').removeClass('invalid');
+                });
+                $('#id_postcode').change(function(){
+                    $('#id_postcode').removeClass('invalid');
+                });
+                $('#id_country').change(function(){
+                    $('#id_country').removeClass('invalid');
+                });
+
+
+            
+                $("#address-form input").keyup(function(){                    
+                    var d_first_name = $('#id_name').val();
+                    var d_last_name = $('#id_last_name').val();
+                    var d_address = $('#id_line1').val();
+                    var d_phone_number = $('#id_phone_number').val();
+                    var d_alternate_mobile_number = $('#id_alternate_mobile_number').val(); 
+                    var d_notes = $('#id_notes').val();
+                    var d_your_city = $('#id_line4').val();
+                    var d_your_state = $('#id_state').val();
+                    var d_postcode = $('#id_postcode').val();
+                    var d_country = $('#id_country').val(); 
+                    var d_email = $('#id_address_email').val(); 
+
+                    if (d_first_name.length < 1) {
+                        $('#id_name').addClass('invalid');                        
+                    }else{
+                        $('#id_name').removeClass('invalid');
+                    }
+                    if (d_last_name.length < 1) {
+                        $('#id_last_name').addClass('invalid');
+                    }else{
+                        $('#id_last_name').removeClass('invalid');
+                    }
+                    if (d_address.length < 1) {
+                        $('#id_line1').addClass('invalid');                        
+                    }else{
+                        $('#id_line1').removeClass('invalid');
+                    }
+                    if (d_phone_number.length < 1) {
+                        $('#id_phone_number').addClass('invalid');
+                    }else{
+                        $('#id_phone_number').removeClass('invalid');
+                    }
+                    if (d_email.length < 1) {
+                        $('#id_address_email').addClass('invalid');
+                    }else{
+                        $('#id_address_email').removeClass('invalid');
+                    }
+                    if (d_notes.length < 1) {
+                        $('#id_notes').addClass('invalid');
+                    }else{
+                        $('#id_notes').removeClass('invalid');
+                    }
+                    if (d_your_city.length < 1) {
+                        $('#id_line4').addClass('invalid');
+                    }else{
+                        $('#id_line4').removeClass('invalid');
+                    }
+                    if (d_your_state.length < 1) {
+                        $('#id_state').addClass('invalid');                        
+                    }else{
+                        $('#id_state').removeClass('invalid');
+                    }
+                    if (d_postcode.length < 1) {
+                        $('#id_postcode').addClass('invalid');
+                    }else{
+                        $('#id_postcode').removeClass('invalid');
+                    }
+                    if (d_country.length < 1) {
+                        $('#id_country').addClass('invalid');                        
+                    }else{
+                        $('#id_country').removeClass('invalid');
+                    }
+                });
+            });
+
+
+
+
+
+        $('.save_shipping_address').click(function(){
+            
+            // var addressId = $(this).data('addressId');
+            
+            var addressId  = parseInt($(this).attr("data-address-id"));
+            console.log(addressId);
+            console.log('here address id');
+            
+
+            var d_first_name = $('#id_name').val();
+            var d_last_name = $('#id_last_name').val();
+            var d_address = $('#id_line1').val();
+            var d_phone_number = $('#id_phone_number').val();
+            var d_email = $('#id_address_email').val();
+            if($('#id_alternate_mobile_number').val()){
+                var d_alternate_mobile_number = $('#id_alternate_mobile_number').val(); 
+            }
+            // var d_notes = $('#id_notes').val();
+            var d_your_city = $('#id_line4').val();
+            var d_your_state = $('#id_state').val();
+            var d_postcode = $('#id_postcode').val();
+            // var d_country = $('#id_country').val();
+            
+            if (!d_email){
+                $('#id_address_email').addClass('invalid');   
+            }
+            else{
+                $('#id_address_email').removeClass('invalid');
+                $('#address-email-error').html('');
+            }
+
+            if (d_first_name.length < 1) {
+                $('#id_name').addClass('invalid');                
+            }else{
+                $('#id_name').removeClass('invalid');
+            }            
+            if (d_last_name.length < 1) {
+                $('#id_last_name').addClass('invalid');
+            }else{
+                $('#id_last_name').removeClass('invalid');
+            }
+            if (d_address.length < 1) {
+                $('#id_line1').addClass('invalid');                
+            }else{
+                $('#id_line1').removeClass('invalid');
+            }
+            if (d_phone_number.length < 1) {
+                $('#id_phone_number').addClass('invalid');
+            }else{
+                $('#id_phone_number').removeClass('invalid');
+            }
+            // if (d_notes.length < 1) {
+            //     $('#id_notes').addClass('invalid');                
+            // }else{
+            //     $('#id_notes').removeClass('invalid');
+            // }
+            if (d_your_city.length < 1) {
+                $('#id_line4').addClass('invalid');
+            }else{
+                $('#id_line4').removeClass('invalid');
+            }
+            if (d_your_state.length < 1) {
+                $('#id_state').addClass('invalid');                
+            }else{
+                $('#id_state').removeClass('invalid');
+            }
+            if (d_postcode.length < 1) {
+                $('#id_postcode').addClass('invalid');
+            }else{
+                $('#id_postcode').removeClass('invalid');
+            }
+            // if (d_country.length < 1) {
+            //     $('#id_country').addClass('invalid');                
+            // }else{
+            //     $('#id_country').removeClass('invalid');
+            // } 
+            
+            // if(d_first_name.length < 1 || d_last_name.length < 1 || d_address.length < 1 || d_phone_number.length < 1 || d_notes.length < 1 || d_your_city.length < 1 || d_your_state.length < 1
+            // || d_postcode.length < 1 ||  d_country.length < 1){
+            //     return;
+            // }
+            if(d_first_name.length < 1 || d_last_name.length < 1 || d_address.length < 1 || d_phone_number.length < 1 || d_your_city.length < 1 || d_your_state.length < 1
+            || d_postcode.length < 1 || d_email.length < 1){
+                return;
+            }
+            
+            
+            
+
+            // if(!($('#id_name').val())){
+            //     $('#id_name').addClass('invalid');
+            // }
+            // else{
+            //     $('#id_name').removeClass('invalid');
+            // }
+          
+
+            if (addressId){
+                $('.order-actve').removeClass('active');
+                $('.address-actve').addClass('active');
+                editShippingAddress(addressId)
+            }
+            else{
+                userAddress()
+            }
+            
+        });
+
+
+
+        $('.logout_detail').hide();        
+        $('.change_information').click(function(){
+            // $('#login_form').show();
+            $('.login_info').hide();
+            $('.cart-login-detail-hide').hide();
+            $('#da_bx').hide();
+            $('.cart_adress_details_box').hide();
+            $('.cart_adress_details').show();
+            $('.add_new').hide();            
+            $('.logout_detail').show();
+            $('#lgnbx_n .login-tab_btn.active').show();
+            $('#custom_error').html('');
+            $('#custom_text').html('');
+            $('#custom_otp_error').text('');
+            $('#custom_register_error').text('');
+            
+
+            
+
+        });
+        $('.continue_checkout_button').click(function(){
+            // $('#login_form').show();
+            // var mobileNumber = $('#id_login-username').val();
+            // console.log(mobileNumber);
+            // $('#set-mobile-number').text(mobileNumber);
+            $('.cart-login-detail-hide').show();
+            $('.cart_adress_details_box').show();
+            $('#da_bx').show();
+            $('.add_new').show();
+            $('.cart_adress_details').hide();
+            $('.logout_detail').hide();
+            $('#lgnbx_n .login-tab_btn.active').hide();
+            $('#custom_otp_error').text('');
+            $('#custom_register_error').text('');
+        });
+       
+
+        var userAddress = function(){
+            var alternateNumber = $('#id_alternate_mobile_number').val()
+            if (alternateNumber){
+                var alternateNumber = "+91"+$('#id_alternate_mobile_number').val()
+            }
+            else{
+                var alternateNumber = null
+            }
+            $.ajax({
+
+                type : "post",
+                url : `${location.origin}/accounts/api/v1/customer-address`,
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "user": parseInt('{{ request.user.id }}'),
+                    "first_name":$('#id_name').val(),
+                    "last_name":$('#id_last_name').val(),
+                    "line1":$('#id_line1').val(),
+                    "phone_number":"+91"+$('#id_phone_number').val(),
+                    "alternate_mobile_number":alternateNumber,
+                    "notes":$('#id_notes').val(),
+                    "line4":$('#id_line4').val(),
+                    "state":$('#id_state').val(),
+                    "postcode":$('#id_postcode').val(),
+                    "country_url":$('#id_country_url').val(),
+                    "email": $('#id_address_email').val(),
+                   
+                },
+
+                success : function(data) {
+                    ShippingAddressList();
+                    // location.reload()
+                    console.log(data)
+                    $('.cart_adress_details').hide();
+                    $('.cart_adress_details_box').show();
+
+                    $('.confirm_addres').html('')
+                    
+                    $('.shipping_address_show').show();
+                    // data = JSON.parse(data);
+                    // $('.save_shipping_address').data('addressId', data.id);
+                    $('#address_id').val(data.id);
+                    $('#id_f_name').text(data.first_name);
+                    $('#id_l_name').text(data.last_name);
+                    $('#id_line').text(data.line1);
+                    $('#id_phone_number1').text(data.phone_number);
+                    $('#id_alternate_mobile_number1').text(data.alternate_mobile_number);
+                    $('#id_notes1').text(data.notes);
+                    $('#id_line2').text(data.line4);
+                    $('#id_state1').text(data.state);
+                    $('#id_postcode1').text(data.postcode);
+                    $('#id_country1').text(data.country_url);
+                    $('#id_title1').text(data.title);
+                    $('#da_bx').hide();
+                    $('.place_order').show();
+                    $('.details_order_wrapper').show();
+                    $('.cart_order_summary').hide();
+                    $('.new_adres_form').hide();
+                    $('.add_new').hide();
+                    $('#id_phone_number').removeClass('invalid');
+                    $('#id_address_email').removeClass('invalid');
+                    
+                    sessionStorage.setItem("storeAddressId", data.id)
+                    if ($(window).width() < 960) {
+                        $('#mbadrshead').show();
+                        $('#lgnbx_n').hide();
+                        // sessionStorage.setItem("storeAddressId", data.id)
+                       
+                    }
+                    $('#address-email-error').html('');
+                },
+                error: function(error) {
+                    console.log(error)
+                    $('#id_phone_number').removeClass('invalid');
+                    $('#id_address_email').removeClass('invalid');
+                    var phone_n_error = error.responseJSON.phone_number ? error.responseJSON.phone_number[0] : null;   
+                    var email_n_error = error.responseJSON.email ? error.responseJSON.email[0] : null;   
+                    if (phone_n_error){
+                        $('#id_phone_number').addClass('invalid');
+                        $('#address-phone-error').html(phone_n_error);
+                    }
+                    else if(email_n_error){
+                        $('#id_address_email').addClass('invalid');
+                        $('#address-email-error').html(email_n_error);
+                    }
+                    else{
+                        $('#errmssg').html('Some error occured');
+                    }
+            
+                // var err =JSON.parse(error);
+                //     console.log(err);
+                    
+                    
+                },                
+            });
+            setTimeout(function() {                
+                $('#errmssg').hide();
+            }, 3000);
+        }
+
+        
+        $('body').on('click', '.edit-user-address', function(){
+        // $('.edit-user-address').click(function(){
+            // var Id = this.id;
+            var Id = $(this).data('address');
+            console.log(Id);
+            $('.add_new').hide();            
+            $('.add_new.an_btn').addClass('hideactv');
+            // $('.add_new.an_btn').addClass('d-none');
+            getUserAddress(Id);
+            // $('#da_bx .confirm_addres').hide();
+            // $('#da_bx').addClass('mb-0');
+            $('#newfrm_bx').show();
+            $('#da_bx').hide();
+           
+        });
+
+        
+
+
+        $('.change-user-address').click(function(){
+            // var Id = this.id;
+            var Id = $('#address_id').val();
+            console.log(Id);            
+            // getUserAddress(Id)
+            $('.shipping_address_show').hide();
+            $('.details_order_wrapper').hide();
+            $('.butbx.place_order').hide();
+            $('.cart_order_summary').show();
+            $('#da_bx').show();               
+            $('.add_new.an_btn').show();  
+            $('.add_new').show();                             
+            $('.new_adres_form').hide();
+            $('.order-actve').removeClass('active');
+            $('.address-actve').addClass('active');
+
+            if ($(window).width() < 960) {
+                $('.onlymv_bx').hide();
+                $('.mbcrtgtlpage').addClass('wrap-reverse');
+            }
+          
+        });
+
+        
+        var getUserAddress = function(Id){
+            
+            // var addressId =  $(this).data('addressId');
+            // console.log(Id)
+            $.ajax({
+                type : "get",
+                url : `/accounts/api/v1/customer-address/${Id}`,
+                success : function(data) {
+                    console.log(data)
+                    // $('.new_adres_form').show();
+                    
+                    // data = JSON.parse(data);
+                    $('#id_name').val(data.first_name);
+                    $('#id_last_name').val(data.last_name);
+                    $('#id_line1').val(data.line1);
+                    $('#id_phone_number').val(data.phone_number.replace(/\D/g, '').slice(-10));
+                    $('#id_notes').val(data.notes);
+                    $('#id_line4').val(data.line4);
+                    $('#id_state').val(data.state);
+                    $('#id_postcode').val(data.postcode);
+                    $('#id_country').val(data.get_country_id);
+                    $('#id_address_email').val(data.email);
+                    $('.new_adres_form').show();
+                    $('.save_shipping_address').attr('data-address-id', data.id);   
+                    $('.save_shipping_address').data('addressId', data.id);   
+                    $('.add_new.an_btn').removeClass('hideactv');
+                    // $('.add_new.an_btn').addClass('d-none');
+                    $('.add_new').hide();                  
+                    
+                },
+                error: function(error) {
+                    console.log(error)
+                    
+                },
+            });
+        }
+
+
+        var editShippingAddress = function(addressId){
+            if ($('#id_alternate_mobile_number').val()){
+                var alternateNumber = "+91"+$('#id_alternate_mobile_number').val();
+            }
+            else{
+                var alternateNumber = null
+            }
+            
+            $.ajax({
+
+                type : "patch",
+                url : `/accounts/api/v1/customer-address/${addressId}`,
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    "user": parseInt('{{ request.user.id }}'),
+                    "first_name":$('#id_name').val(),
+                    "last_name":$('#id_last_name').val(),
+                    "line1":$('#id_line1').val(),
+                    "phone_number":"+91"+$('#id_phone_number').val(),
+                    "alternate_mobile_number":alternateNumber,
+                    "notes":$('#id_notes').val(),
+                    "line4":$('#id_line4').val(),
+                    "state":$('#id_state').val(),
+                    "postcode":$('#id_postcode').val(),
+                    "country_url":$('#id_country_url').val(),
+                    "email": $('#id_address_email').val(),
+                    },
+                success : function(data) {
+                    $('.confirm_addres').html('')
+                    ShippingAddressList();
+                    console.log(data)
+                    $('.shipping_address_show').show();
+                    // data = JSON.parse(data);
+                    $('#address_id').val(data.id);
+                    $('#id_f_name').text(data.first_name);
+                    $('#id_l_name').text(data.last_name);
+                    $('#id_line').text(data.line1);
+                    $('#id_phone_number1').text(data.phone_number);
+                    $('#id_alternate_mobile_number1').text(data.alternate_mobile_number);
+                    $('#id_notes1').text(data.notes);
+                    $('#id_line2').text(data.line4);
+                    $('#id_state1').text(data.state);
+                    $('#id_postcode1').text(data.postcode);
+                    $('#id_country1').text(data.country_url);
+                    $('#id_title1').text(data.title);
+                    $('#da_bx').hide();
+                    $('.place_order').show();
+                    $('.details_order_wrapper').show();
+                    $('.cart_order_summary').hide();
+                    $('.new_adres_form').hide();
+                    $('.add_new').hide();
+                    $('#address-phone-error').html('');
+                    $('#id_phone_number').removeClass('invalid');
+                    $('#id_address_email').removeClass('invalid');
+                    
+                    if ($(window).width() < 960) {
+                        $('#mbadrshead').show();
+                        $('#lgnbx_n').hide();
+                        sessionStorage.setItem("storeAddressId", data.id)
+                       
+                    }
+                 
+                },
+                error: function(error) {
+                    console.log(error)
+                    $('#id_phone_number').removeClass('invalid');
+                    $('#id_address_email').removeClass('invalid');
+                    var phone_n_error = error.responseJSON.phone_number ? error.responseJSON.phone_number[0] : null;   
+                    var email_n_error = error.responseJSON.email ? error.responseJSON.email[0] : null;   
+                    if (phone_n_error){
+                        $('#id_phone_number').addClass('invalid');
+                        $('#address-phone-error').html(phone_n_error);
+                    }
+                    else if(email_n_error){
+                        $('#id_address_email').addClass('invalid');
+                        $('#address-email-error').html(email_n_error);
+                    }
+                    else{
+                        $('#errmssg').html('Some error occured');
+                    }
+                },
+            });
+        }
+
+        $('body').on('change', '.select_addres input[name="address"]', function(){   
+        // $('.select_addres input[name="address"]').change(function(){
+            $('.select_addres').removeClass('active');
+            if (this.checked){
+                $(this).parents('.select_addres').addClass('active');
+                $('.smallloader').addClass('active');                
+            } 
+            setTimeout(function() {                
+                $('.smallloader').removeClass('active');
+            }, 500);
+            
+        });
+
+
+        $('.shipping_address_show').hide();
+
+        
+
+        
+
+        // $('.deliver_address_btn').click(function(){        
+        $('body').on('click', '.deliver_address_btn', function(){   
+            // if(sessionStorage.getItem("storeAddressId")) {
+            //     var Id = sessionStorage.getItem("storeAddressId")
+            // }
+            // else{
+            //     var Id = this.id;
+            // debugger;
+            // }
+            var Id = $(this).data('adders');
+            // var Id = this.id;
+            // sessionStorage.setItem("storeAddressId", Id);
+            $.ajax({
+                type : "get",
+                url : `/accounts/api/v1/customer-address/${Id}`,
+                success : function(data) {
+                    console.log(data)
+                  
+                    $('.new_adres_form').hide();
+                    $('.shipping_address_show').show();
+                    // data = JSON.parse(data);
+                    $('#address_id').val(data.id);
+                    $('#id_f_name').text(data.first_name);
+                    $('#id_l_name').text(data.last_name);
+                    $('#id_line').text(data.line1);
+                    $('#id_phone_number1').text(data.phone_number);
+                    $('#id_alternate_mobile_number1').text(data.alternate_mobile_number);
+                    $('#id_notes1').text(data.notes);
+                    $('#id_line2').text(data.line4);
+                    $('#id_state1').text(data.state);
+                    $('#id_postcode1').text(data.postcode);
+                    $('#id_country1').text(data.country_url);
+                    $('#id_title1').text(data.title);
+                    $('#da_bx').hide();
+                    $('.place_order').show();
+                    $('.onlymv_bx').show();
+                    $('.details_order_wrapper').show();
+                    $('.cart_order_summary').hide();
+                    $('.add_new.an_btn').hide();
+                    $('.mbcrtgtlpage').removeClass('wrap-reverse');
+                   
+                    sessionStorage.setItem("storeAddressId", Id)
+                    console.log(Id)
+                    console.log(data.id)
+                    console.log(sessionStorage.getItem("storeAddressId"))
+
+                },
+                error: function(error) {
+                    console.log(error)
+                    
+                },
+           });
+        });
+
+        $('.place_order').hide();
+        $('.details_order_wrapper').hide();
+        $('.order-place-btn').click(function(){
+            $('.order-actve').addClass('active');
+            $('.address-actve').removeClass('active');
+            validateOrderCheckout()
+        });
+
+
+        var validateOrderCheckout = function(){
+           var basketId = parseInt('{{ request.basket.id }}');
+           var checkoutData = {
+                   "basket": `${location.origin}/catalogue/api/v1/baskets/${basketId}.api/`,
+                   "total": "{{request.basket.total_incl_tax}}",
+                    "shipping_charge": {
+                        "currency": "INR",
+                        "excl_tax": "0.0",
+                        "tax": "0.0"
+                    },
+                    "shipping_method_code": "no-shipping-required",
+                    
+                    "shipping_address": {
+                        "country":  $('#id_country1').text(),
+                        "first_name": $('#id_f_name').text(),
+                        "last_name": $('#id_l_name').text(),
+                        "line1": $('#id_line').text(),
+                        "line2": "",
+                        "line3": "",
+                        "line4": $('#id_line2').text(),
+                        "notes": $('#id_notes1').text(),
+                        "phone_number": $('#id_phone_number1').text(),
+                        "alternate_mobile_number": $('#id_alternate_mobile_number1').text(),
+                        "postcode": $('#id_postcode1').text(),
+                        "state": $('#id_state1').text(),
+                        "title": $('#id_title1').text(),
+                    },
+
+                    "billing_address": {
+                        "country": $('#id_country1').text(),
+                        "first_name": $('#id_f_name').text(),
+                        "last_name": $('#id_l_name').text(),
+                        "line1": $('#id_line').text(),
+                        "line2": "",
+                        "line3": "",
+                        "line4": $('#id_line2').text(),
+                        "notes": $('#id_notes1').text(),
+                        "phone_number": $('#id_phone_number1').text(),
+                        "alternate_mobile_number": $('#id_alternate_mobile_number1').text(),
+                        "postcode": $('#id_postcode1').text(),
+                        "state": $('#id_state1').text(),
+                        "title": $('#id_title1').text(),
+                    }
+                  
+            }
+
+            $.ajax({
+                type : "post",
+                url : "/catalogue/api/v1/validate-checkout/",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                contentType: "application/json",
+                data : JSON.stringify(checkoutData),
+                success : function(data) {
+                    console.log(data);
+                    paymentCreate();
+                    // orderCheckout()
+                },
+                error: function(error, data) {
+                    console.log('checkout data validation error');
+                    console.log(error)
+                },
+            });
+       }
+
+        verifyPaymemnt = function(razorpay_payment_id, razorpay_order_id, razorpay_signature){
+            var paymentData = {
+                "razorpay_payment_id": razorpay_payment_id,
+                "razorpay_signature": razorpay_signature,
+                "razorpay_order_id": razorpay_order_id,
+            }
+            $.ajax({
+                type : "post",
+                url : "/accounts/api/v1/verify-payment-status",
+                contentType: "application/json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : JSON.stringify(paymentData),
+                success : function(data) {
+                    console.log(data);
+                    if(data.payment_status){
+                        orderCheckout(data.user_transaction_id);
+                    }
+                    else{
+                        alert('payment failed with payment id razorpay_payment_id');
+                    }
+                },
+                error: function(error, data) {
+                    console.log(error)                   
+                },
+            });
+
+        }
+
+       var orderCheckout = function(user_transaction_id){
+            console.log('i am calling after payment success');
+           var basketId = parseInt('{{ request.basket.id }}');
+           var checkoutData = {
+                "user_transaction_id": user_transaction_id,
+                "basket": `${location.origin}/catalogue/api/v1/baskets/${basketId}.api/`,
+                "total": "{{request.basket.total_incl_tax}}",
+                "shipping_charge": {
+                    "currency": "INR",
+                    "excl_tax": "0.0",
+                    "tax": "0.0"
+                },
+                "shipping_method_code": "no-shipping-required",
+                
+                "shipping_address": {
+                    "country":  $('#id_country1').text(),
+                    "first_name": $('#id_f_name').text(),
+                    "last_name": $('#id_l_name').text(),
+                    "line1": $('#id_line').text(),
+                    "line2": "",
+                    "line3": "",
+                    "line4": $('#id_line2').text(),
+                    "notes": $('#id_notes1').text(),
+                    "phone_number": $('#id_phone_number1').text(),
+                    "alternate_mobile_number": $('#id_alternate_mobile_number1').text(),
+                    "postcode": $('#id_postcode1').text(),
+                    "state": $('#id_state1').text(),
+                    "title": $('#id_title1').text(),
+                },
+
+                "billing_address": {
+                    "country": $('#id_country1').text(),
+                    "first_name": $('#id_f_name').text(),
+                    "last_name": $('#id_l_name').text(),
+                    "line1": $('#id_line').text(),
+                    "line2": "",
+                    "line3": "",
+                    "line4": $('#id_line2').text(),
+                    "notes": $('#id_notes1').text(),
+                    "phone_number": $('#id_phone_number1').text(),
+                    "alternate_mobile_number": $('#id_alternate_mobile_number1').text(),
+                    "postcode": $('#id_postcode1').text(),
+                    "state": $('#id_state1').text(),
+                    "title": $('#id_title1').text(),
+                }  
+            }
+            console.log(checkoutData)
+                
+            $.ajax({
+                type : "post",
+                url : "/catalogue/api/v1/checkout/",
+                contentType: "application/json",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : JSON.stringify(checkoutData),
+                success : function(data) {
+                    console.log(data);
+                    if(data.id){
+                        location.href = '{% url "checkout:thank-you" %}'
+                    }
+                },
+                error: function(error, data) {
+                    console.log(error)                   
+                },
+            });
+       }
+       
+        var paymentCreate = function(){
+            $.ajax({
+                type : "post",
+                url : `${location.origin}/checkout/payment-create/`,
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data : {
+                    'amount': "{{ request.basket.total_incl_tax }}",
+                    'currency': "INR",
+                    'payment_capture': 1,    
+                },
+                success : function(response) {
+                console.log(response)
+                    $('#order-payment-create').append(response)
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                    
+                },
+                error: function(error) {
+                    console.log(error)
+                },
+            });
+       }
+
+        $('.payment-create-btn').hide();
+
+        
+        
+    });
+</script>
+{% endblock %}

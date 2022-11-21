@@ -1,0 +1,51 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<!--
+(         (
+(    )\ )      )\ )  (   (      (
+(    ))\  (()/(  (  (()/(  )\  )(    ))\
+)\  /((_)  ((_)) )\  /(_))((_)(()\  /((_)
+((_)(_))(   _| | ((_)(_) _| (_) ((_)(_))
+(_-<| || |/_ ` |/ _\ |  _| | || '_|/ -_)
+/__/ \_,_|\__,_|\___/ |_|   |_||_|  \___|
+
+-->
+<!--
+Created by: Moin Khan <moin@sudofire.com>
+Created by: Avantika Bisht <avantika@sudofire.com>
+-->
+
+<html lang="en" dir="ltr">
+<head>
+    <title>InstaEats</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#16be48" />
+    <link rel="icon" href="{% static 'images/instaeats-fav.png'%}" type="image/x-icon">
+
+    {% block seo %}
+        <title>InstaEats</title>
+    {% endblock %}
+
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CLato%7CKalam:300,400,700">
+    
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="{% static 'css/bootstrap.css' %}">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="{% static 'css/responsive.css' %}">
+    {% block customheadend %}{% endblock %}
+</head>
+<body>
+{% block content %}{% endblock content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/core.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+{% block custombodyend %}{% endblock %}
+
+</body>
+</html>

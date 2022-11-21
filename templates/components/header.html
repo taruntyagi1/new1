@@ -1,0 +1,215 @@
+{% load category_tags %} {% load staticfiles %}
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load widget_tweaks %}
+{% load image_tags %}
+ {% with view_name=request.resolver_match.view_name %}
+<!-- Page Header-->
+<!--removed class  context-dark for dark theme-->
+<header class="section page-header header-creative-wrap home-header">
+    <!-- RD Navbar-->
+    <div class="rd-navbar-wrap">
+        <nav class="rd-navbar rd-navbar-creative rd-navbar-creative-2" data-layout="rd-navbar-fixed"
+             data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed"
+             data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static"
+             data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static"
+             data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="100px" data-xl-stick-up-offset="112px"
+             data-xxl-stick-up-offset="132px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1"
+                 data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
+            <div class="rd-navbar-aside-outer">
+                <div class="rd-navbar-aside">
+                    <div class="rd-navbar-collapse">
+                        <ul class="contacts-classic">
+                            <li><span class="contacts-classic-title">Call us:</span><a href="tel:+91-8800945109">+91-8800945109</a>
+                            </li>
+                            <li><a href="mailto:info@instaeats.in" target="_blank">info@instaeats.in</a></li>
+                        </ul>
+                        <a class="rd-navbar-basket rd-navbar-basket-mobile fl-bigmug-line-shopping202"
+                           href="#"><span>2</span></a>
+                    </div>
+                    <!-- RD Navbar Panel-->
+                    <div class="rd-navbar-panel">
+                        <!-- RD Navbar Toggle-->
+                        <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span>
+                        </button>
+                        <!-- RD Navbar Brand-->
+                        <div class="rd-navbar-brand">
+                            <!--Brand--><a class="brand" href="{{homepage_url}}"><img class="brand-logo-dark"
+                                                                                      src="{% static 'images/INSTA-EAT-PNG_new.png'%}"
+                                                                                      alt="" width="130"
+                                                                                      height="130"/><img
+                                class="brand-logo-light" src="{% static 'images/INSTA-EAT-PNG_new.png'%}" alt=""
+                                width="130" height="130"/></a>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-aside-element">
+                        <!-- RD Navbar Search-->
+                        {% comment %} <div class="rd-navbar-search rd-navbar-search-2">
+                            <button class="rd-navbar-search-toggle rd-navbar-fixed-element-3"
+                                    data-rd-navbar-toggle=".rd-navbar-search"><span></span></button>
+                            <form class="rd-search" action="search-results.html"
+                                  data-search-live="rd-search-results-live" method="GET">
+                                <div class="form-wrap">
+                                    <input class="rd-navbar-search-form-input form-input"
+                                           id="rd-navbar-search-form-input" type="text" name="s" autocomplete="off"/>
+                                    <label class="form-label" for="rd-navbar-search-form-input">Search...</label>
+                                    <div class="rd-search-results-live" id="rd-search-results-live"></div>
+                                    <button class="rd-search-form-submit fl-bigmug-line-search74"
+                                            type="submit"></button>
+                                </div>
+                            </form>
+                        </div> {% endcomment %}
+                        <!-- RD Navbar Basket-->
+                        
+                        <div class="rd-navbar-basket-wrap">
+                            {% if request.basket.num_lines %}
+                                <button class="rd-navbar-basket fl-bigmug-line-shopping202"
+                                        data-rd-navbar-toggle=".cart-inline"><span>{{ request.basket.all_lines|length }}</span></button>
+                            {% else %}
+                                <button class="rd-navbar-basket fl-bigmug-line-shopping202"
+                                        data-rd-navbar-toggle=".cart-inline"><span>0</span></button>
+                            {% endif %}
+                            {% if request.basket.num_lines %}
+                            <div class="cart-inline">
+                                <div class="cart-inline-header">
+                                    <h5 class="cart-inline-title text-capitalize">In cart:<span> {{ request.basket.all_lines|length }}</span> Product<span class="text-lowercase">(s)</span></h5>
+                                    <h6 class="cart-inline-title text-capitalize">Total price:
+                                        <span>
+                                            {% if request.basket.is_tax_known %}
+                                             <span><i class="fa fa-rupee d-inline-block"> {{ request.basket.total_incl_tax }} </i></span>
+                                            {% else %}
+                                             <span><i class="fa fa-rupee d-inline-block"> {{ request.basket.total_excl_tax }} </i></span>
+                                            {% endif %}
+                                        </span>
+                                    </h6>
+                                </div>
+                                <div class="cart-inline-body">
+                                    {% for line in request.basket.all_lines %}
+                                    <div class="cart-inline-item small-cart-item-list">
+                                        <div class="unit unit-spacing-sm align-items-top">
+                                            <div class="unit-left small-cart-img-wrap">
+                                                <a class="cart-inline-figure" href="{{ line.product.get_absolute_url }}">
+                                                <img src="{{ MEDIA_URL }}{{ line.product.primary_image.original }}" alt="{{ line.product.get_title }}" width="106" height="104"/>
+                                                </a>
+                                            </div>
+                                            <div class="unit-body">
+                                                <h6 class="cart-inline-name text-capitalize"><a href="{{ line.product.get_absolute_url }}">{{ line.description|truncatechars:18 }}</a></h6>
+                                                <div class="mt-0">
+                                                    <div class="group-xs group-middle">
+                                                        <h6 class="small-cart-quantity">Quantity: {{ line.quantity }}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="small-price-position">
+                                                    <h6 class="cart-inline-title small-cart-price">
+                                                        <span><i class="fa fa-rupee"> {{ line.unit_price_excl_tax }} </i></span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="cart-inline-footer text-center">
+                                    <div class="group-sm">
+                                        <a class="button button-default-outline-2 button-zakaria" href="{% url 'basket:summary' %}">Go to cart</a>
+                                        <!-- <a class="button button-primary button-zakaria" href="{% url 'checkout:index' %}">Checkout</a></div> -->
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="cart-inline">
+                                <h6 class="text-center cart-inline-title">{% trans "Your Cart is empty." %}</h6>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="rd-navbar-fixed-element-2 select-inline">
+                            {% if request.user.is_authenticated %}
+                            {% comment %} <a href="{% url 'customer:logout' %}" class="color-secondary"><i class="fa fa-sign-out"
+                                                                                             aria-hidden="true"></i></a> {% endcomment %}
+                            <a href="{% url 'customer:profile-view' %}" class="color-secondary"><i class="far fa-user-circle"></i></a>                                                                 
+                            {% else %}
+                            <a href="{% url 'customer:login' %}" class="color-secondary"><i class="fa fa-sign-in"
+                                                                                            aria-hidden="true"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rd-navbar-main-outer">
+                <div class="rd-navbar-main">
+                    <div class="rd-navbar-nav-wrap">
+                        <ul class="rd-navbar-nav">
+                            <li class="rd-nav-item {% if view_name == 'catalogue:index' %}active {% endif %}">
+                            <a class="rd-nav-link" href="{{homepage_url}}">Home</a>
+                            </li>
+                            <li class="rd-nav-item {% if view_name == 'catalogue:about_us' %} active {% endif %}">
+                            <a class="rd-nav-link" href="{% url 'catalogue:about_us' %}">About Us</a>
+                            </li>
+                            <li class="rd-nav-item {% if view_name == 'website:review' %} active {% endif %}">
+                                <a class="rd-nav-link" href="{% url 'website:review' %}">Review</a>
+                                </li>
+                            {% comment %}
+                            <li class="rd-nav-item"><a class="rd-nav-link" href="#">Pages</a>
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="what-we-offer.html">What
+                                        We Offer</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="our-team.html">Our
+                                        Team</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="pricing-list.html">Pricing
+                                        List</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="testimonials.html">Testimonials</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="404-page.html">404
+                                        Page</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="coming-soon.html">Coming
+                                        Soon</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                                    href="{% url 'catalogue:privacy_policy' %}">Privacy
+                                        Policy</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="search-results.html">Search
+                                        Results</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% endcomment %}
+                            <li class="rd-nav-item {% if view_name == 'catalogue:product_list' %} active {% endif %}">
+                            <a class="rd-nav-link" href="{% url 'catalogue:product_list' %}">Shop</a>
+                                 
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    {% for object in level_1_category %}
+                                    <li class="rd-dropdown-item">
+                                        <a class="rd-dropdown-link" href="{% url 'catalogue:product_list' %}?category={{object.id}}">
+                                            {{object.name}}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                
+                                
+                            </li>
+                            {% comment %} <li class="rd-nav-item"><a class="rd-nav-link" href="blog-list.html">Blog</a>
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="grid-blog.html">Grid
+                                        Blog</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="blog-post.html">Blog
+                                        Post</a>
+                                    </li>
+                                </ul>
+                            </li> {% endcomment %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<!-- Swiper-->
+{% endwith %}

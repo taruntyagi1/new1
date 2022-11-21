@@ -1,0 +1,382 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/report_pdf.css' %}">
+    <title>Document</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
+</style>
+
+<body style="font-family: 'Roboto', sans-serif;">
+    <div class="report_wrap">
+        <div style="background: #43A736;padding: 20px;">
+            <table style="width: 100% ;">
+                <tr>
+                    <td style="text-align: center;"><img src="{% static 'new_templates_assets/images/logo.png' %}" alt="" style="width: 65px;"></td>
+                    <td>
+                        <h2 style="margin: 0px; color: #fff; font-size: 30px; text-align: center;">Know How <br>Healthy Are You !</h2>
+                    </td>
+                    <td style="width: 220px">
+                        <div style="padding-bottom: 10px;">
+                            <span class=""><img src="{% static 'new_templates_assets/images/web.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span style="font-size: 18px;color: #fff; margin-left: 10px;">www.instaeats.in</span>
+                        </div>
+                        <div style="padding-bottom: 10px;">
+                            <span><img src="{% static 'new_templates_assets/images/email.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span  style="font-size: 18px;color: #fff; margin-left: 10px;">info@instaeats.in</span>
+                        </div>
+                        <div style="padding-bottom: 10px;">
+                            <span><img src="{% static 'new_templates_assets/images/whatsapp.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span  style="font-size: 18px;color: #fff; margin-left: 10px;">+91-88009 45109</span>
+                        </div>
+                    </td>
+                    <td style="width: 140px">
+                        <div style="padding-bottom: 10px;">
+                            <span class=""><img src="{% static 'new_templates_assets/images/instagram.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span style="font-size: 18px;color: #fff; margin-left: 10px;">Instagram</span>
+                        </div>
+                        <div style="padding-bottom: 10px;">
+                            <span><img src="{% static 'new_templates_assets/images/facebook.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span  style="font-size: 18px;color: #fff; margin-left: 10px;">Facebook</span>
+                        </div>
+                        <div style="padding-bottom: 10px;">
+                            <span><img src="{% static 'new_templates_assets/images/twitter.png' %}" alt="" style="width: 30px;vertical-align: middle;"></span>
+                            <span  style="font-size: 18px;color: #fff; margin-left: 10px;">Twitter</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 style="text-align: center; color:#262525; font-size:20px;">AI Based, COMPREHANSIVE  MICRONUTIENT <br>
+                DEFICIENCY ASSESSMENT REPORT</h4>
+
+                <div style="background: #FCFCFC;border: 1px solid #E9E9E9;margin: 20px 30px;padding: 20px;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td colspan="2" style="font-size: 21px;font-weight: 700;padding-bottom: 10px;">InstaEats India </td></tr>
+
+                        
+                            <td style="width: 50%;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="padding-bottom: 10px; width: 40%;">Name:</td>
+                                        <td style="padding-bottom: 10px;">{{object.name|default:''}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-bottom: 10px; width: 40%;">Age / Gender:</td>
+                                        <td style="padding-bottom: 10px;">{{object.age|default:'-'}} / {{object.gender|default:'-'}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-bottom: 10px; width: 40%;">Report Status:</td>
+                                        <td style="padding-bottom: 10px;">FINAL</td>
+                                    </tr>
+                                </table>
+                            </td>
+                       
+
+                            <td style="width: 50%;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="padding-bottom: 10px;width: 40%;">Mobile Number: </td>
+                                        <td style="padding-bottom: 10px;">{{object.mobile_number|default:'N/A'}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 10px;width: 40%;">Medical Condition : </td>
+                                        <td style="padding-bottom: 10px;">
+                                            {% if object.medical_condition %}
+                                                {{object.medical_condition|join:', '}}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding-bottom: 10px;width: 40%;">Report ID :</td>
+                                        <td style="padding-bottom: 10px;">{{object.sys_id}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+        </div>
+
+
+        <div style="margin: 40px 40px;">
+            <h4 style="font-size: 30px; font-weight:700; margin-bottom:10px;">What Vitamins Does Your Body Need?</h4>
+            <span style="color: #484848;font-size:28px; font-weight:600;">Evaluation</span>
+        </div>
+
+        <div style="margin: 40px 40px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width:30%">
+                        <img src="{% static 'new_templates_assets/images/doctor.png' %}" alt="" style="width: 73%;">
+                    </td>
+
+                    <td>
+                        <h6 style="font-size: 30px; color:#393939;margin: 0;padding-bottom: 20px;">Identified Deficiencies :</h6>
+                        <table>
+                            {% with object.get_deficiency_report as deficiency_report %}
+                                {% for deficiency in deficiency_report.deficiency_obj_list %}
+                                    {% if forloop.counter <= 8 %}
+                                    <tr>
+                                        <td style="font-size: 20px; color:#303936;width: 140px;padding-bottom:20px;">{{deficiency.deficiency_name}} :</td>
+                                        <td style="padding-bottom:20px;">
+                                            <span style="font-size: 18px; color:#393939;">Deficiency Suspected</span>
+                                            <span style="display: block; font-size:16px; font-style:italic;font-weight:400;">Symptoms :({{deficiency.selected_symptoms|join:', '}})</span></td>
+                                    </tr>    
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}                       
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 30%;">&nbsp;</td>
+                    <td>
+                        <table>
+                            {% with object.get_deficiency_report as deficiency_report %}
+                                {% for deficiency in deficiency_report.deficiency_obj_list %}
+                                    {% if forloop.counter > 8 %}
+                                    <tr>
+                                        <td style="font-size: 20px; color:#303936;width: 140px;padding-bottom:20px;">{{deficiency.deficiency_name}} :</td>
+                                        <td style="padding-bottom:20px;">
+                                            <span style="font-size: 18px; color:#393939;">Deficiency Suspected</span>
+                                            <span style="display: block; font-size:16px; font-style:italic;font-weight:400;">Symptoms :({{deficiency.selected_symptoms|join:', '}})</span></td>
+                                    </tr>    
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}                       
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="margin: 40px 80px;">
+            <table>
+                <tr>
+                    <td>
+                        <img src="{% static 'new_templates_assets/images/sign1.png' %}" alt="">
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Dr.Rakesh Kumar</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">M.SC.,phD</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Consultant Biochemistry</span>
+                    </td>
+                    <td>
+                        <img src="{% static 'new_templates_assets/images/sign2.png' %}" alt="">
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Dr.Dipti C Ekka</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">MBBS,MD,MHA</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Laboratory Director</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size: 15px; font-style:italic; font-weight: 600;">*Marked tests are under the scope of NABL</td>
+                   
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size: 15px; font-style:italic; font-weight: 600;">The above test has been processed at Rapidx. A unit of cauro diagnostics pvt. ltd, Gurugram(Harayana)</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="border-top:2px solid #43A736;">
+            <div style="margin: 10px 60px;">
+                <table>
+                    <tr>
+                        <td style="width: 20%"><img src="{% static 'new_templates_assets/images/logob.png' %}" alt=""></td>
+                        <td>
+                            <p style="margin: 0px; text-align:center;"><strong>IMPORTANT INFORMATION!</strong> This test is for informational purposes only and is not intended to be, nor should be construed as 
+                                a substitute for advice, diagnosis, and/or treatment from a qualified medical professional. If you have any kind of medical 
+                                condition whatsoever, or are experiencing symptoms of a medical condition, consult your doctor.</p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <div style="background:#43A736; text-align: center; padding: 10px;">
+            <p style="margin: 0; color:#fff;"><strong>Address :</strong>Urban Nutrition Pvt Ltd Building No. 1505, 2nd Floor Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi 110003 INDIA</p>
+        </div>
+        <br>
+        <br>
+        <div style="margin: 20px 60px; page-break-before:always">
+            <h2 style="font-size: 24px; text-transform:uppercase; margin: 0px;"><span
+                    style="display: block; color: #43A736; font-size: 20px; font-weight: 600;">Advisory</span>Our
+                Recommendations</h2>
+        </div>
+
+        {% if recommended_product %}
+        <div style="background:#D4EEC1;padding:20px 40px;">
+            <table>
+                <tr>
+                    <td style="width: 17%;">
+                        <div style="background-color: #A4DE9C; width:300px; height: 300px;">
+                            <h2
+                                style="text-transform: uppercase;color: #43A736; font-size: 34px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Diet</span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 40px;">
+                        <img src="{% static 'new_templates_assets/images/green.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #43A736; font-weight: 500; margin-left: 10px;">
+                            Diet Modification</h4>
+                        <table style="padding-top:40px;" class="diet-modification-content">
+                            <tr>
+                                <td style="width: 41%;">
+                                    <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Do's</p>
+                                    {{recommended_product.diet_modification_dos|safe}}
+                                </td>
+
+                                <td style="padding-left: 40px; width: 41%;">
+                                    <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Dont's</p>
+                                    {{recommended_product.diet_modification_donts|safe}}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+       
+        <div style="background:#fff;padding:20px 40px;">
+            <table>
+                <tr>
+                    <td style="width: 17%;">
+                        <div style="background-color: #CFEFEB; width:300px; height: 300px;">
+                            <h2
+                                style="text-transform: uppercase;color: #02BAA1; font-size: 34px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Lifestyle</span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 40px;">
+                        <img src="{% static 'new_templates_assets/images/blue.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #02BAA1; font-weight: 500; margin-left: 10px;">
+                            Lifestyle Modification</h4>
+                        <table style="padding-top:40px;" class="diet-modification-content">
+                            <tr>
+                                <td style="width: 41%;">
+                                    <p style="margin: 0; background:#F2F2F2; padding:10px 20px;display: inline;">Do's
+                                    </p>
+                                    {{recommended_product.lifestyle_modification_dos|safe}}
+                                </td>
+
+                                <td style="padding-left: 40px; width: 41%;">
+                                    <p style="margin: 0; background:#F2F2F2; padding:10px 20px;display: inline;">Dont's
+                                    </p>
+                                    {{recommended_product.lifestyle_modification_donts|safe}}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="background:#FFEBB0;padding:20px 40px; page-break-before:always">
+            <table>
+                <tr>
+                    <td style="width: 17%;">
+                        <div style="background-color: #D8CCAB; width:300px; height: 300px;">
+                            <h2
+                                style="text-transform: uppercase;color: #D4A11C; font-size: 34px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Nutritional
+                                </span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 40px;">
+                        <img src="{% static 'new_templates_assets/images/brown.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #D4A11C; font-weight: 500; margin-left: 10px;">
+                            Nutritional Recommendations</h4>
+                        <table class="nutritional-modification-content">
+                            <tr >
+                                <td style="width: 41%;">
+                                    {{recommended_product.program_detail|safe}}
+                                    {{recommended_product.nutritional_recommendation|safe}}
+                                </td>
+
+                                <td style="padding-left: 40px; text-align: center;width: 40%;">
+                                    <img src="{% static 'new_templates_assets/images/Mens.png' %}" alt="" style="width: 100%;">
+                                    <div style="text-align: center;">
+                                        <a href="#"
+                                            style="background-color: #FB641B;color:#fff; padding: 10px 20px; border-radius:10px; text-decoration: none;">Buy
+                                            Now</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <div style="background-color: #E4FFE1; padding:20px 40px;">
+            <table>
+                <tr>
+                    <td style="width:33%"><img style="width: 100%;" src="{% static 'new_templates_assets/images/girls.png' %}" alt=""></td>
+                    <td style="width:33%">
+                        <p style="color: #183B56; font-size:20px; font-weight:500; padding-bottom: 20px;">Micronutrient deficiencies affect up to 2 billion people globally-nearly 30% of the world's
+                            population. What if? You might be one of them. Consult with our experts before it's too
+                            late.</p>
+                            <a href="#" style="background-color: #38B245; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Book Free Consultation</a>
+                    </td>
+                    <td style="width:33%">
+                        <div style="border-left: 1px solid #ccc;padding-left: 13px;">
+                            <img src="{% static 'new_templates_assets/images/qr.png' %}" alt="" >
+                            <p>Open camera and scan Our QR Code to Book Free Consultation</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="border-top:2px solid #43A736;">
+            <div style="margin: 10px 60px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 20%"><img src="{% static 'new_templates_assets/images/logob.png' %}" alt=""></td>
+                        <td style="text-align: center;">
+                            <p style="margin: 0px;padding-bottom: 20px;"><strong>If you like it, recommend our site to your friends</strong></p>
+                            <img src="{% static 'new_templates_assets/images/social.png' %}" alt="">
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div style="background:#43A736; text-align: center; padding: 10px;">
+            <p style="margin: 0; color:#fff;"><strong>Address :</strong>Urban Nutrition Pvt Ltd Building No. 1505, 2nd Floor Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi 110003 INDIA</p>
+        </div>
+        
+
+    </div>
+
+</body>
+
+</html>

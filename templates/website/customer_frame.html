@@ -1,0 +1,114 @@
+{% extends "website/base.html" %}
+{% load display_tags %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="preloader">
+    <div class="preloader-body">
+        <div class="cssload-bell">
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+            <div class="cssload-circle">
+                <div class="cssload-inner"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "partials/messages.html" %}
+<div class="page">
+    {% include "website/header.html" %}
+
+    {% block page-content %}
+    
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="brdcmbx">
+                <div class="brd-d">
+                    <h3>Profile Details</h3>
+                    <ul class="br_submenu">
+                        <li><a href="javascript:void(0);">Home</a></li>
+                        <li><a href="javascript:void(0);">Profile</a></li>
+                        <li>Profile Details</li>
+                    </ul>
+                </div>                                     
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section class="edt_prdtsbx">
+        <div class="container">
+            <div class="edt_section">       
+                <div class="edt_menu">
+                    <div class="profile_pic">
+                        <img class="mda_pic" src="{{ MEDIA_URL }}{{request.user.profile_picture}}" alt="">
+                    </div>
+                    <ul class="edt_menu_nav">
+                        <li><a class="{% if active_tab == 'profile' %}active{% endif %}" href="{% url 'customer:profile-view' %}">Profile Information</a></li>
+                        <li><a class="{% if active_tab == 'orders' %}active{% endif %}" href="{% url 'customer:order-list' %}">Order History</a></li>
+                        <li><a class="{% if active_tab == 'addresses'%}active{% endif %}" href="{% url 'customer:address-list' %}">Address Book</a></li>
+                        <li><a class="{% if active_tab == 'emails' %}active{% endif %}" href="{% url 'customer:email-list' %}">Email History</a></li>
+                        <li><a href="{% url 'customer:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+                
+                    {% block profile_content %}
+                    {% endblock profile_content %}
+                
+            </div>
+        </div>
+    </section>
+    {% endblock page-content %}
+
+    {% include "website/footer.html" %}
+
+</div>
+{% endblock content %}
+
+{% block custombodyend %}
+<script>
+    $(window).scroll(function() {    
+        var scroll = $(window).scrollTop();
+        if (scroll >= 50) {                
+            $(".header").addClass("top-fixed");
+        } else {                
+            $(".header").removeClass("top-fixed");
+        }
+    });
+    $(".remv_attr").click(function(){          
+        $(".form-control").removeAttr("disabled");
+        $(".form-control").removeClass("disabled");
+        $(".samebtn").addClass("d-none");
+        $(".samebtn").addClass("d-none");
+        $(".add_attr").removeClass("d-none");                
+    });
+    $(".add_attr").click(function(){                       
+        $(".form-control").attr('disabled');
+        $(".form-control").addClass("disabled");
+        $(".samebtn").removeClass("d-none");
+        $(".samebtn").removeClass("d-none");
+        $(".add_attr").addClass("d-none");                
+    });
+</script>
+{% endblock %}
+
+
+Feedback
+Looking for language selection? Find it in the new 
+Unified Settings
+© 2022, Amazon Internet Services Private Ltd. or its affiliates.

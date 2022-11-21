@@ -1,0 +1,414 @@
+{% extends "website/new_templates/components/frame.html" %}
+{% include 'catalogue/frame1_list.html' %}
+{% include 'catalogue/frame2_list.html' %}
+{% include 'catalogue/frame3_list.html' %}
+{% include 'catalogue/frame4_list.html' %}
+{% include 'catalogue/frame5_list.html' %}
+
+
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+
+
+
+{% block seo %}
+    <title>About Instaeats | Improve Your Health Naturally</title>   
+    <meta name="theme-color" content="#16be48" />
+    <meta name="title" content="About Instaeats | Improve Your Health Naturally"/>
+    <meta name="description" content="About Instaeats | Building An India That Stays Ahead Of Diabetes, PCOS, Thyroid And Heart Diseases And Where Kids, Adults And The Elderly Stay Fit, Healthy And Active."/>
+    <!-- <meta name="keywords" content="{% if product.meta_keywords %}{% for obj in object.meta_keywords %}{% if forloop.last %}{{ obj }}{% else %}{{obj}},{% endif %}{% endfor %}{% endif %}"/> -->
+
+{% endblock %}
+{% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+{% endblock %}
+{% block page-content %}
+<!-- <style>
+    .ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}
+</style> -->
+
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>About Us</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>                        
+                    <li>About Us</li>
+                    
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<section class="about_eats_bx">
+    <div class="about_eats">
+        {% for object in frame1  %}
+        <div class="container">
+            <div class="row box-flpbx">
+                <div class="col-lg-6">
+                    <div class="about_img p-0">
+                        <!-- <div class="abot_imgblr"><img src="{% static 'website/images/aboutimg.png' %}" alt="about"></div> -->
+                        <div class="abot_img m-auto"><img src="{{MEDIA_URL}}{{object.image}}" alt="about"></div>                        
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex align-items-center">
+                    <div class="about_text">
+                        <h2><span>About</span>{{object.title}}</h2>
+                        <p>{{object.description|safe|striptags}}</p>                    </div>
+                </div>
+            </div>
+            <div class="freespace_100"></div>
+            {% for object in frame2  %}
+            <div class="row">
+                <div class="col-lg-6 d-flex align-items-center">
+                    <div class="about_text">
+                        <h2><span>About</span>{{object.title}}</h2>
+                        <div class="fndrdtbx">
+                            <p>{{object.description|safe|striptags}}</p>
+                            <p>Saurabh is the driving force and inspiration behind InstaEats. His tale is worth inspiring as an engineer turned into a successful Exercise professional. He is also a successful founder of a leading fitness startup called InstaFitness. In intend to make India fit and healthy, he with his team has served more than 60,000 people so far and has reversed diabetes and PCOS symptoms significantly. With his unique route cause nutrition approach, he is further on a mission to make 5 million people fit in the next 10 years. He aims to simplify healthy eating easy, affordable, and accessible for all. Thus, he successfully launches InstaEats.</p>                            
+                        </div>
+                        <div class="fndrdmr"><a data-bs-toggle="modal" data-bs-target="#aboutmore" href="javascridiv:void(0);">Read More...</a></div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about_img found_img">                        
+                        <div class="abot_img"><img src="{{MEDIA_URL}}{{object.image}}" alt="about"></div>
+                    </div>
+                </div>    
+                {% endfor %}            
+            </div>
+            <div class="freespace_100"></div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="vision_mission_wrapper">
+    {% for object in  frame5  %}
+    <div class="visi_misi">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mission">
+                        <h4>Our Mision</h4>
+                        <p>We Want To Make 5 Million People Micronutrient Efficient In The Next 3 Years Through Our Solution.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="vision">
+                        <h4>Our Vision</h4>
+                        <p>Our vision is to make people live healthy not by choice but as a lifestyle and to see a healthy &amp; lifestyle disease-free India..</p>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+
+
+<section class="values_Wrapper">   
+   
+    <div class="container">
+        <div class="row">
+            {% for object in frame3  %}
+            <div class="col-lg-6 opv_bx">
+                {% comment %} {% for object in frame3  %} {% endcomment %}
+                <div class="phi_img">
+                    <img class="img-fluid" src="{{MEDIA_URL}}{{object.image}}" alt="">
+                </div>
+                {% comment %} {% endfor %} {% endcomment %}
+            </div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="phi_text">
+                    <h2><span>Our</span>{{object.title}}</h2>
+                    <p class="pt-3">{{object.description|safe|striptags}}</p>
+                     <ul class="mt-2">
+                        <li>100% Safe & Natural Ingredients </li>
+                        <li>Single Pack Serving</li>
+                        <li>Nutritionally Quantified</li>
+                        <li>High In Micronutrients & Minerals</li>
+                        <li>No Added Sugar & Preservatives</li>
+                        <li>Easy To Have, Easy To Carry </li>
+                        <li>Scientifically Formulated</li> 
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="values">
+            {% for object in frame4  %}
+            <div class="row">
+                <div class="col-lg-6 d-flex align-items-center">                        
+                    <div class="phi_text">
+                        <h2><span>Our</span>{{object.title}}</h2>
+                        <p class="pt-3">{{object.description1|safe|striptags}} </p>
+                        <p class="pt-3">{{object.description2|safe|striptags}} </p>
+                        <p class="pt-3">{{object.description3|safe|striptags}} </p>
+                        <p class="pt-3">{{object.description4|safe|striptags}} </p>
+
+                      
+                       
+                </div>
+                <div class="col-lg-6 opv_bx val_img">
+                  
+                    <div class="phi_img">
+                        <img class="img-fluid" src="{{MEDIA_URL}}{{object.image}}" alt="">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+  
+</section>
+
+<!-- 
+<section class="ab_testi_wrapper">
+    <div class="abi_testi">
+        <div class="container">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+           <div class="test_about">
+            <p>InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.</p>
+            <h4>Ritika</h4>
+            <p class="smlcs">July 6, 2022, 11:19 a.m.</p>
+            <div class="review">
+                <i class="ri-star-s-fill"></i>
+                <i class="ri-star-s-fill"></i>
+                <i class="ri-star-s-fill"></i>
+                <i class="ri-star-s-fill"></i>
+                <i class="ri-star-half-fill"></i>  
+            </div>
+            <div class="rating"><img src="images/ic_star.png" alt=""></div>
+           </div>
+          </div>
+          <div class="carousel-item">
+            <div class="test_about">
+                <p>InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.</p>
+                <h4>Ritika</h4>
+                <p class="smlcs">July 6, 2022, 11:19 a.m.</p>
+                <div class="review">
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-half-fill"></i>  
+                </div>
+                <div class="rating"><img src="images/ic_star.png" alt=""></div>
+               </div>
+          </div>
+          <div class="carousel-item">
+            <div class="test_about">
+                <p>InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.InstaEast Skin Health has been such a saviour for me. I can have seen such good results on my skin and i can say it after using it for almost 2 months and the best thing is that it is all natural.</p>
+                <h4>Ritika</h4>
+                <p class="smlcs">July 6, 2022, 11:19 a.m.</p>
+                <div class="review">
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-s-fill"></i>
+                    <i class="ri-star-half-fill"></i>  
+                </div>
+                <div class="rating"><img src="images/ic_star.png" alt=""></div>
+               </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    </div>
+
+</section>  -->
+<!-- <section class="wcaocet_section">
+    <div class="container-fluid">
+        <div class="head-cn">
+            
+            <h3>We Proudly Own Our Customer's Happiness</h3>
+        </div>
+        <div id="wca_owl" class="owl-carousel">
+            {% for obj in customer_testimonial_list %}
+            <div class="item">
+                <div class="wcace_b">
+                    <h3 class="ht_ttl"><b>{{obj.review|safe|striptags}}</b></h3>
+                    <img class="usr_icni lazy" data-src="{{ MEDIA_URL }}{{ obj.customer_image }}" alt="">
+                    <h4>{{ obj.name }}</h4>
+                    <p>{{obj.city}}</p>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</section> -->
+
+<!-- <section class="nswihlhc">
+    <div class="container">
+        <div class="constnw">
+            <div class="constbx">
+                <h1>Not sure which is the right Supperfood mix for you? Get instant help from a leading health coach.</h1>
+                <a class="btn_fl" href="{%url 'website:contact_us' %}">Consult Now</a>
+            </div>
+            <div class="mda_img">
+                <img data-src="{% static 'website/images/img_4.png' %}" alt="" class="lazy">
+            </div>
+        </div>
+    </div>
+</section> -->
+<section class="section_wpooch_bx section_pdng">
+    <div id="wpooch">       
+        {% include 'website/new_templates/wpooch.html' %}     
+    </div>
+</section>
+
+<!-- *************************** We Proudly Own Our Customer's Happiness End *************************** -->
+
+
+<section class="nswihlhc section_pdng">
+    <div class="container">
+        <div id="nswihlh_page">
+            {% include 'website/new_templates/nswihlhc.html' %}
+        </div>
+    </div>
+</section>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade csmtvideomdl" id="aboutmore" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" id="hide-dietitions"  aria-label="Close"><i class="ri-close-fill"></i></button>
+        </div>
+        <div class="modal-body dietician-mdl">
+            <div class="abutmorebx">
+                <div class="abot_img"><img src="{% static 'website/images/aboutimg.png' %}" alt="about"></div>
+                <div class="fndrdtbx">
+                    <p>Dr. Rekha is an award-winning dietitian, women entrepreneur and the Brain behind InstaEats. She is also a founder of the booming fitness startup called InstaFitness, i.e. nutrition and fitness-focused company. Rekha is a passionate, courageous woman who never stops to put her learnings into great use and enables people to solve their health-related issues via dietary habits. Over the years, she helped more than 60k  individuals by simplifying their personal health requirements through diet and nutrition consultation.</p>
+                    <p>Saurabh is the driving force and inspiration behind InstaEats. His tale is worth inspiring as an engineer turned into a successful Exercise professional. He is also a successful founder of a leading fitness startup called InstaFitness. In intend to make India fit and healthy, he with his team has served more than 60,000 people so far and has reversed diabetes and PCOS symptoms significantly. With his unique route cause nutrition approach, he is further on a mission to make 5 million people fit in the next 10 years. He aims to simplify healthy eating easy, affordable, and accessible for all. Thus, he successfully launches InstaEats.</p>                            
+                </div>
+            </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- 
+<section class="aboutbx">
+    <div class="abt_1">
+        <div class="container">
+            <div class="row">                
+                <div class="col-6 imgmedia">
+                    <img class="img-fluid" src="{% static 'website/images/img_about.png' %}" alt="">
+                </div>
+                <div class="col-6 databx">
+                    <div class="dbx">
+                        <h1>About Us</h1>
+                        <p>Re-discovering consumer needs and identifying missing aspects in modern diet and lifestyle disease management solutions, InstaEats has developed an all natural range of health management nutritive solutions through the finest selection of most active and potent superfoods delivering targeted health solution, convenience of consumption and fulfillment of taste and healthy snacking.</p>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="abt_2">
+        <div class="container">
+            <div class="row">
+            <div class="col-6 imgmedia">
+                <img class="img-fluid lazy" data-src="{% static 'website/images/img_insprtn.png' %}" alt="">
+            </div>
+            <div class="col-6 databx">
+                <div class="dbx">
+                    <h1>Inspiration</h1>
+                    <p>Rekha is an award winning dietitian, women entrepreneur and the mind behind InstaEats. Her dynamic experience that spans over a decade with an in-depth understanding of Indian dietary profile, diet practices, lifestyle habits and diseases acquired over thousands of client interactions, health care summits, workshops and research studies has been the driving force and inspiration behind InstaEats.</p>                        
+                </div>
+            </div>                    
+            </div>
+        </div>
+    </div>
+    <div class="abt_3">
+        <div class="container">
+            <div class="row">                    
+                <div class="col-6 databx">
+                    <div class="dbx">
+                        <h1>Mission</h1>
+                        <p>Building an India that stays ahead of diabetes, PCOS, thyroid and heart diseases and where kids, adults and the elderly stay fit, healthy and active.</p>                        
+                    </div>
+                </div>                    
+                <div class="col-6 imgmedia">
+                    <img class="img-fluid lazy" data-src="{% static 'website/images/img_mssn.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="nswihlhc">
+    <div class="container">
+        <div class="constnw">
+            <div class="constbx">
+                <h1>Not sure which is the right plan for you? Get instant help from a leading health coach.</h1>
+                <a class="btn_fl" href="{% url 'website:contact_us' %}">Consult Now</a>
+            </div>
+            <div class="mda_img">
+                <img data-src="{% static 'website/images/img_4.png' %}" alt="" class="lazy">
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+
+<div class="snackbars" id="form-output-global"></div>
+<!--    <script src="js/core.min.js"></script>-->
+<!--    <script src="js/script.js"></script>-->
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+   
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+
+</script>
+{% endblock %}

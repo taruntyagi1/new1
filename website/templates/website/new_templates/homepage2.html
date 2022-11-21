@@ -1,0 +1,1015 @@
+{% extends "website/new_templates/components/frame.html" %}
+{% include 'catalogue/bannerimages_list.html' %}
+{% include 'catalogue/who_we_are_list.html' %}
+{% include 'catalogue/micronutreint_list.html' %}
+{% include 'catalogue/how_it_work_list.html' %}
+{% include 'catalogue/menu_list.html' %}
+{% include 'catalogue/consult_list.html' %}
+{% include 'catalogue/client_logo_list.html' %}
+{% include 'catalogue/blog_list.html' %}
+{% include 'catalogue/faqs_list.html' %}
+
+
+
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load go_to_cart_product %}
+{% load purchase_info_tags %}
+
+
+
+{% block custom_header %}
+{% include 'website/new_templates/components/header.html' %}
+{% endblock %}
+
+{% block seo %}
+    <title>India's 1st Personalized & Most Healthist Superfood Mix | 100% Natural Health Nutrition Online | Instaeats</title>
+    <meta name="title" content="India's 1st Personalized & Most Healthist Superfood Mix | 100% Natural Health Nutrition Online | Instaeats"/>
+    <meta name="description" content="100% Natural Health Nutrition Online | Get The Healthiest, Specific, Quantified And Easy To Carry Superfood Mix For Daily Nutrition & Lifestyle Disease Management | Get Set & Shop Online Now.."/>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/fontawesome.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <!-- <meta name="keywords" content="{% if product.meta_keywords %}{% for obj in object.meta_keywords %}{% if forloop.last %}{{ obj }}{% else %}{{obj}},{% endif %}{% endfor %}{% endif %}"/> -->
+{% endblock %}
+
+{% block page-content %}
+    <!-- *************************** Sleder Section Start *************************** -->
+    <section class="slider_bx">
+        <div class="container">
+            {% comment %} {% for object in banner_image_object %} {% endcomment %}
+            
+            <div class="row swiprow">
+                <div class="align-items-center col-md-6 d-flex">
+                    
+    
+                    <div class="slider-datat">
+                        {% comment %} {% if banner_image_object.title%} {% endcomment %}
+                            <div class="data_txt">                    
+                            <h4>{{banner_image_object.title|safe|striptags}}</h4>
+                            
+                                
+                            </div>
+                            {% comment %} {% endif %} {% endcomment %}
+                        {% comment %} {% if banner_image_object.subtitle%} {% endcomment %}
+                            <div class="data_txt">                    
+                                <h3>{{banner_image_object.subtitle|safe|striptags}}</h3>
+                            </div>
+                            {% comment %} {% endif %} {% endcomment %}
+                            <!--  -->
+                        </h3>
+                        <div class="line"></div>
+                        <p>{{banner_image_object.title}}</p>
+    
+                        <!-- <h3>Know how healthy you are</h3>
+                        <div class="line"></div>
+                        <p>Do You Know These Symptoms Can Be Due To Micronutrient Defeciency</p> -->
+                        <div class="tdt_btnbx">
+                            <a class="btn btntdt_btn" href="{% url 'website:defficiency_assessment' %}">
+                                Take Free Defeciency Test <i class="ri-arrow-right-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="slider-media">
+                        <a href="{{banner_image_object.hyperlink}}">
+                        <img class="img-fluid" src="{{ MEDIA_URL }}{{ banner_image_object.image }}" />
+                    </a>
+                    </div>
+                </div>
+            </div>
+            {% comment %} {%endfor%} {% endcomment %}
+        
+        </div>
+    </section>
+    <!-- *************************** Sleder Section End *************************** -->
+
+
+    <!-- *************************** client_logobx Start *************************** -->
+
+ <section class="client_logobx">
+     <div class="container">
+         <div id="cbl_slider" class="clbbx">
+            {% for obj in client_logo  %}
+            <div>
+                <div class="clnlgog"><img src="{{ MEDIA_URL }}{{ obj.image }}" /></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- *************************** client_logobx End *************************** -->
+
+
+    <!-- *************************** Hidden hunger affecting More than 2 billions people worldwide  Start *************************** -->
+   
+    <section class="bhhamtbpws_bx section_pdng">
+        <div class="container">
+            <div class="head m-auto mb-5 text-center w-75">
+                <h3>Micronutrient deficiency affects more than 2 billion people worldwide.</h3>
+            </div>
+            <div class="hham_stepbx">
+                {% for object in micronutreint  %}
+                <div class="hham_step_r">
+                    <h3>{{object.heading|safe|striptags}}</h3>
+                    <p>{{object.description|safe|striptags}} </p>
+                </div>
+                
+                <!-- <div class="hham_step_r">
+                    <h3>42M+</h3>
+                    <p>People in India Suffer From Thyroid Diseases.</p>
+                </div> -->
+                {% endfor %}
+            </div>
+            <div class="d-flex justify-content-center tdt_btnbx text-center">
+                <a class="btn btntdt_btn" href="{% url 'website:defficiency_assessment' %}" target="_blank">
+                    take Deficiency Test <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- *************************** Hidden hunger affecting More than 2 billions people worldwide  End *************************** -->
+
+
+
+    <!-- *************************** Lets Say No To Micronutrient Deficiency - Start - *************************** -->
+
+    <section class="lsnmd_section section_pdng">
+    <div class="container">
+        {% for object in blog  %}
+        <div class="row lsnmdbx">
+            <div class="align-items-center col-6 d-flex">
+                <div class="media_datab">
+                    
+                    <h3>
+                         {{object.main_heading|safe|striptags}}
+                    </h3>
+                    <!-- <p>Hidden hunger affects more than 2 billion individuals, nearly 30% of the global population? In India, over 80% of adolescents suffer from hidden hunger, according to UNICEF's 2019 report.</p> -->                        
+
+                    <p> {{object.title}} </p>
+                    <p>{{object.description|safe|striptags}}</p>                        
+                    <!-- <p>The vision is to defeat micronutrient deficiency by spreading awareness , Assessment of your body's requirements at the micronutrient level through our AI bot and fulfilling nutrition needs through superfoods and nutrition coaching is what we strive for and do the best for your health. Join in our efforts to enhance your daily well-being.</p>                             -->
+                    
+                    <p><a class="abt_rm" data-bs-toggle="modal" data-bs-target="#abt_mdl_more" href="javascript:void(0);">Read More</a></p>
+                </div>                    
+            </div>
+            <div class="col-6">
+                <div class="media-img">
+                    <img class="img-fluid" src="{{ MEDIA_URL }}{{ object.image }}" alt="">
+                </div>                    
+            </div>                
+        </div>
+        {% endfor %}
+       
+    </div>
+</section>
+
+
+    <!-- *************************** Lets Say No To Micronutrient Deficiency  - End - *************************** -->
+
+
+
+    <!-- *************************** Who we are? - Start - *************************** -->
+
+    <section class="wwa_bx section_pdng">
+        <div class="video-section">
+            <div class="video-section-wrapper">
+                <div class="container">
+                    {% for blog in who_we_are  %}
+                    <div class="row align-items-lg-center">
+
+                        <!-- video - start -->
+                        <div class="col-lg-6 offset-lg-0 col-md-8 offset-md-2 col-10 offset-1">
+                            <div class="video-layout">                                    
+                                <div class="icon" style="background: url({{ MEDIA_URL }}{{ blog.image4 }});">
+                                    <a href="javascript:void(0);" class="glightbox">
+                                        <!-- data-bs-toggle="modal" data-bs-target="#solutionmodal" -->
+                                        <img src="/static/new_templates_assets/images/icon/blue_play.svg" alt="">
+                                        <!-- <i class="fas fa-play c-dark blue-hover"></i> -->
+                                    </a>
+                                     <div class="box-1" style="background: url({{ MEDIA_URL }}{{ blog.image }});"></div>
+                                     
+                                    <div class="box-2" style="background: url({{ MEDIA_URL }}{{ blog.image1 }});">
+                                        <div class="box-8 bg-red_bx"></div>
+                                        <div class="box-9 bg-green_bx">
+                                            <div class="box-10 bg-grey-5"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="box-3" style="background: url({{ MEDIA_URL }}{{ blog.image2 }});">
+                                        <div class="box-7 bg-blue_bx">
+                                            <div class="box-11 bg-grey-5"></div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="box-4" style="background: url({{ MEDIA_URL }}{{ blog.image3 }});">
+                                        <div class="box-5 bg-green_bx"></div>
+                                        <div class="box-6 bg-grey-5"></div>
+                                    </div>
+                                   
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- video - end -->
+
+                        <!-- content - start -->
+                        <div class="col-lg-6 offset-lg-0 col-md-8 offset-md-2 col-10 offset-1">
+                            <div class="video-section-content">                                    
+                                <!-- <h1>Who we Are</h1> -->
+                                <h1>The Solution </h1>
+                                <h2 class="c-dark">{{blog.title}}</h2>
+                                <p>{{blog.description|safe|striptags}}</p>
+                                
+                                <div class="button-group tdt_rm_btnbx">
+                                    <a class="btntn tdt_btn" href="/defficiency-assessment" target="_blank">Take Deficiency Test</a>
+                                    <a class="btntn rm_btnb" href="/about_us/">Read More...</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- content - end -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="container">
+            <div class="head_snd text-center">
+                <h3><span>Who</span> we are?</h3>
+            </div>
+            <div class="row wwarow">
+                <div class="col-6 wwacol">
+                    <div class="wwa_media">
+                        <img class="img-fluid" src="/static/new_templates_assets/images/wwa_img.svg" alt="">                            
+                        <a class="vdoank" href="javascript:void(0);"><img src="/static/new_templates_assets/images/playicon.svg" alt=""></a>
+                    </div>                        
+                </div>
+                <div class="col-6 wwacol">
+                    <div class="wwa_data">
+                        <h3>Presenting India's First 100% Natural & Customized Snack for Daily Nutrition and Wellness </h3>
+                        <p>We help people fulfill their daily micronutrient requirements and manage lifestyle diseases like Diabetes, PCOD, and Thyroid naturally through our scientifically formulated & 100% natural snack and Nutrition Coaching.</p>                            
+                        <p>We help people fulfill their daily micronutrient requirements and manage lifestyle diseases like Diabetes, PCOD, and Thyroid naturally through our scientifically formulated & 100% natural snack and Nutrition Coaching.</p>                            
+                        <p><a href="javascript:void(0);">read more...</a></p>
+                    </div>                        
+                </div>
+            </div>
+        </div> -->
+
+    </section>
+                
+            <!-- <div class="container">
+                <div class="head_snd text-center">
+                    <h3><span>Who</span> we are?</h3>
+                </div>
+                <div class="row wwarow">
+                    <div class="col-6 wwacol">
+                        <div class="wwa_media">
+                            <img class="img-fluid" src="{% static 'new_templates_assets/images/wwa_img.svg' %}" alt="">                            
+                            <a class="vdoank" href="javascript:void(0);"><img src="{% static 'new_templates_assets/images/playicon.svg' %}" alt=""></a>
+                        </div>                        
+                    </div>
+                    <div class="col-6 wwacol">
+                        <div class="wwa_data">
+                            <h3>Presenting India's First 100% Natural & Customized Snack for Daily Nutrition and Wellness </h3>
+                            <p>We help people fulfill their daily micronutrient requirements and manage lifestyle diseases like Diabetes, PCOD, and Thyroid naturally through our scientifically formulated & 100% natural snack and Nutrition Coaching.</p>                            
+                            <p>We help people fulfill their daily micronutrient requirements and manage lifestyle diseases like Diabetes, PCOD, and Thyroid naturally through our scientifically formulated & 100% natural snack and Nutrition Coaching.</p>                            
+                            <p><a href="javascript:void(0);">read more...</a></p>
+                        </div>                        
+                    </div>
+                </div>
+            </div> -->
+
+        </section>
+
+
+    <!-- *************************** Who we are? End *************************** -->
+
+
+
+    <!-- *************************** How It Works ? Start *************************** -->
+
+    <section class="section_hiw_bx section_pdng" style="background: var(--theme-gray-light-color);">
+        <div class="container">
+            <div class="head_snd text-center">
+                <h3><span>How It</span> Works</h3>
+                <p>{{obj.main_title|safe|striptags}}</p>
+            </div>
+            
+            <div class="hiwdata">
+                {% for obj in how_it_work  %}
+                {% if obj.title == "Identify"   %}
+                <div class="wrks_steps bg-pink">  
+                    {% elif obj.title == "Take action" %} 
+                    <div class="wrks_steps bg-green">  
+                        {% elif obj.title == ""%}
+                        {% endif %}   
+                         
+                    <h2>Step 1</h2>
+                    <div class="step_box">
+                        <div class="icon asseticon">
+                            {% if obj.title == "Identify" %}
+                            <h3>
+                                1
+                                <span>Step</span>
+                            </h3>
+                            {% elif obj.title == "Take action"%}
+                            <h3>
+                                2
+                                <span>Step</span>
+                            </h3>
+                            {% endif %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 429 429" fill="none">
+                                <g clip-path="url(#clip0_1184_3543)">
+                                <path d="M64.2459 386.101H85.6972V407.549C85.6972 419.397 95.3002 429 107.145 429H364.548C376.393 429 385.996 419.397 385.996 407.549V64.3507C385.996 52.5024 376.393 42.8993 364.548 42.8993H343.097V21.4513C343.097 9.60301 333.494 0 321.645 0H121.448C121.311 0 121.183 0.0720062 121.046 0.0785522C120.391 0.114556 119.743 0.242202 119.124 0.464768C118.912 0.536774 118.702 0.618599 118.499 0.713516C117.704 1.05718 116.977 1.54159 116.356 2.14382L44.8566 73.646C44.2576 74.2515 43.7732 74.9618 43.4263 75.7407C43.3248 75.96 43.2692 76.1826 43.1906 76.4117C42.9844 77.0041 42.8601 77.6227 42.8241 78.2511C42.8241 78.4082 42.7324 78.5424 42.7324 78.6995V364.649C42.7324 370.351 45.0006 375.817 49.0362 379.839C53.0751 383.865 58.5476 386.117 64.2459 386.101ZM364.548 57.1991C368.495 57.1991 371.696 60.4001 371.696 64.3507V407.549C371.696 411.499 368.495 414.7 364.548 414.7H107.145C103.198 414.7 99.997 411.499 99.997 407.549V386.101H321.645C333.494 386.101 343.097 376.498 343.097 364.649V57.1991H364.548ZM328.797 21.4513V364.649C328.797 368.6 325.596 371.801 321.645 371.801H64.2459C60.2987 371.801 57.0977 368.6 57.0977 364.649V85.7987H107.145C118.994 85.7987 128.597 76.1957 128.597 64.3507V14.2998H321.645C325.596 14.2998 328.797 17.5008 328.797 21.4513ZM114.297 24.4101V64.3507C114.297 68.2979 111.096 71.4989 107.145 71.4989H67.208L114.297 24.4101Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M261.186 140.238C262.541 141.98 264.623 142.998 266.829 142.998C269.032 142.998 271.113 141.98 272.468 140.238L305.837 97.3392C308.157 94.22 307.558 89.8178 304.491 87.4318C301.425 85.0425 297.009 85.5465 294.555 88.5609L266.829 124.204L262.937 119.196C260.512 116.08 256.018 115.524 252.902 117.949C249.786 120.378 249.23 124.868 251.655 127.984L261.186 140.238Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M99.997 114.401H92.8455C88.8982 114.401 85.6972 117.602 85.6972 121.55C85.6972 125.5 88.8982 128.701 92.8455 128.701H99.997C103.944 128.701 107.145 125.5 107.145 121.55C107.145 117.602 103.944 114.401 99.997 114.401Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M128.597 114.401C124.649 114.401 121.448 117.602 121.448 121.55C121.448 125.5 124.649 128.701 128.597 128.701H214.395C218.346 128.701 221.547 125.5 221.547 121.55C221.547 117.602 218.346 114.401 214.395 114.401H128.597Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M261.186 204.589C262.541 206.331 264.623 207.349 266.829 207.349C269.032 207.349 271.113 206.331 272.468 204.589L305.837 161.69C307.473 159.68 307.895 156.941 306.936 154.532C305.981 152.126 303.794 150.424 301.222 150.087C298.652 149.75 296.103 150.83 294.554 152.909L266.829 188.552L262.937 183.547C261.369 181.531 258.843 180.507 256.313 180.86C253.783 181.21 251.632 182.886 250.67 185.252C249.711 187.619 250.084 190.319 251.655 192.335L261.186 204.589Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M99.997 178.749H92.8455C88.8982 178.749 85.6972 181.95 85.6972 185.901C85.6972 189.848 88.8982 193.049 92.8455 193.049H99.997C103.944 193.049 107.145 189.848 107.145 185.901C107.145 181.95 103.944 178.749 99.997 178.749Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M214.395 178.749H128.597C124.649 178.749 121.448 181.95 121.448 185.901C121.448 189.848 124.649 193.049 128.597 193.049H214.395C218.346 193.049 221.547 189.848 221.547 185.901C221.547 181.95 218.346 178.749 214.395 178.749Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M261.186 268.94C262.541 270.681 264.623 271.696 266.829 271.696C269.032 271.696 271.113 270.681 272.468 268.94L305.837 226.041C307.473 224.031 307.895 221.292 306.936 218.883C305.981 216.474 303.794 214.775 301.222 214.438C298.652 214.101 296.103 215.181 294.555 217.259L266.829 252.902L262.937 247.898C260.512 244.782 256.018 244.222 252.902 246.651C249.786 249.076 249.23 253.57 251.655 256.686L261.186 268.94Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M99.997 243.1H92.8455C88.8982 243.1 85.6972 246.301 85.6972 250.251C85.6972 254.198 88.8982 257.399 92.8455 257.399H99.997C103.944 257.399 107.145 254.198 107.145 250.251C107.145 246.301 103.944 243.1 99.997 243.1Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M214.395 243.1H128.597C124.649 243.1 121.448 246.301 121.448 250.251C121.448 254.198 124.649 257.399 128.597 257.399H214.395C218.346 257.399 221.547 254.198 221.547 250.251C221.547 246.301 218.346 243.1 214.395 243.1Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M261.186 333.291C262.541 335.029 264.623 336.047 266.829 336.047C269.032 336.047 271.113 335.029 272.468 333.291L305.837 290.391C307.473 288.382 307.895 285.642 306.936 283.233C305.981 280.824 303.794 279.122 301.222 278.785C298.652 278.448 296.103 279.532 294.555 281.61L266.829 317.253L262.937 312.249C260.512 309.133 256.018 308.573 252.902 311.002C249.786 313.427 249.23 317.921 251.655 321.037L261.186 333.291Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M99.997 307.45H92.8455C88.8982 307.45 85.6972 310.651 85.6972 314.598C85.6972 318.549 88.8982 321.75 92.8455 321.75H99.997C103.944 321.75 107.145 318.549 107.145 314.598C107.145 310.651 103.944 307.45 99.997 307.45V307.45Z" fill="#EE5E89"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M214.395 307.45H128.597C124.649 307.45 121.448 310.651 121.448 314.598C121.448 318.549 124.649 321.75 128.597 321.75H214.395C218.346 321.75 221.547 318.549 221.547 314.598C221.547 310.651 218.346 307.45 214.395 307.45V307.45Z" fill="#EE5E89"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_1184_3543">
+                                <rect width="429" height="429" fill="#EE5E89"/>
+                                </clipPath>
+                                </defs>
+                            </svg>                            
+                        </div>
+                        <h3>{{obj.title|safe|striptags}}</h3>
+                        <!-- <h3>TAKE A FREE<span>DEFICIENCY TEST</span></h3> -->
+                        <p>{{obj.description|safe|striptags}}</p>
+                    </div>             
+                </div>    
+                   
+                    
+                
+                {% endfor %}               
+            </div>
+            <div class="d-flex justify-content-center mt-5 tdt_btnbx text-center">
+                <a class="btn btntdt_btn" href="{% url 'website:defficiency_assessment' %}" target="_blank">
+                    take Deficiency Test <i class="ri-arrow-right-line"></i>
+                </a>        
+            </div>
+        </div>
+        
+        
+        
+    </section>
+
+    <!-- *************************** How It Works ? End *************************** -->
+
+
+    <!-- *************************** Essential Products Start *************************** -->
+
+    <section class="section_eps_bx section_pdng">
+        <div class="container-fluid">
+            <div class="head_snd text-center">
+                <h3><span>Essential </span> Products</h3>
+            </div>
+
+            <div class="prdnewslider webitempdt">       
+                {% for product in featured_product %}
+                <div class="item featured-product-card list-product-card">             
+                    <div class="imgbdrbx">
+                        <div class="prdt">
+                            <div class="m_dea">
+                                <a href="{{ product.get_absolute_url}}">
+                                    {% with image=product.primary_image %}
+                                    {% oscar_thumbnail image.original "297x297" upscale=True as thumb %}
+                                    <img class="prd_itm_img" alt="{{product.title}}" src="{{thumb.url}}">
+                                    {% endwith %}
+                                </a>
+                                {% go_to_cart_product  product=product request=request.basket.all_lines as available %} 
+                                {% if available.basket_product %}
+                                    {% if available.line.product.percent_discount > 0 %}
+                                        <div class="discount_percent">
+                                            <span class="pts discount-price">{{available.line.product.percent_discount}}%</span>
+                                            <span class="oft">off</span>
+                                        
+                                        </div>
+                                    {%endif%}
+                                {%else%}
+                                    {% if product.variants_list.0.percent_discount > 0 %}
+                                        <div class="discount_percent">
+                                            <span class="pts discount-price">{{product.variants_list.0.percent_discount}}%</span>
+                                            <span class="oft">off</span>
+                                        </div>
+                                    {%endif%}
+                                {%endif%}
+                            </div>
+                            <div class="data_bx">
+                                <h1><a href="{{ product.get_absolute_url}}">{{ product.title|safe|striptags}}</a></h1>
+                                <p>{{ product.tagline|safe|striptags|truncatechars:50 }}</p>                            
+                                <div class="star_bx">                            
+                                    <span class="ctryrpt with_star" style="color:orange">
+                                        {% if product.product_rating == 1.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 2.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 3.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 4.0 %}
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                        {% elif product.product_rating == 5.0 %}
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        {% endif %}
+                                    </span>
+                                    <span class="cnt_vl">{%if product.product_rating_count%}{{product.product_rating_count}}{%endif%}</span>
+                                </div>
+
+                                <div class="bnyftul">
+                                    <ul class="bnyftlst">
+                                        <li>{{product.product_benefit_1}}</li>
+                                        <li>{{product.product_benefit_2}}</li>
+                                    </ul>
+                                </div>
+                                
+                                {% go_to_cart_product  product=product request=request.basket.all_lines as available %} 
+                                <div class="dt_slctor">                                 
+                                    <select class="form-control variant-select" data-line-id="{{available.line.id}}" data-cart-id="{{request.basket.id}}">
+                                        {% for child in product.variants_list %}
+                                            {% if child.title == available.basket_product %}
+                                            
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}} selected>{{child.title}}</option>
+                                            {% else %}
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="price_bx">
+                                    {% if available.basket_product %}
+                                        <h2 class="lssprs price-retail">₹{{available.line.stockrecord.price_retail}}</h2>
+                                        <h2 class="acprc selling-price">₹{{available.line.unit_price_excl_tax}}</h2>
+                                    {% else %}
+                                        <h2 class="lssprs price-retail">₹{{product.variants_list.0.stockrecords.first.price_retail}}</h2>
+                                        <h2 class="acprc selling-price">₹{{product.variants_list.0.stockrecords.first.price_excl_tax}}</h2>
+                                    {% endif %}                          
+                                </div>  
+
+                                <div class="freedlrybx">
+                                    <p><span><img src="{% static 'website/images/ic_check.png' %}" alt="about"></span> FREE Prime Delivery</p>
+                                </div>  
+                            </div>
+
+                            <div class="btn_crtby">
+                                {% if product.variants_list|length > 0 %}
+                                    {% with products=product.variants_list.0 %}
+                                        <div class="w-50 go-to-cart-btn" {% if not available.status == True %} style="display: none;" {% endif %}>
+                                            <a class="btn btn_fill" style="background-color: #38b245; border-color: #38b245; font-size: 14px;" href="{% url 'basket:summary' %}">                                                
+                                                Added
+                                                <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                            </a>
+                                        </div>
+                                        {% purchase_info_for_product request product as session %}
+                                        <div class="w-50" {% if available.status == True %} style="display: none;" {% endif %}>
+                                            <a class="btn btn_fill popup-add-to-cart-btn" href="javascript:void(0);" data-ptitle="{{product.title}}">                                                
+                                                <span class="m_icon"><i class="ri-shopping-cart-2-fill"></i></span>
+                                                Add To Cart
+                                                <i class="fa fa-circle-o-notch fa-spin cart-btn-loader d-none"></i>
+                                                <!-- <i class="fa fa-shopping-cart" style="display: none;"></i> -->
+                                            </a>
+                                        </div>  
+                                        <div class="w-50">
+                                            <a class="btn_outline item-add-to-cart-btn" href="javascript:void(0);">Buy Now</a>
+                                        </div>
+                                    {% endwith %}
+                                {% endif %}
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- *************************** Essential Products End *************************** -->
+
+
+    <!-- *************************** Our Products are safe & Scientific Start *************************** -->
+
+    <section class="section_opas_bx section_pdng">
+        <div class="container">
+            <div class="head mb-5 text-center">
+                <h3 style="color: var(--color-dark);">Our Products are Safe & Scientific</h3>
+            </div>
+            
+            
+            <div class="thrstpbx">
+                {% for object in menu %}
+                <div class="thrstprptr">
+                    <div class="mdab">
+                        <img alt="" class="" src="{{ MEDIA_URL }}{{object.image }}">
+                    </div>
+                    <div class="datab">
+                        <h3>{{object.title|safe|striptags}}</h3>                         
+                    </div>
+                </div>
+                
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- *************************** Our Products are safe & Scientific End *************************** -->
+
+
+    <!-- *************************** Product step Start *************************** -->
+    
+    <section class="prodectstepbx">
+        <div class="stepbox_reptr section_pdng prdstp_01">
+            <div class="container">
+                <div class="row prdw_row">
+                    <div class="col-6 prdw_col d-flex align-items-center">
+                        <div class="pdr_data">
+                            <div class="web_bx">
+                                <h1>Wellness</h1>
+                                <p>(Boost Hormonal Health Naturally)</p>
+                            </div>
+                            
+                            <p>If you are undergoing a medical condition, then our wellness care products bless your health with boosted Immunity, increased energy, insulin management, hormonal imbalance & healthy digestion. Our products that fulfil your needs for multivitamins, minerals & nutrients are Thyro Health, PCOS Health, Gut Health & Diabetes health.</p>
+                            <!-- <p><span>Categories:</span> Superfood & Nuts</p>
+                            <p><span>Weight:</span> 30 Servings</p> -->
+                            <div class="btn_bx">
+                                <button type="button" class="btn prd_buynow">Explore Here</button>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 prdw_col">
+                        <div class="mbl_bx pdr_data">
+                            <h1>Wellness</h1>
+                            <p>(Boost Hormonal Health Naturally)</p>
+                        </div>
+                        <div class="img_mediabx text-center">
+                            <img class="img-fluid" src="{% static 'new_templates_assets/images/womens_health.png' %}" alt="">
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stepbox_reptr section_pdng prdstp_02">
+            <div class="container">
+                <div class="row prdw_row">
+                    <div class="col-6 prdw_col d-flex align-items-center">
+                        <div class="pdr_data">
+                            <div class="web_bx">
+                                <h1>Personal Care</h1>
+                                <p>(Boost Hormonal Health Naturally)</p>
+                            </div>                            
+                            <p>If you are on a specific regime or taking any special keto diet or athletic diet or need any special preventive care, our specially designed Personal care products are what all you need. Our products such as Heart health, Skin health, Sports health and Keto health fulfil all your skin-boosting nutrients, heart health improvement, ketosis support or boosting health and muscle performance naturally.</p>
+                            <!-- <p><span>Categories:</span> Superfood & Nuts</p>
+                            <p><span>Weight:</span> 30 Servings</p> -->
+                            <div class="btn_bx">
+                                <button type="button" class="btn prd_buynow">Explore Here</button>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 prdw_col">
+                        <div class="mbl_bx pdr_data">
+                            <h1>Personal Care</h1>
+                            <p>(Boost Hormonal Health Naturally)</p>
+                        </div>
+                        <div class="img_mediabx text-center">
+                            <img class="img-fluid" src="{% static 'new_templates_assets/images/womens_health.png' %}" alt="">
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stepbox_reptr section_pdng prdstp_03">
+            <div class="container">
+                <div class="row prdw_row">
+                    <div class="col-6 prdw_col d-flex align-items-center">
+                        <div class="pdr_data">
+                            <div class="web_bx">
+                                <h1>Daily Nutrition</h1>
+                                <p>(Boost Hormonal Health Naturally)</p>
+                            </div>                             
+                            <p>The key to meeting your daily nutrition intake on a daily basis lies with us. A healthy life is just the yummiest snack away - InstaEats Daily Health, Men’s Health, Women’s health and Kid’s Health products. It maintains nutrient balance naturally and provides complete health and wellness care solution to your health.</p>
+                            <!-- <p><span>Categories:</span> Superfood & Nuts</p>
+                            <p><span>Weight:</span> 30 Servings</p> -->
+                            <div class="btn_bx">
+                                <button type="button" class="btn prd_buynow">Explore Here</button>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 prdw_col">
+                        <div class="mbl_bx pdr_data">
+                            <h1>Daily Nutrition</h1>
+                            <p>(Boost Hormonal Health Naturally)</p>
+                        </div>
+                        <div class="img_mediabx text-center">
+                            <img class="img-fluid" src="{% static 'new_templates_assets/images/womens_health.png' %}" alt="">
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>        
+     </section>
+
+    <!-- *************************** Product step End *************************** -->
+
+
+
+    <!-- *************************** Trusted by Expert Dietitians and Nutritionists End *************************** -->
+
+    <section class="tdn_bx section_pdng">
+        <div class="container">
+            {% include 'website/new_templates/trusted_by_video.html' %}  
+    </div>            
+    </section>
+
+    <!-- *************************** Trusted by Expert Dietitians and Nutritionists End *************************** -->
+
+
+
+
+    <!-- *************************** We Proudly Own Our Customer's Happiness Start *************************** -->
+
+    <section class="section_wpooch_bx section_pdng">
+        <div id="wpooch">       
+            {% include 'website/new_templates/wpooch.html' %}     
+        </div>
+    </section>
+    
+    <!-- *************************** We Proudly Own Our Customer's Happiness End *************************** -->
+
+
+    <section class="nswihlhc section_pdng">
+        {% for object in consult  %}
+        <div class="constnw">
+            <div class="mda_img">
+                <img alt="" class="" src="{{ MEDIA_URL }}{{object.image }}">
+            </div>
+            <div class="constbx">
+                <h1>{{object.title|safe|striptags}}</h1>   
+                <div class="d-flex align-item-center">
+                    <!-- <button type="button" class="btn btn_fl"  >Consult Now</button> -->
+                    <a class="btn btn_fl" href="{% url 'website:contact_us' %}">{{object.button|safe|striptags}}</a> 
+                    <a class="btn tdtbtn" href="{% url 'website:defficiency_assessment' %}" target="_blank">
+                        take Deficiency Test <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </div>    
+        </div>
+        {% endfor %}
+    </section>
+
+
+    <div class="modal fade" id="abt_mdl_more" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+             <div class="modal-body">
+                <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-bs-label="Close">
+                    <i class="ri-close-fill"></i>
+                  </button>
+                <h3><span>Lets Say NO to</span> Micronutrient deficiency</h3>
+                <p>Meet the founders, breaking every barrier by taking the revolutionizing steps to cure the silent hidden hunger epidemic. </p>
+                <p>From developing advanced science-backed research to cultivating 100% natural ingredients, our team has created the first ever scientifically proven superfood mixes that actually works.</p>                        
+                <p>The vision is to defeat micronutrient deficiency by spreading awareness , Assessment of your body's requirements at the micronutrient level through our AI bot and fulfilling nutrition needs through superfoods and nutrition coaching is what we strive for and do the best for your health. Join in our efforts to enhance your daily well-being.</p>                            
+            </div> 
+          </div>
+        </div>
+      </div>
+
+
+    <div class="modal fade csmtvideomdl" id="solutionmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="hdsmclsbtn" aria-label="Close"><i class="ri-close-fill"></i></button>
+                </div>
+                <div class="modal-body dietician-mdl">
+                    {% for blog in who_we_are  %}
+                    {% comment %} <iframe class="ifrmvideo" id="smifrmvideo" src="https://www.youtube.com/embed/{{object.url}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
+                    
+                    <iframe class="ifrmvideo" id="smifrmvideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         
+                         {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block custombodyend %}
+{% for blog in who_we_are  %}
+<script>
+ 
+$(document).ready(function(){
+    
+
+    // $('.glightbox').click(function(){
+    //     $('#smifrmvideo').attr('src');
+    //     $('#solutionmodal').modal('show');
+    // });
+
+
+    // $('#hdsmclsbtn').click(function(){
+    //     var hideDietitions = document.getElementById('solutionmodal');
+    //     if (hideDietitions){
+    //         hideDietitions.addEventListener('hidden.bs.modal', function (event) {
+    //             $('#smifrmvideo').attr('src', "");                    
+    //         });
+    //     }       
+    // });
+
+    $('.glightbox').click(function(){           
+           var video = '{{blog.hyperlink}}'
+           console.log(video)
+           $('#smifrmvideo').attr('src', video);
+           $('#solutionmodal').modal('show');
+       });  
+// $('#hdsmclsbtn').click(function() {
+//     alert('Hide');
+//        var srcvideoUrl= $('#smifrmvideo').get(0).src;
+//        $('#smifrmvideo').get(0).src='';
+//        $('#smifrmvideo').get(0).src=srcvideoUrl;        
+//    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $(".nv_button").click(function(){
+//     alert('0');
+//     $("body").toggleClass("overflow-hidden");
+//     $(".menu-link").toggleClass("open");
+//     $("#navbarNavDropdown").toggleClass("active");                
+// });
+
+var addToCartErrorPopup = new bootstrap.Modal(document.getElementById('adcrtmdl'), {});
+var addToCartSuccessPopup = new bootstrap.Modal(document.getElementById('success-adcrtmdl'), {});
+// on change of variant
+$('body').on('change', '.variant-select', function(){     
+           
+    var retail_price = $(this).find('option:selected').data('retailPrice');
+    var selling_price = $(this).find('option:selected').data('sellingPrice');
+    var discount_price = $(this).find('option:selected').data('discount');
+    // var product_description = $(this).find('option:selected').data('description');
+    if(discount_price == 0){
+                $(this).parents('.featured-product-card').find('.discount_percent').hide();
+            }
+            else{
+                $(this).parents('.featured-product-card').find('.discount_percent').show();
+            }
+    var product_id = $(this).val();
+    $(this).parents('.list-product-card').find('.price-retail').text(retail_price);
+    $(this).parents('.list-product-card').find('.selling-price').text(selling_price);
+    // $(this).parents('.list-product-card').find('.product_description').text(product_description);
+    $(this).parents('.list-product-card').find('.discount-price').text(`${discount_price}% `);
+    var productId = $(this).val();
+    var cartId = $(this).data('cartId');
+    var lineId = $(this).data('lineId')
+    var currentSelect = this;
+    removeBasketProduct(lineId,cartId,productId, currentSelect);
+});
+
+removeBasketProduct = function(lineId, cartId, productId, currentSelect){
+    console.log(lineId, cartId, productId, currentSelect)
+    if(lineId){
+        var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+        $.ajax({
+            url: deleteURL,
+            type: "delete",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            success: function (response) {
+                console.log(response);
+                productAdd(productId, currentSelect);
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
+    }
+}
+
+productAdd = function(productId, current_button){
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    console.log(productId);
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {
+            console.log(response);
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            // location.reload()
+        },
+        error: function (error) {
+            console.error(error);
+        
+        },
+    });
+}
+
+// on add to cart click
+$('body').on('click', '.popup-add-to-cart-btn', function(){
+   
+    var current_button = $(this);
+    var productName = $(this).data('ptitle');
+    $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        
+        success: function (response) {    
+                              
+            console.log(response);
+            var text = document.getElementById("shopping-cart-lenn").innerHTML;
+            console.log(text)
+            text = Number(text) + 1;
+            document.getElementById("shopping-cart-lenn").innerHTML = String(text);
+            $('#shopping-cart-lenn').text(String(text));
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            $(current_button).hide();
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            $(current_button).parents('.w-50').hide();
+            $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+            $('#popup-success-message').text();
+
+            $("#success-adcrtmdl").addClass("active")
+            // addToCartSuccessPopup.show();
+            setTimeout(function(){                                
+                            $("#success-adcrtmdl").removeClass("active");
+                            // addToCartSuccessPopup.hide();
+                        },2500);
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});
+
+
+// buy now button click of product
+$('body').on('click', '.item-add-to-cart-btn', function(){
+    var current_button = $(this);
+    var productName = $(this).data('ptitle');
+    $(current_button).find('.cart-btn-loader').removeClass('d-none');
+    $(current_button).find('.cart-loader-remove').addClass('d-none');
+    // var addToCartApiUrl = `${location.origin}/catalogue/api/v1/basket/add-product/`;
+    var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+    var productId = $(this).parents('.list-product-card').find('.variant-select').val();
+    // var productApiUrl = `${location.origin}/catalogue/api/v1/product/${productId}/`;
+    var productApiUrl = `${location.origin}/api/products/${productId}/`;
+    var quantity = 1;
+    console.log(productApiUrl);
+    $.ajax({
+        url: addToCartApiUrl,
+        type: "post",
+        headers: {
+            'X-CSRFToken': '{{csrf_token}}'
+        },
+        data: JSON.stringify({
+            "url": productApiUrl,
+            "quantity": quantity,
+        }),
+        contentType: "application/json",
+        success: function (response) {                        
+            console.log(response);
+            
+            
+            location.href = `${location.origin}/basket`
+            
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            // $(current_button).hide();
+            $(current_button).parents('.list-product-card').find('.variant-select').data('lineId', response.current_line_id);
+            
+            // $(current_button).parents('.w-50').hide();
+            $(current_button).parents('.list-product-card').find('.go-to-cart-btn').show();
+
+        },
+        error: function (error) {
+            console.error(error);
+            $(current_button).find('.cart-btn-loader').addClass('d-none');
+            $(current_button).find('.cart-loader-remove').removeClass('d-none');
+            if(error.responseJSON && error.responseJSON.reason.url){
+                alert(error.responseJSON.reason.url);
+            }
+            else if (error.responseJSON.reason){
+                alert(error.responseJSON.reason);
+            }
+            else{
+                alert('You cannot add this product');
+            }
+        },
+    });
+});
+
+
+});
+$('.video-show-btn').click(function(){
+                var videoUrl = $(this).data('videoUrl');
+                $('#ifrmvideo').attr('src', videoUrl);
+                $('#videomdl').modal('show');
+            });
+            
+$('#hide-dietitions').click(function(){                
+    var hideDietitions = document.getElementById('videomdl');
+    if (hideDietitions){
+        hideDietitions.addEventListener('hidden.bs.modal', function (event) {
+            $('#ifrmvideo').attr('src', "");
+        
+        });
+    }
+});
+
+</script>
+{% endfor %}
+{% endblock %}

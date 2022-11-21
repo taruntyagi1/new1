@@ -1,0 +1,69 @@
+{% extends "customer/profile/profile.html" %}
+{% load i18n %}
+{% load display_tags %}
+{% load currency_filters %}
+
+{% block profile_breadcrumbs %}
+    <section class="breadcrumb-list mt-100">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0">
+                    <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                    <li class="breadcrumb-item active">Notifications</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+
+    <div class="profile-content">
+        {% block profile_heading %}
+        <h3>Notifications</h3>
+        {% endblock %}
+
+        {% include "oscar/partials/alert_messages.html" %}
+
+    </div>
+
+    <table class="table table-striped table-bordered">
+        {% if notification.sender %}
+        <tr>
+            <th>{% trans 'Sender' %}</th>
+            <td>{{ notification.sender }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>{% trans 'Date sent' %}</th>
+            <td>{{ notification.date_sent }}</td>
+        </tr>
+        {% if notification.body %}
+            <tr>
+                <th>{% trans 'Subject' %}</th>
+                <td>{{ notification.subject|safe }}</td>
+            </tr>
+            <tr>
+                <th>{% trans 'Body' %}</th>
+                <td>{{ notification.body }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <th>{% trans 'Message' %}</th>
+                <th>{{ notification.subject|safe }}</th>
+            </tr>
+        {% endif %}
+    </table>
+    <div class="form-group form-actions"><a href="{% url 'customer:notifications-inbox' %}" class="btn btn-default return-to-inbox">{% trans 'Return to notifications inbox' %}</a></div>
+
+{% endblock profile_content %}
+
+{% block custombodyend %}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+            $('.return-to-inbox').addClass('btn-red');
+        });
+    </script>
+{% endblock %}

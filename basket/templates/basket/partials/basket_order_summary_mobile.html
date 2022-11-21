@@ -1,0 +1,26 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+{% load arithmatic_ope %}
+{% load order_amount %}
+<div class="bmpric pbbtmprsc">
+    <span>Total Amount </span> 
+    {% order_amount total_amount=order_total.incl_tax as available %} 
+    {% if order_total.is_tax_known %}
+    {%if available %}
+    <span>&#8377;{{ available }}</span>
+    {%endif%}
+    {% else %}
+    <span>&#8377;{{ order_total.excl_tax }}</span>
+    {% endif %} 
+</div>
+<div class="btm_ankbtn btm_ankbtn">
+    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>
+    
+</div>

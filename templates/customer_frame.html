@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load display_tags %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+
+
+{% include "partials/messages.html" %}
+<div class="page">
+    {% include "components/header.html" %}
+
+    {% block page-content %}
+    <section class="py-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 profile-side-nav">
+                <div class="user-profile-image">
+                    <img src="{{ MEDIA_URL }}{{request.user.profile_picture}}" alt="Profile Picture">
+                </div>
+                <ul class="p-3">
+                    <li class="my-2 {% if active_tab == 'profile' %}active{% endif %}">
+                        <a href="{% url 'customer:profile-view' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Profile Information</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'orders' %}active{% endif %}">
+                        <a href="{% url 'customer:order-list' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Order History</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'addresses'%}active{% endif %}">
+                        <a href="{% url 'customer:address-list' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Address Book</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'emails' %}active{% endif %}">
+                        <a href="{% url 'customer:email-list' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Email History</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% comment %} <li class="my-2 {% if active_tab == 'alerts' %}active{% endif %}">
+                        <a href="{% url 'customer:alerts-list' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Product Alerts</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'notifications' %}active{% endif %}">
+                        <a href="{% url 'customer:notifications-inbox' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p class="cateogry-text">Notifications</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li> {% endcomment %}
+                    <li class="my-2 mt-5">
+                        <a href="{% url 'customer:logout' %}">
+                            <p class="cateogry-text"><strong>Logout</strong></p>
+                        </a>
+                    </li>
+                    {% comment %} {% iffeature 'wishlists' %}
+                    <li class="my-2 {% if active_tab == 'wishlists'%}active{% endif %}">
+                        <a href="{% url 'customer:wishlists-list' %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="icon-wrap">
+                                        <img src="{% static 'images/information.png'%}" class="img-default">
+                                        <img src="{% static 'images/information-pink.png'%}" class="img-none">
+                                    </div>
+                                    <p class="cateogry-text">Wishlists</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endiffeature %} {% endcomment %}
+                </ul>
+            </div>
+
+            <div class="col-lg-9 profile">
+                {% block profile_content %}
+                {% endblock profile_content %}
+            </div>
+        </div>
+    </div>
+    </section>
+    {% endblock page-content %}
+
+    {% include "components/footer.html" %}
+
+</div>
+{% endblock content %}

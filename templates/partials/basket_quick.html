@@ -1,0 +1,42 @@
+{% load history_tags %}
+{% load basket_tags %}
+{% load currency_filters %}
+{% load image_tags %}
+{% load i18n %}
+{% load staticfiles %}
+
+<div class="container small-basket-text">
+    {% if request.basket.num_lines %}
+    {% for line in request.basket.all_lines %}
+    <div class="row py-2 item-border">
+        <div class="col-3">
+            <div class="img-wrapper">
+                <a href="{{ line.product.get_absolute_url }}">
+                    <img class="small-basket-image" src="{{ MEDIA_URL }}{{ line.product.primary_image.original }}" alt="{{ line.product.get_title }}">
+                </a>
+            </div>
+        </div>
+        <div class="col-3">
+            <p><strong><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></strong></p>
+        </div>
+        <div class="col-3 align-center"><strong>{% trans "Qty" %}</strong> {{ line.quantity }}</div>
+        <div class="col-3">{{ line.unit_price_excl_tax|currency:request.basket.currency }}</div>
+    </div>
+    {% endfor %}
+    <div class="row mb-1">
+        <div class="col">
+            <h6 class="small-cart-align-right">
+                {% if request.basket.is_tax_known %}
+                    {% trans "Total:" %} {{ request.basket.total_incl_tax|currency:request.basket.currency }}
+                {% else %}
+                    {% trans "Total:" %} {{ request.basket.total_excl_tax|currency:request.basket.currency }}
+                {% endif %}
+            </h6>
+            <a href="{% url 'basket:summary' %}" class="btn btn-red btn-sm">{% trans "View basket" %}</a>
+            <!-- <a href="{% url 'checkout:index' %}" class="btn btn-black btn-sm pull-right"><i class="icon-shopping-cart"></i> {% trans "Checkout" %}</a> -->
+        </div>
+    </div>
+    {% else %}
+    <p>{% trans "Your basket is empty." %}</p>
+    {% endif %}
+</div>

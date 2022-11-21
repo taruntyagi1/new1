@@ -1,0 +1,130 @@
+{% load go_to_cart_product %}
+{% load purchase_info_tags %}
+{% load mathfilters %}
+
+{% go_to_cart_product  product=recommended_product request=request.basket.all_lines as available %}
+{% if recommended_product %}
+<div id="suggested_plan" class="container">
+    <div class="head_snd text-center">
+        <h3><span>Suggested </span> Plan</h3>
+    </div>
+
+    <div class="section_sp_bx">
+        <div class="plan_head">
+            <h3>{{ recommended_product.get_title|truncatechars:50 }}</h3>
+            <p>{{recommended_product.program_detail|safe|striptags}} </p>
+        </div>
+        <div class="spplan">
+            
+            {% for child in recommended_product.get_suggested_product %}
+            {% if child.show_in_subscription_plan %}
+            {% if forloop.counter == 1%}
+            <div class="spplan_rr">
+                <h3 class="sp_ttl">{{child.title}}</h3>                
+                <div class="spplan_data">
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">{{ recommended_product.title|safe|striptags}} Supply for 90 days</span>
+                            <input type="text" value="{{child.id}}" class="prod_id" style="display: none;">
+                        </div>
+                        <div class="sp_prz">                             
+                            <span class="acprc">{{child.stockrecords.first.price_excl_tax}}</span>
+                            <span class="lssprs">{{child.stockrecords.first.price_retail}}</span>
+                        </div>                                
+                    </div>
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">1 Personal Dietitian Assistance for One Month.</span>
+                        </div>
+                        <div class="sp_prz">                             
+                            <span class="acprc">FREE</span>                            
+                            <span class="lssprs">₹2000/-</span>                          
+                        </div>                                
+                    </div>
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">Customized Diet Plan For 4 Weeks </span>
+                        </div>
+                        <div class="sp_prz"> 
+                            <span class="acprc">FREE</span>                            
+                            <span class="lssprs">₹3000/-</span>
+                        </div>                                
+                    </div>                    
+                </div>
+                <div class="line"></div>
+                <div class="urplanbx">
+                    <h3>Your Plan @ 
+                        <span class="acprc">{{child.stockrecords.first.price_excl_tax}}</span>        
+                        <span class="lssprs">{{child.stockrecords.first.price_retail}}/-</span>                              
+                    </h3>
+                    <p>you save ₹ {{ child.stockrecords.first.price_retail|sub:child.stockrecords.first.price_excl_tax }}/-</p>
+                </div>
+                <div class="sp_btn_bx">
+                    <button type="button" class="btn snbtn ">Subscribe Now</button>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+
+            {% for child in recommended_product.get_suggested_product %}
+            {% if child.show_in_subscription_plan %}
+            {% if forloop.counter > 1%}
+            <div class="spplan_rr">
+                <h3 class="sp_ttl">{{child.title}}</h3>                
+                <div class="spplan_data">
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">{{ recommended_product.title|safe|striptags}} Supply for 90 days</span>
+                            <input type="text" value="{{child.id}}" class="prod_id" style="display: none;">
+                        </div>
+                        <div class="sp_prz">                             
+                            <span class="acprc">{{child.stockrecords.first.price_excl_tax}}</span>
+                            <span class="lssprs">{{child.stockrecords.first.price_retail}}  </span>
+                        </div>                                
+                    </div>
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">1 Personal Dietitian Assistance for One Month.</span>
+                        </div>
+                        <div class="sp_prz">                             
+                            <span class="acprc">FREE</span>                            
+                            <span class="lssprs">₹2000/-</span>                          
+                        </div>                                
+                    </div>
+                    <div class="spplan_data_r">
+                        <div class="sp_i_t"> 
+                            <span><i class="ri-check-line"></i></span>
+                            <span class="tlttl">Customized Diet Plan For 4 Weeks </span>
+                        </div>
+                        <div class="sp_prz"> 
+                            <span class="acprc">FREE</span>                            
+                            <span class="lssprs">₹3000/-</span>
+                        </div>                                
+                    </div>                    
+                </div>
+                <div class="line"></div>
+                <div class="urplanbx">
+                    <h3>Your Plan @ 
+                        <span class="acprc">{{child.stockrecords.first.price_excl_tax}}</span>        
+                        <span class="lssprs">₹14,000/-</span>                              
+                    </h3>
+                    <p>you save ₹ 6,500/-</p>
+                </div>
+                <div class="sp_btn_bx">
+                    <button type="button" class="btn snbtn ">Subscribe Now</button>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}  
+
+        </div>
+    </div>
+</div>
+{% endif %}

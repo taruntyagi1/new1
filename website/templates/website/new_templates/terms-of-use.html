@@ -1,0 +1,243 @@
+{% extends "website/new_templates/components/frame.html" %}
+
+{% load staticfiles %}
+{% load image_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load calculate_remainder %}
+{% load category_tags %}
+    {% block customheadend %}
+<!--    <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+    {% endblock %}
+{% block page-content %}
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>Health Store</h3>
+                <ul class="br_submenu">
+                    <li><a href="javascript:void(0);">Home</a></li>                            
+                    <li>Terms of Service</li>
+                </ul>
+            </div>
+            <div class="brd_dea">
+                <img src="images/lstbnrimg.png" alt="">
+            </div>                    
+        </div>
+    </div>
+</section>
+
+<section class="terms pb-4 pt-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-xl-12">
+          <!-- Terms list-->
+          <dl class="list-terms list-terms-1">
+            <dt class="heading-4">General Overview</dt>
+            <dd>
+              <ul>
+                <li>
+                    This Digital Platform is owned and has been provided to you by Urban Nutrition Pvt Ltd, registered under the Companies Act 2013 and having its registered office at Building No. 1505, Lower Ground Floor, Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi - 110003
+
+                    (“Company”). Throughout the Website, the terms/phrases/words ‘we’,
+
+                    ‘us’ and ‘our’ refer to the Company. This Terms of Use is binding for all users who interact with us or make any purchase from the Company (collectively, the “Services”) through the website (www.instaeats.in) and other online channels and through other interactions and communications with the Company or its agents or affiliates (collectively, the “Platform”). This Terms of Use is applicable to all users of the Services from any Platform.
+
+                </li>
+                <li>
+                    The Terms of Use and the Privacy Policy, Shipping Policy, Returns Policy and any other applicable polices (the “Policies”), as updated from time to time, govern your access and use of our Platform and Services.
+                </li>
+                <li>
+                    This Terms of Use is a legally binding contract between you and the Company regarding the terms of access and use of our Platform and Services.
+                </li>
+                <li>
+                    Please read the Terms of Use carefully. By downloading, installing, or otherwise accessing or using our Platform or Services (whether in whole or in part), you agree that you have read, understood and agree to be bound by the Terms of Use. By agreeing to these Terms of Use, you represent that you are at least the age of majority in your state or province of residence, or that you are the age of majority in your state or province of residence and you have given us your consent to allow any of your minor dependents to use our Services. If you do not agree with the Terms of Use or any other Policies, please do not access or use any of the Platforms or Services.
+                </li>
+                <li>Upon your consenting to the Terms of Use and the Policies of the Company (which are incorporated by reference into this Terms of Use), the Company hereby grants you a limited, personal, worldwide, revocable, non-assignable and non-exclusive license to use our Services. This license is for the sole purpose of enabling you to use the Services in the manner expressly permitted by these Terms of Use and the Policies.</li>
+                <li>
+                    The headings used in this Terms of Use are included for convenience only and will not limit or otherwise affect these Terms.
+                </li>
+
+              </ul>
+            </dd>
+            <dt class="heading-4">Access to the Services</dt>
+            <dd>
+                <ul>
+                    <li>It is your responsibility to ensure your equipment (computer, laptop, netbook, tablet or other mobile device) meets all the necessary technical specifications and is compatible with our Services to enable your access and use of the Services.</li>
+                    <li>You must ensure that the details provided by you are accurate and treat such information as confidential. Based on the information provided by you to us, you may be provided with a login identification (such as a username and password or any other identifier). You are solely responsible for all activities that occur under your login identification and must notify us immediately of any unauthorized use or other security breach relating to your login identification.</li>
+                    <li>We reserve the right to block, disable or delete any login identification, at any time, if in our opinion, you have failed to comply with any of the provisions of the Terms of Use or any other Policies, or if any details you provide for the purposes of registering as a user of the Services prove to be false or a misrepresentation.</li>
+                    <li>You consent to any collection, use or disclosure of personal information or personally identifiable data required to provide you with access to the Services or to deliver the Services to you, as per the Privacy Policy of the Company.</li>
+                    <li>You agree that we may collect and use technical data and related information, including but not limited to technical information about your device, system and application software, and peripherals, that is gathered periodically, to facilitate the provision of software updates, product support, and other services to you (if any). We may use this information as per the Privacy Policy of the Company, including to improve our products or Services or technologies.</li>
+                    <li>The operation of our Services includes periodic delivery to you of offers, coupons or other information that may be of interest to you based on your stated preferences or your location. To the extent possible, you may discontinue receiving such information at any time by updating your preferences on the Platform.</li>
+                    <li>Any new features, tools, products or services which are added to the Services shall also be subject to the Terms of Use. You can review the most current version of the Terms of Use at any time on this page. We reserve the right to update, change or replace any part of these Terms of Use by posting updates and/or changes to the Services. It is your responsibility to check the Services periodically for changes. Your continued use of or access to the Services following the posting of any changes constitutes your acceptance of those changes.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Usage of Services</dt>
+            <dd>
+                <ul>
+                    <li>Any and all content displayed on, or transmitted via, the Services provided to you is on a ‘as is’ basis and your access to and use of the Services and any content therein is at your own risk. You may access the content solely for your information and personal use. You shall not copy, reproduce, distribute, transmit, broadcast, display, sell, license or otherwise exploit any content on any Platform for any other purposes.</li>
+                    <li>You shall not reverse-engineer, disassemble, attempt to derive the source code of, modify, or create derivative works of the Services, any updates, or any part thereof.</li>
+                    <li>You understand that when using the Services, you will be exposed to content from a variety of sources, and that the Company is not responsible for the accuracy, usefulness, safety or intellectual property rights of, or relating to, such content on the Platform. The Company may, but is not obligated to, monitor or control the content posted on the Platform and/ or via the Services. Any use or reliance on any content posted on the Platform and/ or via the Services or obtained by you through in any other manner is at your own risk. You further understand and acknowledge that you may be exposed to content which you may deem inaccurate, offensive, or objectionable; and you agree to waive and hereby do waive, any legal or equitable rights or remedies you have or may have against the Company with respect thereto. To the extent permitted by applicable law, you agree to indemnify and hold harmless the Company, its owners, officers, directors and employees to the fullest extent regarding all matters relating to your use of the Services and any content posted by you by access to or use of the Platform and/ or the Services.</li>
+                    <li>Usage of our products and Services should not replace your good judgment and common sense. In any of any concerns and queries, please immediately contact us at info@instaeats.in along with the necessary details. Additionally, please read and comply with all information, nutritional content, disclaimers etc. that accompany your product or these Services.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Products</dt>
+            <dd>
+                <ul>
+                    <li>All listed products are available non-exclusively through our Services. These products may have limited quantities and are subject to return as described herein under this Terms of Use.</li>
+                    <li>The pricing for the products, wherever applicable, are subject to change without notice.</li>
+                    <li>We reserve the right to limit our products to any person, geographic region or jurisdiction. We may also exercise this right on a case-by-case basis. We reserve the right to limit the quantity of any product that we offer. All descriptions of the products or their pricing are subject to change at any time without notice, at our sole discretion. We reserve the right to modify, discontinue, suspend or cancel any product at any time.</li>
+                    <li>We do not warrant that the quality of any products purchased, accessed, obtained or used by you will meet your expectations or that any such issues will be corrected to your satisfaction.</li>
+                    <li>We encourage you to check product labels and information provided therein. While every care has been taken to ensure that the product information shown on the Website is correct, our products are constantly being reformulated and the nutrition content may vary from time to time. We would therefore recommend that you do not rely solely on the accuracy of such information.</li>
+                    <li>Please read the product packaging carefully before consumption and check the product information for allergens if any. You understand and agree that our products may contain including without limitation nuts, peanuts, gluten and dairy. We expressly disclaim any liability and responsibility towards claims arising from, incidental to or related with allergic reactions from consumption of our products.</li>
+                    <li>All product images used on our Website are only representative of products on offer. Actual products may not be exactly the same size, design or packaging.</li>
+                    <li>The average nutritional intake varies from customer to customer. You understand and agree that the nutritional information provided is devised on a standard 2000Kcal presumed to be undertaken by the customer.</li>
+                    <li>You understand and agree that the sole consumption of our products does not represent or warrant to provide you with a diet plan or meal plan including without limitation diet plans such as keto diet, paleo diet, atkins diet, LCHF etc. which are intended to be low in carbohydrate.</li>
+                    <li>Our products are exclusively meant for consumption purposes and are not intended to diagnose, treat, cure, or prevent any disease or health issues or concerns. We are not responsible for any health problems that may result from the consumption of our products. If you engage in any programs or activities wherein you receive or learn about through our products or Services, you agree that you do so at your own risk and are voluntarily participating in these programs and activities. In the event of any health problems or if any symptoms persist on account of the use of the products, please discontinue the use of the products and contact your doctor within 48 (forty-eight) hours of any such health problems or symptoms.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Price and Payment</dt>
+            <dd>
+                <ul>
+                    <li>The products quoted on the Website are in Indian National Rupees. These prices are inclusive of GST and any applicable taxes but may exclude delivery costs. These will be added to the total amount due where applicable.</li>
+                    <li>Payment for orders may be made at your discretion. You can pay viz. your credit card or debit card or net banking or via any prepaid instruments as has been detailed under the Website.</li>
+                    <li>You agree and accept that we shall initiate the delivery of the order only upon due payment received towards the same.</li>
+                    <li>You acknowledge and agree that the payment gateway platforms provided on our Platform shall direct you to third-party sites or pages or applications that are not affiliated with us. We are not responsible for examining or evaluating the content or accuracy of such sites or pages or applications, and we do not warrant and will not have any liability or responsibility for any third-party materials or websites or pages or applications, or for any other data, information, products or services of any third-parties.</li>
+                    <li>We expressly disclaim any liability and responsibility from claims arising from, related with or incidental to the processing, usage and storage of information provided by you to the payment gateway platforms.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Intellectual Property</dt>
+            <dd>
+                <ul>
+                    <li>All rights, title and interest in and to the products, Platform and Services are and will remain the exclusive property of the Company. The Services are protected by copyright, trademark and other Indian laws. Nothing in these Terms of Use or any Policies gives you a right to use the name or any of the trademarks, logos, domain names, distinctive brand features or any other intellectual property rights of the Company. All the data and information arising out of, and in relation to the access and use of the Platform and the Services shall be the property of the Company; and the Company shall be vested with all rights, title and interests thereto. The Company shall have the right to use such data and information in the manner it deems fit, subject however, to the Privacy Policy.</li>
+                    <li>You understand and agree that the we have expended significant amount of resource, time and efforts to research and devise formulae to arrive at the composition of our products. In furtherance of our moral and ethical rights arising from, related with and incidental to such formulae, you shall endeavour best efforts to desist from duplicating the same for commercial purposes.</li>
+                    <li>Any feedback, comments, or suggestions you may provide regarding our products, Platform or/and Services is entirely voluntary and we will be free to use such feedback comments or suggestions as we see fit and without any obligation to you.</li>
+                    <li>You acknowledge and accept that your use of the device and that of our Services is limited solely to your personal and non-commercial use. Any transfer of the device by you shall be done without recourse to the Company, and the Company shall not be obligated to record the transfer of the device in any manner whatsoever. The usage of our Services does not implicitly or expressly transfer any ownership interest to you in the content, and specifically excludes, without limitation, any commercial or promotional use rights in such content. Furthermore, you are prohibited from republishing, re-transmitting and reproducing any images accessed through our Services for any other use or purpose without our prior written consent.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Prohibited Uses</dt>
+            <dd>
+                <ul>
+                    <li>
+                        In addition to other restrictions and prohibitions as set forth in the Terms of Use and any restrictions and prohibitions under applicable laws, you are prohibited from using the Service for:
+                        <ul>
+                            <li>(a)	any unlawful purpose;</li>
+                            <li>(b)	soliciting others to perform or participate in any unlawful acts;</li>
+                            <li>(c)	violating any international, federal, provincial or state regulations, rules, laws, or local ordinances;</li>
+                            <li>infringing upon or violate our intellectual property rights or the intellectual property rights of others;</li>
+                            <li>harassing, abusing, insulting, harming, defaming, slandering, disparaging, intimidating, or discriminating any person (irrespective of whether or not such a person is a user of the Services or otherwise) based on gender, sexual orientation, religion, caste, ethnicity, race, age, national origin, disability, or on any other account;</li>
+                            <li>submitting any false or misleading information;</li>
+                            <li>uploading or transmitting viruses or any other type of malicious data or any code that will or may be used in any way that will affect the functionality or operation of the Service or of any Platform or any other related websites or applications;</li>
+                            <li>collecting or tracking the personal information of others;</li>
+                            <li>any spamming, phishing, web crawling or spidering or scraping;</li>
+                            <li>any obscene or immoral purpose; or</li>
+                            <li>interfering with or circumventing the security features of the Service or any related applications.</li>
+                        </ul>
+                    </li>
+                    <li>We reserve the right to discontinue, suspend or terminate your use of the Services for violating any of the prohibited uses or restricted uses.</li>
+                </ul>
+            </dd>                
+            <dt class="heading-4">Disclaimer of Warranties; Limitation of Liability</dt>
+            <dd>
+                <ul>
+                    <li>We do not guarantee, represent or warrant in any manner that your use of our Services will be uninterrupted, timely, secure or error-free.</li>
+                    <li>We do not warrant in any manner that the results that may be obtained from the use of the Services will be accurate or reliable or effective in nature. You understand and accept that the reliance on the content obtained from the Services or the output from the Services is solely at your own judgement and risk, and you shall not hold the Company liable for the same in any manner whatsoever.</li>
+                    <li>You agree that, from time to time, we may suspend, modify, restrict or remove our Services for uncertain or indefinite periods of time or cancel the Services at any time, without notice to you.</li>
+                    <li>You expressly agree that your use of, or inability to use, the Services is at your sole risk. The Services delivered to you are (except as expressly stated by us) provided on an 'as is' and 'as available' for your use, without any representation, warranties or conditions of any kind.</li>
+                    <li>You acknowledge that third-party links including without limitation the payment gateway platforms on our Platform or Services may direct you to third-party sites or pages or applications that are not affiliated with us. We are not responsible for examining or evaluating the content or accuracy of such sites or pages or applications, and we do not warrant and will not have any liability or responsibility for any third-party materials or websites or pages or applications, or for any other data, information, products or services of any third-parties.</li>
+                    <li>We may provide you with access to third-party tools over which we neither monitor nor have any control nor input. You acknowledge and
+                        agree that we provide access to such tools “as is” and “as available” without any warranties, representations or conditions of any kind and without any endorsement. We shall have no liability whatsoever arising from or relating to your use of optional third-party tools. Any use by you of optional tools offered through the Platform is entirely at your own risk and discretion; and you should ensure that you are familiar with and approve of the terms on which tools are provided by the relevant third-party provider(s).
+                    </li>
+                    <li>
+                        In no case shall the Company, our affiliate entities, directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the Services or any products or services procured using the Services, or for any other claim related in any manner to your use of the Services, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the Services or any content (or product) posted, transmitted, or otherwise made available via the Services or on the Platform, even if advised of their possibility.
+                    </li>
+                    <li>
+                        No Company re-seller, agent, or employee is authorized to make any modification, extension, or addition to the warranty extended by the Company to you with respect to any of our products or Services.
+                    </li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Indemnification</dt>
+            <dd>
+                <ul>
+                    <li>You agree to indemnify, defend and hold harmless the Company and our subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, service providers, subcontractors, suppliers, interns and employees, from any losses, injuries, claims, demands, proceedings, penalties, interests, costs and expenses, including
+
+                        attorneys’ fees, made by any third-party due to or arising out of your breach of these Terms of Use or the Policies of the Company or the documents they incorporate by reference, or your violation of any law or the rights of a third-party.</li>
+                    <li>
+                        The indemnification rights of the Company shall be in addition to any rights that may be available to the Company under applicable law (including injunctions and specific performance reliefs), none of which shall be affected in any manner whatsoever.
+                    </li>
+                <ul>
+            </ul></ul></dd>
+            <dt class="heading-4">Severability</dt>
+            <dd>
+                <ul>
+                    <li>In the event that any provision of these Terms of Use is determined to be unlawful, void or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and the unenforceable portion shall be deemed to be severed from these Terms of Use. However, such determination shall not affect the validity and enforceability of any other remaining provisions of these Terms of Use.</li>
+                <ul>
+            </ul></ul></dd>
+            <dt class="heading-4">Termination</dt>
+            <dd>
+                <ul>
+                    <li>Your obligations and liabilities of the parties incurred prior to the termination date shall survive the termination of this Terms of Use for all purposes.</li>
+                    <li>These Terms of Use are effective unless and until terminated by either you or us. You may terminate these Terms of Use at any time by notifying us that you no longer wish to use our Services, or when you cease using our Services.</li>
+                    <li>If, in our sole judgement, you fail, or we suspect that you have failed, to comply with any term or provision of these Terms of Use or/and the Policies, we may terminate this Terms of Use at any time without notice and you will remain liable for all amounts due up to and including the date of termination; and/or we, accordingly, may deny you access to our Services (or any part thereof).</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Entire agreement</dt>
+            <dd>
+                <ul>
+                    <li>The failure of us to exercise or enforce any right or provision of these Terms of Use shall not constitute a waiver of such right or provision.</li>
+                    <li>These Terms of Use and any Policies and any other policies or operating rules posted by us on our Platform or in respect of the use of the Services constitutes the entire agreement and understanding between you and us and governs your use of our Services. This will supersede any prior or contemporaneous agreements, communications and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of the Terms of Use).</li>
+                    <li>Any ambiguities in the interpretation of these Terms of Use and the Policies shall not be construed against the drafting party.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Governing law</dt>
+            <dd>
+                <ul>
+                    <li>These Terms of Use and the Policies which govern the use of the Platform and the Services shall be governed by and construed in accordance with the laws of India. Any disputes or claims arising in relation to the Terms of Use and the Policies and any of the Services shall be subject to the exclusive jurisdiction of the courts in Delhi, India.</li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Comments and Feedback</dt>
+            <dd>
+                <ul>
+                    <li>If, at our request, you send certain specific submissions, or without a request from us, you send creative ideas, suggestions, proposals, plans, feedback or other materials, whether online, by email, by postal mail, or otherwise (collectively, 'comments'), you agree that we may, at any time, without restriction, edit, copy, publish, distribute, translate and otherwise use in any medium any comments that you provide to us. We are and shall be under no obligation: (a) to maintain any comments in confidence; (b) to pay compensation for any comments; or (c) to respond to any comments.</li>
+                    <li>We may, but have no obligation to, monitor, edit or remove content or comments that we determine in our sole discretion to be unlawful, offensive, threatening, libellous, defamatory, obscene or
+
+                        otherwise objectionable or violates any party’s intellectual property or these Terms of Use.
+                    </li>
+                    <li>
+                        You agree and will ensure that your comments will not violate any of our rights or the rights of any third-party, including copyright, trademark, privacy, personality or other personal or proprietary right. You further agree that your comments will not contain libellous or otherwise unlawful, abusive or obscene material, or contain any computer virus or other malware that could in any way affect the operation of the Services or the Platform. You may not use a false e-mail address, pretend to be someone other than yourself, or otherwise mislead us or third-parties as to the origin of any comments. You are solely responsible for any comments you make and their accuracy. We take no responsibility and assume no liability for any comments posted by you or any third-party.
+                    </li>
+                </ul>
+            </dd>
+            <dt class="heading-4">Contact Information</dt>
+            <dd>
+                Questions about the Terms of Use should be sent to us at <a href="mailto:info@instaeats.in" target="_blank">info@instaeats.in</a>.
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    ShowLoader()
+}); 
+
+
+$(window).on("load", function () {      
+    HideLoader()
+})
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+{% endblock %}

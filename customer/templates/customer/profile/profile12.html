@@ -1,0 +1,111 @@
+{% extends "frame.html" %}
+{% load i18n %}
+{% load display_tags %}
+
+{% block page-content %}
+
+{% block profile_breadcrumbs %}
+<section class="breadcrumb-list mt-100">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0">
+                <li class="breadcrumb-item"><a href="{{homepage_url}}" class="color-primary">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'customer:summary' %}" class="color-primary">Accounts</a></li>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+{% endblock profile_breadcrumbs %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 profile-side-nav">
+                <ul>
+                    <li class="my-2 {% if active_tab == 'profile' %}active{% endif %}">
+                        <a href="{% url 'customer:profile-view' %}">{% trans "Profile" %}</a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'orders' %}active{% endif %}">
+                        <a href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'addresses'%}active{% endif %}">
+                        <a href="{% url 'customer:address-list' %}">{% trans "Address Book" %}</a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'emails' %}active{% endif %}">
+                        <a href="{% url 'customer:email-list' %}">{% trans "Email History" %}</a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'alerts' %}active{% endif %}">
+                        <a href="{% url 'customer:alerts-list' %}">{% trans "Product Alerts" %}</a>
+                    </li>
+                    <li class="my-2 {% if active_tab == 'notifications' %}active{% endif %}">
+                        <a href="{% url 'customer:notifications-inbox' %}">{% trans "Notifications" %}</a>
+                    </li>
+                    {% iffeature 'wishlists' %}
+                    <li class="my-2 {% if active_tab == 'wishlists'%}active{% endif %}">
+                        <a href="{% url 'customer:wishlists-list' %}">{% trans "Wish Lists" %}</a>
+                    </li>
+                    {% endiffeature %}
+                </ul>
+            </div>
+            <div class="col-lg-9 profile">
+                {% block profile_content %}
+                <div class="profile-content">
+                {% block profile_heading %}
+                    <h3>Profile Details</h3>
+                {% endblock %}
+                </div>
+                {% include "oscar/partials/alert_messages.html" %}
+
+                    <table class="table table-borderless profile-table">
+                        <tbody>
+                            <tr>
+                                <th>{% trans 'Name' %}</th>
+                                <td>{{ user.get_full_name|default:'-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans 'Email address' %}</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            {% block profile_fields %}
+                                {% for field in profile_fields %}
+                                    <tr>
+                                        <th>{{ field.name }}</th>
+                                        <td>{{ field.value|default:"-" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endblock %}
+                            <tr>
+                                <th>{% trans 'Date registered' %}</th>
+                                <td>{{ user.date_joined }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <a href="{% url 'customer:change-password' %}" class="btn btn-green">{% trans 'Change password' %}</a>
+                    <a href="{% url 'customer:profile-update' %}" class="btn btn-black">{% trans 'Edit profile' %}</a>
+                    <a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-red">{% trans 'Delete profile' %}</a>
+
+                {% endblock profile_content %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+    // js for fix navbar at the top
+        $('.header').addClass('scrolled');
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+        $( ".scrolledMenu" ).show();
+        $( ".headerMenu" ).hide();
+        $( ".hamburger" ).hide();
+        $( ".cross" ).hide();
+
+    });
+</script>
+{% endblock %}

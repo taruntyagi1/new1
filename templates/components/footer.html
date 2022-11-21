@@ -1,0 +1,97 @@
+{% load staticfiles %}
+<!-- Page Footer-->
+<footer class="section footer-modern footer-modern-2">
+    <div class="footer-modern-body section-xl context-dark">
+        <div class="container">
+            <div class="row row-40 row-md-50 justify-content-xl-between">
+                <div class="col-md-10 col-lg-3 col-xl-4 wow fadeInRight">
+                    <div class="inset-xl-right-70 block-1">
+                        <h5 class="footer-modern-title">Gallery</h5>
+                        <div class="row row-10 gutters-10" data-lightgallery="group">
+
+                            {% for product in footer_gallery %}
+                            <div class="col-4 col-sm-2 col-lg-4">
+                                <!-- Thumbnail Minimal-->
+                                <a class="thumbnail-minimal" href="{{MEDIA_URL}}{{product.primary_image.original}}"
+                                   data-lightgallery="item">
+                                    <img src="{{MEDIA_URL}}{{product.primary_image.original}}" alt="" width="93"
+                                         height="93"/>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-7 col-lg-5 wow fadeInRight" data-wow-delay=".1s">
+                    <h5 class="footer-modern-title">Quick Links</h5>
+                    <ul class="footer-modern-list footer-modern-list-2 d-sm-inline-block d-md-block">
+                        <li><a href="{{homepage_url}}">Home</a></li>
+                        <li><a href="{% url 'website:about_us' %}">About Us</a></li>
+                        <li><a href="{% url 'catalogue:product_list' %}">Shop</a></li>
+<!--                        <li><a href="#">Blogs</a></li>-->
+                        <li><a href="{% url 'website:faq' %}">FAQs</a></li>
+                        <li><a href="{% url 'website:contact_us' %}">Contact Us</a></li>
+                        <li><a href="{% url 'website:shipping_policy' %}">Shipping Policy</a></li>
+                        <li><a href="{% url 'website:privacy_policy' %}">Privacy Policy</a></li>
+                        <li><a href="{% url 'website:return_policy' %}">Returns & Refund Policy</a></li>
+                        <li><a href="{% url 'website:terms_of_use' %}">Terms Of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3 wow fadeInRight" data-wow-delay=".2s">
+                    <h5 class="footer-modern-title">Get in touch</h5>
+                    <ul class="contacts-creative">
+                        <li>
+                            <div class="unit unit-spacing-sm flex-column flex-md-row">
+                                <div class="unit-left"><span class="icon mdi mdi-map-marker"></span></div>
+                                <div class="unit-body">
+                                    <a href="https://goo.gl/maps/us6Y2Ng2rtugzbqCA" target="_blank">
+                                        Urban Nutrition Pvt Ltd
+                                        Building No. 1505, Lower Ground Floor,<br> Lane No. 3, Wazir Nagar, South
+                                        Extension I, New Delhi - 110003
+                                        INDIA
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="unit unit-spacing-sm flex-column flex-md-row">
+                                <div class="unit-left"><span class="icon mdi mdi-phone"></span></div>
+                                <div class="unit-body"><a href="tel:+91-8800945109">+91-8800945109</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="unit unit-spacing-sm flex-column flex-md-row">
+                                <div class="unit-left"><span class="icon mdi mdi-email-outline"></span></div>
+                                <div class="unit-body"><a href="mailto:info@instaeats.in" target="_blank">info@instaeats.in</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-inline list-social-3 list-inline-sm">
+                        <li><a class="icon mdi mdi-facebook icon-xxs" target="_blank" href="https://www.facebook.com/InstafitnessOfficial/"></a></li>
+                        <li><a class="icon mdi mdi-twitter icon-xxs" target="_blank" href="https://twitter.com/Instafitness4u"></a></li>
+                        <li><a class="icon mdi mdi-instagram icon-xxs" target="_blank" href="https://www.instagram.com/instafitness_india/"></a></li>
+                        <li><a class="icon mdi mdi-youtube-play icon-xxs" target="_blank" href="https://www.youtube.com/channel/UCEjS02bTjaAMqFJXQ1W9w_g"></a></li>
+                        <li><a class="icon mdi mdi-pinterest icon-xxs" target="_blank" href="https://in.pinterest.com/instafitness4u/_created/"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-modern-panel text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-12">
+                    <p class="text-lg-left text-md-left text-center"><span>&copy;&nbsp; </span><span
+                            class="copyright-year"></span><span>&nbsp;</span><span>Instaeats</span><span>.&nbsp; All rights reserved.</span><span>&nbsp;</span><a
+                            target="_blank" href="{% url 'catalogue:privacy_policy' %}">Privacy Policy</a><span>.</span>
+                    </p>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <p>Created By <a href="https://sudofire.com/" target="_blank" class="text-danger">SUDOFIRE</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+    

@@ -1,0 +1,749 @@
+{% extends "website/frame.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load image_tags %}
+{% load display_tags %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load category_saperator %}
+{% load category_tags %}
+{% load widget_tweaks %}
+{% load arithmatic_ope %}
+
+{% block customheadend %}
+<style>    
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+</style>
+{% endblock %}
+{% block page-content %}
+
+    <section class="breadcrumb">
+        <div class="container">
+            <div class="brdcmbx">
+                <div class="brd-d">
+                    <h3>Health Store</h3>
+                    <ul class="br_submenu">
+                        <li><a href="{{homepage_url}}">Home</a></li>                        
+                        <li><a href="{% url 'basket:summary' %}">Cart</a></li>
+                    </ul>
+                </div>
+                <div class="brd_dea">
+                    <img src="{%static 'website/images/lstbnrimg.png' %}" alt="">
+                </div>                    
+            </div>
+        </div>
+    </section>
+
+    <section class="cart_section">
+        <div class="container">
+
+
+        
+            {% if not request.basket.all_lines %}
+            <div class="emptycart">
+                <div class="iconcart"><i class="ri-luggage-cart-fill"></i></div>
+                <h3>Your Cart is empty</h3>                
+                <p><a href="{{homepage_url}}">Continue Shopping</a></p>
+            </div>
+            {%else%}
+            <div class="">
+                    <div class="crt_box">
+                        <form method="post" class="basket_summary" id="basket_formset">
+                        <div class="crt_item">
+                            <h3 class="crt_ttl">My cart({{request.basket.all_lines|length}})</h3>
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+                            {% with line=form.instance product=form.instance.product %}
+                            {% purchase_info_for_line request line as session %}
+                            <div class="cartbx checkout-quantity featured-product-card" id="checkout-input">
+                                
+                                <div class="media basket-line-actions  update-del-btn">
+                                    <img src="{{ MEDIA_URL }}{{ product.primary_image.original }}" alt="">
+                                    <div class="delete-checkbox" style="display:none;">
+                                        {{ form.DELETE }}
+                                    </div>
+                                    <p>
+                                        <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                            {% trans "Remove" %}
+                                            <!-- <label class="remove-item-btn"  for="id_form-{{forloop.counter}}-DELETE"></label> -->
+                                        </a>
+                                        <!-- <a  href="javascript:void(0)" name="form-0-quantity" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" value="{{ line.quantity }}" min="0" max="{{session.availability.num_available}}"
+                                        class="quantity-pop">{% trans "Update" %}</a> -->
+                                    </p>
+                                    
+                                    {% for field_errors in form.errors.values %}
+                                        {% for error in field_errors %}
+                                            <span class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                                <div class="crt_data">
+                                    <h3>{{product.parent.get_title}}</h3>
+                                    <p>({{ product.parent.tagline|safe }})</p>
+                                    <div class="form-group">
+                                        <select class="form-control variant-select" data-line-id="{{line.id}}" data-cart-id="{{request.basket.id}}">
+                                            {% for child in product.parent.variants_list %}
+                                            {% if child == product %}
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}  selected>{{child.title}}</option>
+                                            
+                                            {%else%}
+                                            <option value="{{child.id}}" data-description="{{child.additional_information|safe|striptags|truncatechars:50}}" data-discount="{{child.percent_discount}}" data-retail-price="{{child.stockrecords.first.price_retail}}" data-selling-price={{child.stockrecords.first.price_excl_tax}}>{{child.title}}</option>
+                                            {%endif%}
+                                            {% endfor %} 
+                                        </select>
+                                    </div>    
+                                    <!-- <p>
+                                        <a class="basket-delete-btn" href="javascript:void(0)" data-cart-id="{{request.basket.id}}" data-line-id="{{line.id}}" data-behaviours="remove" data-loading-text="{% trans 'Updating...' %}">
+                                            {% trans "Remove" %}                                            
+                                        </a>
+                                    </p> -->
+                                    
+                                </div>
+                                <div class="crtprs">
+                                    <h3 class="product-price product-price-old price-detail">&#8377;{{ line.unit_price_incl_tax }}</h3>
+                                </div>
+                            </div>                
+                            {% endwith %}
+                            {% endfor %}
+                        </div>    
+                        </form>
+                
+                        <div class="crt_dada">
+                          
+                        {% if voucher_form %} 
+                       
+                            <div class="crt_dtls prmcodebx"> 
+                               
+                                {%if not request.basket.vouchers.all%}
+                              
+                                    <form class="rd-form rd-mailform rd-form-inline rd-form-coupon" action="{% url 'basket:vouchers-add' %}" method="post" id="voucher_form">                                         
+                                        {% csrf_token %}
+                                    
+                                        <!-- <div id="probtnlnk" class="">
+                                            <label for=""><i class="ri-coupon-3-fill"></i> Apply a promo code</label>
+                                            <a class="aplyclck" href="javascript:void();">Apply</a>
+                                        </div>       -->
+                                    
+                                        <div class="form-group" id="procodebx">                                    
+                                            <div class="aplycpnbx">
+                                                <input type="text" placeholder="Enter Promo Code" name="code" id="id_code" class="form-control">
+                                                <a class="cpnaplyed voucher_form_submit" data-bs-toggle="offcanvas" data-bs-target="#adcrtmdl" aria-controls="offcanvasRight"  href="javascript:void(0);">Apply</a>
+                                            </div>
+                                        </div>
+                                       
+                                    
+                                    </form> 
+                                {%else%}
+                                    <div id="prmocrdaplyd" >
+                                        <div class="appliedcpnbx">
+                                       
+                                           
+                                               <div>{{request.basket.vouchers.first.code}}</div>
+                                            <div>
+                                                <form action="{% url 'basket:vouchers-remove' pk=request.basket.vouchers.first.id %}" method="POST" id="voucher_delete_btn">
+                                                    {% csrf_token %}
+                                                    <a class="resetclk voucher_remove" href="javascript:void(0);">Remove</a>
+                                                </form>
+                                            </div>
+                                           
+                                      
+                                    </div>
+                                    </div>
+                                
+                                {%endif%}
+                            
+                            </div>
+                          
+                            {% endif %}
+                           
+                            <div class="crt_dtls">
+                               
+                                <h3 class="crt_ttl">Order Summary</h3>
+                              
+                                <p>
+                                    <span class="text-start">No Shipping Charges</span>
+                                    <!-- <span class="text-start">Calculated at the next step</span> -->
+                                </p>
+                                <p>
+                                    <span class="text-start">Discount :  -&#8377;{{basket.total_incl_tax_excl_discounts|subtract:order_total.incl_tax }}</span>
+                                   
+                                   
+                                    <!-- <span class="text-start">Calculated at the next step</span> -->
+                                </p>
+                                <div class="crt_amnt">
+                                    <span>Total Amount</span>
+                                    {% if order_total.is_tax_known %}
+                                 
+                                        <span>&#8377;{{ order_total.incl_tax }}</span>
+                                    {% else %}
+                                        <span>&#8377;{{ order_total.excl_tax }}</span>
+                                    {% endif %}
+                                    
+                                </div>
+                                <div class="butbx">                
+                                    <!-- <a class="btn_outline_green" href="{{homepage_url}}">Continue Shopping</a> -->
+                                    <a class="btn_fill_green" href="{% url 'checkout:checkout' %}">Proceed To Checkout</a>                
+                                </div>                        
+                            </div>
+                        </div>
+                    </div>
+
+
+
+               
+            </div>
+            {%endif%}
+
+        </div>
+    </section>
+
+
+
+
+
+    <!-- <section class="cart_section">
+        <div class="container">
+            <div class="">
+                <div class="crt_box">
+                    <div class="crt_item">
+                        <div class="cart_details">
+                            <div class="cart-login_details">
+                                <a href="javascript:void(0);" class="login-tab_btn active">
+                                    <div class="login_tab">
+                                        <div class="cart_info_login">
+                                            <span>1</span>
+                                            <span>Login</span>                                                
+                                        </div>    
+                                    </div>    
+                                </a>
+                                <div class="login_info">                                            
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="cartform">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="" placeholder="Enter Mobile Number" value="+91-7983744423">
+                                                    <div class="change"><a href="javascript:void(0);">Change</a></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="" placeholder="Enter Full Name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="" placeholder="Enter Email ID">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="" placeholder="Enter OTP">
+                                                </div>                                                    
+                                                <p>By continuing, you agree to Instaeats <a href="javascript:void(0);"> Terms of Use</a> and <a href="javascript:void(0);">Privacy Policy</a></p>
+                                                <div class="cart-btn">
+                                                    <a href="javascript:void(0);" class="cart_form_btn">Continue</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="secure_login">
+                                                <h5>Advantages of our secure login</h5>
+                                                <ul class="advan">
+                                                    <li><i class="ri-truck-fill"></i>Easily Track Orders,Hassle free Returns</li>
+                                                    <li><i class="ri-notification-3-fill"></i>Get Relevant Alerts and Recommendations </li>
+                                                    <li><i class="ri-star-s-fill"></i>Whistlist,Reviews,Ratings and more</li>
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart-login_details">                                
+                                <div class="login_tab p-3 visited">
+                                    <div class="align-items-center d-flex justify-content-between">
+                                        <div>
+                                            <div class="cart_info_login">
+                                                <span>1</span>
+                                                <span>Login<i class="ri-check-line"></i></span>
+                                            </div>
+                                            <div class="custm_name">
+                                                <span><b>Vikas Kumar</b>  vikas.kumar@intigate.in</span>    
+                                            </div>
+                                        </div>                                        
+                                        <div class="login_info_change">
+                                            <a href="javascript:void(0);" class="info_change">Change</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart_adress_details">
+                                <a href="javascript:void(0);" class="login-tab_btn">
+                                    <div class="login_tab">
+                                        <div class="cart_info_login">
+                                            <span>2</span>
+                                            <span>Delivery Address</span>                                                
+                                        </div>
+                                    </div> 
+                                </a> 
+                            </div>
+                            <div class="cart_adress_details_box">
+                                <a href="javascript:void(0);" class="login-tab_btn active">
+                                    <div class="login_tab">
+                                        <div class="cart_info_login">
+                                            <span>2</span>
+                                            <span>Delivery Address</span>                                                
+                                        </div>
+                                    </div> 
+                                </a>
+                                <div class="confirm_addres">                                        
+                                    <div class="select_addres active">
+                                        <div class="">
+                                            <div class="addres_check">
+                                                <label class="adrschcntr"><span>Vikas Kumar</b></span>  (+91-9988 888 777)
+                                                    <input type="radio" checked="checked" name="radio" checked>
+                                                    <span class="adrschkmrk"></span>
+                                                </label>                                           
+                                                <div class="edit_btn">
+                                                    <a href="javascript:void(0);" class="btn_edit">Edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="addres1">
+                                                <span>62/4 C-1 Teliwara Shahdara Delhi -110032, Teliwara, New Delhi, Delhi</span>                                                    
+                                            </div>
+                                            <div class="dilver_btn">
+                                                <a href="javascript:void(0);">Deliver Here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="select_addres">
+                                        <div class="">
+                                            <div class="addres_check">                                                    
+                                                <label class="adrschcntr"><span>Vikas Kumar</b></span>  (+91-9988 888 777)
+                                                    <input type="radio" checked="checked" name="radio">
+                                                    <span class="adrschkmrk"></span>
+                                                </label>                                                    
+                                                <div class="edit_btn">
+                                                    <a href="javascript:void(0);" class="btn_edit">Edit</a>
+                                                </div>
+                                            </div>
+                                            <div class="addres1">
+                                                <span>62/4 C-1 Teliwara Shahdara Delhi -110032, Teliwara, New Delhi, Delhi</span>                                                    
+                                            </div>
+                                            <div class="dilver_btn">
+                                                <a href="javascript:void(0);">Deliver Here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="add_new">
+                                <a href="#">+ Add a New Address</a>
+                            </div>
+                            <div class="new_adres_form">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked="">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Delivery Address
+                                    </label>
+                                    </div>
+                                    <div class="container">
+                                    <form>
+                                        <div class="row pb-4">
+                                            <div class="col-6">
+                                            <input type="text" class="form-control" placeholder="First name">
+                                            </div>
+                                            <div class="col-6">
+                                            <input type="text" class="form-control" placeholder="Last name">
+                                            </div>
+                                        </div>
+                                        <div class="row pb-4">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" placeholder="Enter Your Address">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" placeholder="Enter your Phone Number">
+                                                <p class="m-0"><i>In case we need to call you about your order</i></p>
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Shipping Note">
+                                            <p class="m-0 pb-3"><i>Tell us anything we should know when delivering your order.</i></p>
+                                            </div>
+                                            <div class="row pb-4">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" placeholder="Enter Your City">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" placeholder="Enter your State">
+                                            </div>
+                                            </div>
+                                            <div class="row pb-4">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" placeholder="Enter Your Pin Code">
+                                            </div>
+                                            <div class="col-6">
+                                                <select id="inputState" class="form-control">
+                                                    <option selected="">Select Country</option>                                                    
+                                                    </select>
+                                            </div>
+                                            </div>
+
+                                        <div class="form-btn">
+                                            <a href="#" class="btn save-btn">Save And Deliver Here</a>
+                                            <a href="#" class="btn cancel-btn">Cancel</a>
+                                        </div>
+                                        </form>
+                                    </div>
+                            </div>
+                            <div class="cart-login_details">                                
+                                <div class="login_tab p-3 visited">
+                                    <div class="align-items-center d-flex justify-content-between">
+                                        <div>
+                                            <div class="cart_info_login">
+                                                <span>2</span>
+                                                <span>Delivery Address<i class="ri-check-line"></i></span>
+                                            </div>
+                                            <div class="custm_name">
+                                                <span><b>Vikas Kumar</b>Intigate Technologyes Pvt Ltd A-119, sector-63, noida, fortis noida, Noida, Uttar Pradesh 201301</span>    
+                                            </div>
+                                        </div>                                        
+                                        <div class="login_info_change">
+                                            <a href="javascript:void(0);" class="info_change">Change</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart_order_summary">
+                                <a href="javascript:void(0);" class="login-tab_btn">
+                                    <div class="login_tab">
+                                        <div class="cart_info_login">
+                                            <span>3</span>
+                                            <span>Order Summary</span>                                                
+                                        </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="cart-login_details">
+                                <a href="javascript:void(0);" class="login-tab_btn active">
+                                    <div class="login_tab">
+                                        <div class="cart_info_login">
+                                            <span>3</span>
+                                            <span>Order Summary</span>                                                
+                                        </div>    
+                                    </div>    
+                                </a>
+                                <div class="details_order_wrapper">
+                                    <div class="details_order">
+                                        <div class="cart_section">
+                                                <div class="cartbx">
+                                                    <div>
+                                                        <img class="img-fluid" src="https://instaeats.in/media/images/products/2022/05/Mens.png" alt="">                                                        
+                                                    </div>                                                    
+                                                    <div class="crt_data">
+                                                        <h3>Sports health</h3>
+                                                        <p>(maximize nutrition intake naturally)</p>
+                                                        
+                                                        <div class="quatity_box">
+                                                            <div class="plus-minus-input">
+                                                                <button type="button" class="circle minus" data-quantity="minus" data-field="quantity">-</button>
+                                                                <input class="input-group-field" type="number" name="quantity" placeholder="1">
+                                                                <button type="button" class="circle plus" data-quantity="plus" data-field="quantity">+</button>
+                                                            </div>                                                             
+                                                            <div class="serving">
+                                                                <select id="inputState" class="form-control">
+                                                                    <option selected="">6 days Serving</option>
+                                                                    <option>...</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="crtprs_value">
+                                                        <div class="crtprs">
+                                                            <h3>₹2970.00</h3>
+                                                            <h2>₹2525.00</h2>
+                                                        </div>
+                                                        <div class="prd_discount">(15% Off)</div>
+                                                        <div class="remove_btn pt-2">
+                                                            <a href="javascript:void(0);" class="float-end">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="cartbx">
+                                                    <div>
+                                                        <img class="img-fluid" src="https://instaeats.in/media/images/products/2022/05/Mens.png" alt="">                                                        
+                                                    </div>                                                    
+                                                    <div class="crt_data">
+                                                        <h3>Sports health</h3>
+                                                        <p>(maximize nutrition intake naturally)</p>
+                                                        
+                                                        <div class="quatity_box">
+                                                            <div class="plus-minus-input">
+                                                                <button type="button" class="circle minus" data-quantity="minus" data-field="quantity">-</button>
+                                                                <input class="input-group-field" type="number" name="quantity" placeholder="1">
+                                                                <button type="button" class="circle plus" data-quantity="plus" data-field="quantity">+</button>
+                                                            </div>                                                             
+                                                            <div class="serving">
+                                                                <select id="inputState" class="form-control">
+                                                                    <option selected="">6 days Serving</option>                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="crtprs_value">
+                                                        <div class="crtprs">
+                                                            <h3>₹2970.00</h3>
+                                                            <h2>₹2525.00</h2>
+                                                        </div>
+                                                        <div class="prd_discount">(15% Off)</div>
+                                                        <div class="remove_btn pt-2">
+                                                            <a href="javascript:void(0);" class="float-end">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crt_dada">
+                            1
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   -->
+
+
+{% if messages %}
+    <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body">
+                {% for message in messages %}
+                {% if 'safe' in message.tags %}
+                
+                    {{ message|safe }}
+                
+                {% else %}
+
+                    {{ message }}
+
+                {% endif %}
+                {% endfor %}
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="ri-close-line"></i></button> -->
+               
+            </div>        
+          </div>
+        </div>
+    </div>
+      {% else %}
+      <div class="modal fade"  id="adcrtmdl"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">      
+            <div class="modal-body">
+               
+              
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="ri-close-line"></i></button>
+               
+            </div>        
+          </div>
+        </div>
+      </div>
+{%endif%}
+      
+      
+<!--<div class="snackbars" id="form-output-global"></div>-->
+<script src="js/core.min.js"></script>
+<script src="js/script.js"></script>
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+   $(window).scroll(function() {    
+            var scroll = $(window).scrollTop();
+            if (scroll >= 30) {                
+                $(".header").addClass("top-fixed");
+            } else {                
+                $(".header").removeClass("top-fixed");
+            }
+        });
+
+
+
+
+    $(document).ready(function(){     
+
+        {% if messages %}
+            {%for message in messages%}
+            {% if 'noicon' not in message.tags %}
+                    
+               
+                {%if 'warning' in message.tags %}
+                    $('#adcrtmdl').modal('show')
+                {% endif %}
+                {%if 'danger' in message.tags %}
+                    $('#adcrtmdl').modal('show')
+                {% endif %}
+                {%if 'error' in message.tags %}
+                    $('#adcrtmdl').modal('show')
+                {% endif %}
+                {% endif %}
+           {%endfor%}
+        {%endif%}
+        
+        // $('.aplyclck').click(function(){
+        //     $("#procodebx").show();
+        //     $("#probtnlnk").hide();
+        // });
+        // $('.cpnaplyed').click(function(){
+        //     $("#probtnlnk").hide();
+        //     $("#procodebx").hide();
+        //     $("#prmocrdaplyd").show();
+        // });
+        // $('.resetclk').click(function(){
+        //     $("#probtnlnk").show();
+        //     $("#procodebx").hide();
+        //     $("#prmocrdaplyd").hide();
+        // });
+
+        
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+        // $("#id_code").addClass("form-control");
+        // $("#id_code").addClass("form-input");
+        // $("#id_code").addClass("form-input-inverse");
+        $("label.control-label").hide();
+
+        $('.delete-checkbox input[type=checkbox]').change(function(){
+            $('#basket_formset').submit();
+            // console.log("abc");
+        });
+
+        $('#voucher_form_cancel').click(function(){
+            $('#voucher_form_container').css('display','none');
+            $('#voucher_form_link').css('display','block');
+        });
+
+        $('.basket-delete-btn').click(function(){
+            var lineId = $(this).data('lineId');
+            var cartId = $(this).data('cartId');
+            var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: deleteURL,
+                type: "delete",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        });
+
+
+        $('.variant-select').change(function(){
+            // var retail_price = $(this).find('option:selected').data('retailPrice');
+            // var selling_price = $(this).find('option:selected').data('sellingPrice');
+            // var discount_price = $(this).find('option:selected').data('discount');
+            var productId = $(this).val();
+            var cartId = $(this).data('cartId');
+            var lineId = $(this).data('lineId')
+            RemoveBasketProduct(lineId,cartId,productId);
+
+        });
+
+        RemoveBasketProduct = function(lineId, cartId, productId){
+            //var lineId = $(this).parents('.featured-product-card').find('.variant-select').val();
+
+            var deleteURL = `${location.origin}/api/baskets/${cartId}/lines/${lineId}/`;
+            $.ajax({
+                url: deleteURL,
+                type: "delete",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                success: function (response) {
+                    console.log(response);
+                    ProductAdd(productId);
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+
+        ProductAdd = function(productId){
+            var addToCartApiUrl = `${location.origin}/api/basket/add-product/`;
+            // var productId = $(this).parents('.featured-product-card').find('.variant-select').val();
+            console.log(productId);
+            var productApiUrl = `${location.origin}/api/products/${productId}/`;
+            var quantity = 1;
+            $.ajax({
+                url: addToCartApiUrl,
+                type: "post",
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                data: JSON.stringify({
+                    "url": productApiUrl,
+                    "quantity": quantity,
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    location.reload()
+                },
+                error: function (error) {
+                    console.error(error);
+                  
+                },
+            });
+        }
+        
+
+        var el_down = document.getElementById("id_code");
+        
+        function show_coupon_code() {
+            document.getElementById('id1').innerHTML = el_down.value;
+        }
+       
+
+        $('.stepper-arrow').click(function(){
+            console.log('hello');
+        });
+
+      
+        $('.voucher_form_submit').click(function(){
+          
+            $('#voucher_form').submit();
+            show_coupon_code()
+            
+           
+        });
+
+        $('.voucher_remove').click(function(){
+          
+          $('#voucher_delete_btn').submit();
+         
+      });
+
+        $('.list-offer-apply-btn').click(function(){
+            var code = $(this).data('code');
+            $('#id_code').val(code);
+            $('#voucher_form').submit();
+        });
+
+
+    });
+   
+
+</script>
+{% endblock %}

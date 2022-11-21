@@ -1,0 +1,480 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'new_templates_assets/css/report_pdf.css' %}">
+    <title>Document</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
+</style>
+
+<body style="font-family: 'Roboto', sans-serif;">
+    <div class="report_wrap">
+        <div style="background: #5BB974;padding: 5px;">
+            <table style="width: 100% ;">
+                <tr>
+                    <td style="text-align: center; width: 100px; padding-top: 8px;">
+                        <img src="https://instaeats.in/static/new_templates_assets/images/logo_wth_bg.svg" alt="" style="width: 65px;"> 
+                    </td>
+                    <td>
+                        <h2 style="margin: 0px; color: #fff; font-size: 16px; text-align: center;">AI Based, Comprehensive Micronutient Deficiency Assessment Report</h2>
+                    </td>
+                    <td style="text-align: end; width: 225px;">
+                        <div style="display: inline-block;">
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span class="">
+                                <!-- <img src="{% static 'new_templates_assets/images/web.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="web" transform="translate(-1325 -37)">
+                                      <circle id="Ellipse_4" data-name="Ellipse 4" cx="17" cy="17" r="17" transform="translate(1325 37)" fill="#fff"/>
+                                      <path id="Path_508" data-name="Path 508" d="M77.932,111.689a10.4,10.4,0,0,0-9.938,7.129h1.473a8.494,8.494,0,0,1,.548-1.179h2.834a11.942,11.942,0,0,0-.309,1.179h1.436a11.082,11.082,0,0,1,.362-1.179h2.735v1.179h1.386v-1.179h2.955a10.341,10.341,0,0,1,.405,1.179h1.436a11.6,11.6,0,0,0-.347-1.179H85.85a8.49,8.49,0,0,1,.548,1.179h1.47A10.393,10.393,0,0,0,77.932,111.689Zm2.092,1.631a9.029,9.029,0,0,1,4.861,2.933H82.313A9.724,9.724,0,0,0,80.024,113.319Zm-4.588.1a9.2,9.2,0,0,0-2.042,2.831H70.98A9.018,9.018,0,0,1,75.435,113.421Zm3.023.446a7.989,7.989,0,0,1,2.237,2.386H78.458Zm-1.386.009v2.376H74.984A7.338,7.338,0,0,1,77.072,113.876Zm-8.663,6.281a.592.592,0,0,0-.347.1.285.285,0,0,0-.139.238.915.915,0,0,0,.065.291l.736,2.116c.022.063.048.135.077.21a.724.724,0,0,0,.118.2.484.484,0,0,0,.195.136.821.821,0,0,0,.309.049.708.708,0,0,0,.368-.084.5.5,0,0,0,.195-.183,3.323,3.323,0,0,0,.136-.312l.659-1.856.656,1.866c.055.138.1.24.133.306a.49.49,0,0,0,.192.183.727.727,0,0,0,.371.08.717.717,0,0,0,.381-.084.5.5,0,0,0,.189-.192,3.063,3.063,0,0,0,.127-.322l.736-2.116a1.017,1.017,0,0,0,.068-.291.283.283,0,0,0-.142-.238.6.6,0,0,0-.343-.1.545.545,0,0,0-.312.074.424.424,0,0,0-.149.164,1.729,1.729,0,0,0-.084.232l-.52,1.8-.582-1.686a3.154,3.154,0,0,0-.133-.309.531.531,0,0,0-.195-.189.74.74,0,0,0-.393-.087.78.78,0,0,0-.393.084.537.537,0,0,0-.207.195,2.246,2.246,0,0,0-.133.306l-.579,1.686-.523-1.813a1.029,1.029,0,0,0-.158-.331A.458.458,0,0,0,68.409,120.157Zm7.126,0a.592.592,0,0,0-.347.1.285.285,0,0,0-.139.238.938.938,0,0,0,.068.291l.736,2.116c.022.063.048.135.077.21a.716.716,0,0,0,.114.2.484.484,0,0,0,.195.136.821.821,0,0,0,.309.049.72.72,0,0,0,.371-.084.494.494,0,0,0,.192-.183,3.321,3.321,0,0,0,.136-.312l.659-1.856.656,1.866c.055.138.1.24.133.306a.49.49,0,0,0,.192.183.727.727,0,0,0,.371.08.717.717,0,0,0,.381-.084.5.5,0,0,0,.189-.192,3.065,3.065,0,0,0,.127-.322l.736-2.116a1.017,1.017,0,0,0,.068-.291.283.283,0,0,0-.142-.238.6.6,0,0,0-.343-.1.545.545,0,0,0-.312.074.424.424,0,0,0-.149.164,1.73,1.73,0,0,0-.084.232l-.52,1.8-.582-1.686a3.154,3.154,0,0,0-.133-.309.52.52,0,0,0-.192-.189.74.74,0,0,0-.393-.087.793.793,0,0,0-.4.084.537.537,0,0,0-.207.195,2.245,2.245,0,0,0-.133.306l-.579,1.686-.523-1.813a1.028,1.028,0,0,0-.155-.331A.465.465,0,0,0,75.534,120.157Zm7.126,0a.592.592,0,0,0-.347.1.285.285,0,0,0-.139.238.938.938,0,0,0,.068.291l.736,2.116c.022.063.048.135.077.21a.716.716,0,0,0,.114.2.484.484,0,0,0,.195.136.821.821,0,0,0,.309.049.72.72,0,0,0,.371-.084.494.494,0,0,0,.192-.183,3.171,3.171,0,0,0,.139-.312l.656-1.856.656,1.866c.055.138.1.24.133.306a.491.491,0,0,0,.192.183.727.727,0,0,0,.371.08.717.717,0,0,0,.381-.084.5.5,0,0,0,.189-.192,3.065,3.065,0,0,0,.127-.322l.736-2.116a1.017,1.017,0,0,0,.068-.291.279.279,0,0,0-.139-.238.606.606,0,0,0-.347-.1.545.545,0,0,0-.312.074.424.424,0,0,0-.149.164,1.73,1.73,0,0,0-.084.232l-.517,1.8-.585-1.686a3.154,3.154,0,0,0-.133-.309.52.52,0,0,0-.192-.189.74.74,0,0,0-.393-.087.793.793,0,0,0-.4.084.537.537,0,0,0-.207.195,2.246,2.246,0,0,0-.133.306l-.579,1.686-.52-1.813a1.029,1.029,0,0,0-.158-.331A.465.465,0,0,0,82.66,120.157Zm-14.718,4.5a10.482,10.482,0,0,0,19.981,0H86.46a8.538,8.538,0,0,1-.5,1.154h-2.97a11.792,11.792,0,0,0,.319-1.154H81.893a9.688,9.688,0,0,1-.362,1.154H78.458v-1.154H77.072v1.154H74.266a11.728,11.728,0,0,1-.328-1.154H72.515c.08.391.177.776.288,1.154h-2.9a8.554,8.554,0,0,1-.5-1.154Zm2.874,2.54H73.3a8.8,8.8,0,0,0,2.045,3.017A9,9,0,0,1,70.816,127.193Zm4.028,0h2.228v2.59A6.6,6.6,0,0,1,74.844,127.193Zm3.614,0h2.382a7.591,7.591,0,0,1-2.382,2.525Zm3.976,0h2.614a9.015,9.015,0,0,1-5.093,3.159A9.332,9.332,0,0,0,82.434,127.193Z" transform="translate(1264.078 -67.688)" fill="#43a736"/>
+                                    </g>
+                                  </svg>
+                                  
+                            </span>
+                            <!-- <span style="font-size: 18px;color: #fff; margin-left: 10px;">www.instaeats.in</span> -->
+                        </div>
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span>
+                                <!-- <img src="{% static 'new_templates_assets/images/email.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="mail" transform="translate(-1325 -96)">
+                                      <circle id="Ellipse_5" data-name="Ellipse 5" cx="17" cy="17" r="17" transform="translate(1325 96)" fill="#fff"/>
+                                      <path id="Icon_simple-email" data-name="Icon simple-email" d="M21.656,10.179a11.374,11.374,0,0,1-.367,2.467,7.139,7.139,0,0,1-.959,2.167A5.062,5.062,0,0,1,18.7,16.352a4.59,4.59,0,0,1-2.375.586,3.442,3.442,0,0,1-1.717-.42,2.941,2.941,0,0,1-1.16-1.189,3.678,3.678,0,0,1-3.112,1.563A3.164,3.164,0,0,1,7.623,15.43a4.782,4.782,0,0,1-.675-1.692A7.3,7.3,0,0,1,6.86,11.53a10.256,10.256,0,0,1,.673-2.7A7.35,7.35,0,0,1,8.776,6.755a5.259,5.259,0,0,1,1.709-1.32,4.769,4.769,0,0,1,2.078-.462,6.462,6.462,0,0,1,1.243.106,5.088,5.088,0,0,1,.965.289,5.217,5.217,0,0,1,.8.422c.244.157.489.32.733.485l-.6,6.946a2.309,2.309,0,0,0,.018.813,1.138,1.138,0,0,0,.248.5.893.893,0,0,0,.4.262,1.494,1.494,0,0,0,1.414-.278,3.014,3.014,0,0,0,.758-.965,6.213,6.213,0,0,0,.51-1.45,9.948,9.948,0,0,0,.223-1.805,11.538,11.538,0,0,0-.284-3.374,6.706,6.706,0,0,0-1.249-2.61A5.8,5.8,0,0,0,15.5,2.634a8.124,8.124,0,0,0-3.261-.6,7.2,7.2,0,0,0-3.225.7,7.4,7.4,0,0,0-2.45,1.949,9.353,9.353,0,0,0-1.6,2.931,13.21,13.21,0,0,0-.675,3.652A12.145,12.145,0,0,0,4.631,15,6.731,6.731,0,0,0,5.993,17.67a5.682,5.682,0,0,0,2.307,1.6,8.85,8.85,0,0,0,3.184.532,10.9,10.9,0,0,0,2.089-.225c.345-.069.671-.152.983-.243a7.4,7.4,0,0,0,.846-.3L15.839,21a4.85,4.85,0,0,1-.947.469,9.114,9.114,0,0,1-1.119.324,10.92,10.92,0,0,1-2.337.262,12.258,12.258,0,0,1-4.261-.686,7.843,7.843,0,0,1-3.106-2.042A8.578,8.578,0,0,1,2.2,15.954a14.385,14.385,0,0,1-.521-4.682,14.278,14.278,0,0,1,.9-4.493A11.119,11.119,0,0,1,4.736,3.21,9.835,9.835,0,0,1,8.029.854,10.308,10.308,0,0,1,12.293,0a10.762,10.762,0,0,1,4.132.74,8.036,8.036,0,0,1,2.982,2.081,8.541,8.541,0,0,1,1.77,3.215A12.294,12.294,0,0,1,21.656,10.179ZM9.82,11.53a4.688,4.688,0,0,0,.243,2.325,1.247,1.247,0,0,0,1.2.786,1.324,1.324,0,0,0,.411-.076,1.465,1.465,0,0,0,.473-.284,2.523,2.523,0,0,0,.48-.579,4.442,4.442,0,0,0,.441-.979l.471-5.4a2.816,2.816,0,0,0-.733-.1,2.535,2.535,0,0,0-1.22.28,2.415,2.415,0,0,0-.864.821,4.824,4.824,0,0,0-.573,1.351,11.457,11.457,0,0,0-.325,1.847Z" transform="translate(1330.33 102)" fill="#43a736"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <!-- <span  style="font-size: 18px;color: #fff; margin-left: 10px;">info@instaeats.in</span> -->
+                        </div>
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span>
+                                <!-- <img src="{% static 'new_templates_assets/images/whatsapp.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="whatsapp" transform="translate(-1325 -155)">
+                                      <path id="Path_547" data-name="Path 547" d="M17,0A17,17,0,1,1,0,17,17,17,0,0,1,17,0Z" transform="translate(1325 155)" fill="#fff"/>
+                                      <path id="Icon_ionic-logo-whatsapp" data-name="Icon ionic-logo-whatsapp" d="M12.431,2.25a9.781,9.781,0,0,0-9.818,9.742,9.642,9.642,0,0,0,1.409,5.031L2.25,22.25l5.436-1.727A9.835,9.835,0,0,0,22.25,11.992,9.781,9.781,0,0,0,12.431,2.25Zm4.882,13.442a2.536,2.536,0,0,1-1.737,1.119c-.46.024-.474.357-2.984-.734a10.244,10.244,0,0,1-4.139-3.914,4.815,4.815,0,0,1-.926-2.61,2.782,2.782,0,0,1,.956-2.041.962.962,0,0,1,.68-.286c.2,0,.326-.006.472,0S10,7.2,10.191,7.7s.645,1.748.7,1.875a.455.455,0,0,1,0,.436,1.705,1.705,0,0,1-.266.405c-.131.141-.276.314-.392.422s-.267.249-.129.5a7.513,7.513,0,0,0,1.329,1.774,6.85,6.85,0,0,0,1.969,1.309c.246.134.393.119.546-.041s.654-.7.83-.945.342-.2.569-.1,1.436.739,1.682.873.41.2.469.308A2.062,2.062,0,0,1,17.314,15.692Z" transform="translate(1329.75 159.75)" fill="#43a736"/>
+                                    </g>
+                                  </svg>                                  
+                            </span>
+                            <!-- <span  style="font-size: 18px;color: #fff; margin-left: 10px;">+91-88009 45109</span> -->
+                        </div>
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span class="">
+                                <!-- <img src="{% static 'new_templates_assets/images/instagram.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="insta" transform="translate(-1663 -37)">
+                                      <circle id="Ellipse_4" data-name="Ellipse 4" cx="17" cy="17" r="17" transform="translate(1663 37)" fill="#fff"/>
+                                      <path id="Icon_metro-instagram" data-name="Icon metro-instagram" d="M19.25,1.928H5.891a3.33,3.33,0,0,0-3.32,3.32V18.608a3.33,3.33,0,0,0,3.32,3.32H19.25a3.33,3.33,0,0,0,3.32-3.32V5.248A3.33,3.33,0,0,0,19.25,1.928ZM8.973,10.678h7.2a3.809,3.809,0,1,1-7.2,0Zm11.1,0v7.5a1.254,1.254,0,0,1-1.25,1.25H6.321a1.254,1.254,0,0,1-1.25-1.25v-7.5H7.026a5.684,5.684,0,1,0,11.09,0h1.955Zm0-4.376a.627.627,0,0,1-.625.625H18.2a.627.627,0,0,1-.625-.625V5.053a.627.627,0,0,1,.625-.625h1.25a.627.627,0,0,1,.625.625Z" transform="translate(1667.43 42.072)" fill="#43a736"/>
+                                    </g>
+                                  </svg>
+                                  
+                            </span>
+                            <!-- <span style="font-size: 18px;color: #fff; margin-left: 10px;">Instagram</span> -->
+                        </div>
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span>
+                                <!-- <img src="{% static 'new_templates_assets/images/facebook.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="facebook" transform="translate(-1663 -96)">
+                                      <circle id="Ellipse_5" data-name="Ellipse 5" cx="17" cy="17" r="17" transform="translate(1663 96)" fill="#fff"/>
+                                      <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M12.69,12.453,13.3,8.447H9.46v-2.6a2,2,0,0,1,2.259-2.165h1.748V.271A21.314,21.314,0,0,0,10.364,0C7.2,0,5.129,1.919,5.129,5.393V8.447H1.609v4.007H5.129v9.686H9.46V12.453Z" transform="translate(1672.391 102)" fill="#43a736"/>
+                                    </g>
+                                  </svg>
+                            </span>
+                            <!-- <span  style="font-size: 18px;color: #fff; margin-left: 10px;">Facebook</span> -->
+                        </div>
+                        <div style="padding-right: 5px; display: inline-block;">
+                            <span>                                
+                                <!-- <img src="{% static 'new_templates_assets/images/twitter.png' %}" alt="" style="width: 30px;vertical-align: middle;"> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 34 34">
+                                    <g id="tw" transform="translate(-1663 -155)">
+                                      <path id="Path_547" data-name="Path 547" d="M17,0A17,17,0,1,1,0,17,17,17,0,0,1,17,0Z" transform="translate(1663 155)" fill="#fff"/>
+                                      <path id="Icon_awesome-twitter" data-name="Icon awesome-twitter" d="M20.156,7.928c.014.2.014.4.014.6a13.01,13.01,0,0,1-13.1,13.1A13.011,13.011,0,0,1,0,19.56a9.525,9.525,0,0,0,1.112.057,9.221,9.221,0,0,0,5.716-1.967,4.612,4.612,0,0,1-4.3-3.193,5.806,5.806,0,0,0,.87.071A4.87,4.87,0,0,0,4.6,14.371,4.6,4.6,0,0,1,.912,9.852V9.8a4.637,4.637,0,0,0,2.081.584A4.611,4.611,0,0,1,1.568,4.222,13.087,13.087,0,0,0,11.061,9.04a5.2,5.2,0,0,1-.114-1.055,4.609,4.609,0,0,1,7.968-3.15,9.065,9.065,0,0,0,2.922-1.112A4.592,4.592,0,0,1,19.814,6.26a9.23,9.23,0,0,0,2.651-.713,9.9,9.9,0,0,1-2.309,2.38Z" transform="translate(1669 159.619)" fill="#43a736"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <!-- <span  style="font-size: 18px;color: #fff; margin-left: 10px;">Twitter</span> -->
+                        </div>
+                    </td>                    
+                </tr>
+            </table>
+        </div>
+        <div>
+            <!-- <h4 style="text-align: center; color:#262525; font-size:20px;">AI Based, COMPREHANSIVE  MICRONUTIENT <br>
+                DEFICIENCY ASSESSMENT REPORT</h4> -->
+
+            <div style="border-bottom: 4px solid #5BB974;margin: 20px 30px;padding-bottom: 10px;">
+                <!-- <tr>
+                    <td colspan="2" style="font-size: 21px;font-weight: 700;padding-bottom: 10px;">InstaEats India </td>
+                </tr> -->
+
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="padding: 5px 0px; vertical-align: top;">
+                            <div>
+                                <span>Name:</span>
+                                <span style="font-weight: 500;">{{object.name|default:''}}</span>
+                            </div>
+                
+                        </td>
+                        <td style="padding: 5px 0px; vertical-align: top;">
+                            <div>
+                                <span>Age:</span>
+                                <span style="font-weight: 500;">{{object.age|default:'-'}}</span>
+                            </div>
+                        </td>
+                        <td style="width: 33.33%;">
+                            <div>
+                                <span>Gender:</span>
+                                <span style="font-weight: 500;">{{object.gender|default:'-'}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px 0px; vertical-align: top;">
+                            <div>
+                                <span>Report Status:</span>
+                                <span style="font-weight: 500;">FINAL</span>
+                            </div>
+                        </td>
+                        <td style="padding: 5px 0px; vertical-align: top;">
+                            <div>
+                                <span>Mobile Number:</span>
+                                <span style="font-weight: 500;">{{object.mobile_number|default:'N/A'}}</span>
+                            </div>
+                        </td>
+                        <td style="padding: 5px 0px; vertical-align: top;">
+                            <div>
+                                <span>Report ID :</span>
+                                <span>{{object.sys_id}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px 0px; vertical-align: top;" colspan="3">
+                            <div>
+                                <span>Medical Condition :</span>
+                                <span style="font-weight: 500;">
+                                    {% if object.medical_condition %}
+                                    {{object.medical_condition|join:', '}}
+                                    {% endif %}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div style="margin: 20px 30px 0px 30px;">
+            <h1 style="font-size: 24px; font-weight:700; margin-bottom:10px;">You may have Multiple Vitamins & Mineral Deficiencies</h1>
+            <h2 style="text-align: left; font-size: 20px; color: #484848; font-weight: 600; margin-bottom: 20px;">Suspected Deficiencies & Associated Consequences</h2>
+        </div>
+
+        <div style="margin: 20px 20px 0px 25px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="vertical-align: baseline; width: 74%;position: relative; ">
+                        <!-- <h6 style="font-size: 22px; color:#393939;margin: 0;padding-bottom: 20px;">Identified Deficiencies :</h6> -->
+                        <table style="width: 100%;">
+                            {% with object.get_deficiency_report as deficiency_report %}
+                                {% for deficiency in deficiency_report.deficiency_obj_list %}
+                                    {% if forloop.counter <= 8 %}
+                                    <tr>
+                                        <td style="font-size: 18px;color:#303936;width: 140px;vertical-align: baseline;font-weight: 500;">{{deficiency.deficiency_name}} :</td>
+                                        <td style="padding-bottom:10px; vertical-align: baseline;">
+                                            <span style="font-size: 18px; color:#393939;">{{deficiency.consequences}}</span>
+                                        </td>
+                                    </tr>    
+                                    {% endif %}
+                                {% empty %}
+                                <div class="empty_defnces" style="position: absolute; top: 200px"><P>That’s amazing ! it seems you have no micronutrients deficiency</P></div>    
+                                {% endfor %}
+                            {% endwith %}                       
+                        </table>
+                    </td>
+                    <td style="width:25%">
+                        <img src="{% static 'new_templates_assets/images/doctor.png' %}" alt="" style="width: 73%;">
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td colspan="2">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="padding-bottom:20px;">
+                                    <div style="display: table;width: 100%;table-layout: fixed;vertical-align: text-top;">
+                                        {% with object.get_deficiency_report as deficiency_report %}
+                                            {% for deficiency in deficiency_report.deficiency_obj_list %}
+                                                {% if forloop.counter > 14 %}
+                                                
+                                                    <div style="display: inline-block;width: 48%;padding-right: 25px;vertical-align: top;margin-bottom: 15px;">
+                                                        <span>{{deficiency.deficiency_name}} :</span>
+                                                        <span>
+                                                            <span style="font-size: 18px; color:#393939;">Deficiency Suspected</span>
+                                                        </span>
+                                                    </div>
+                                                
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}   
+                                    </div>                    
+                                </td>
+                            </tr>    
+                        </table>
+                    </td>
+                </tr> -->
+            </table>
+        <!-- </div>
+
+
+        <div style="margin: 400px 80px;"> -->
+            <table style="display: none;">
+                <tr>
+                    <td>
+                        <img src="{% static 'new_templates_assets/images/sign1.png' %}" alt="">
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Dr.Rakesh Kumar</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">M.SC.,phD</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Consultant Biochemistry</span>
+                    </td>
+                    <td>
+                        <img src="{% static 'new_templates_assets/images/sign2.png' %}" alt="">
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Dr.Dipti C Ekka</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">MBBS,MD,MHA</span>
+                        <span style="display: block; font-size:15px; padding-bottom: 5px;">Laboratory Director</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size: 15px; font-style:italic; font-weight: 600;">*Marked tests are under the scope of NABL</td>
+                   
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-size: 15px; font-style:italic; font-weight: 600;">The above test has been processed at Rapidx. A unit of cauro diagnostics pvt. ltd, Gurugram(Harayana)</td>
+                </tr>
+            </table>
+        </div>
+
+
+        
+        <div style="border-top:2px solid #43A736; position: absolute; top: 1200px;">
+            <div style="margin: 20px 60px;">
+                <table>
+                    <tr>
+                        <td style="width: 10%">
+                            <!-- <img src="{% static 'new_templates_assets/images/logob.png' %}" alt=""> -->
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="60px" height="60px" viewBox="0 0 80.926 80.926">
+                                <defs>
+                                  <filter id="Path_345">
+                                    <feOffset dy="3" input="SourceAlpha"/>
+                                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                                    <feFlood flood-opacity="0.161" result="color"/>
+                                    <feComposite operator="out" in="SourceGraphic" in2="blur"/>
+                                    <feComposite operator="in" in="color"/>
+                                    <feComposite operator="in" in2="SourceGraphic"/>
+                                  </filter>
+                                </defs>
+                                <g id="logo" transform="translate(24413.724 22306.734)">
+                                  <g data-type="innerShadowGroup">
+                                    <path id="Path_345-2" data-name="Path 345" d="M109.28,40.463A40.463,40.463,0,1,1,68.817,0,40.463,40.463,0,0,1,109.28,40.463" transform="translate(-24442.078 -22306.734)" fill="#231f20"/>
+                                    <g transform="matrix(1, 0, 0, 1, -24413.72, -22306.73)" filter="url(#Path_345)">
+                                      <path id="Path_345-3" data-name="Path 345" d="M109.28,40.463A40.463,40.463,0,1,1,68.817,0,40.463,40.463,0,0,1,109.28,40.463" transform="translate(-28.35)" fill="#fff"/>
+                                    </g>
+                                  </g>
+                                  <path id="Path_356" data-name="Path 356" d="M64.227,38.908q-4.084,0-4.085,4.135v2.65h2.841v-2.65q0-1.325,1.235-1.336h.02q1.224,0,1.225,1.336v5.229a3.568,3.568,0,0,0-2.2-.633q-3.121.01-3.121,4.145v3.3q0,4.137,4.085,4.146T68.3,55.086V43.043q0-4.135-4.074-4.135m-.182,18.114a5.086,5.086,0,0,1,.192-7.191,5.087,5.087,0,0,1-.192,7.191" transform="translate(-24438.189 -22301.973)" fill="#fff"/>
+                                  <path id="Path_357" data-name="Path 357" d="M51.828,13.509h0a5.159,5.159,0,0,1-5.158,5.158,5.159,5.159,0,0,1,5.158-5.158" transform="translate(-24439.838 -22305.082)" fill="#43a736"/>
+                                  <path id="Path_346" data-name="Path 346" d="M79.637,18.919q-4.084,0-4.085,4.135V25.7h2.841v-2.65q0-1.325,1.235-1.336h.02q1.224,0,1.225,1.336v5.229a3.569,3.569,0,0,0-2.2-.633q-3.121.01-3.121,4.145v3.3q0,4.137,4.085,4.146T83.712,35.1V23.054q0-4.135-4.074-4.135m-.182,18.114a5.086,5.086,0,0,1,.192-7.191,5.087,5.087,0,0,1-.192,7.191" transform="translate(-24436.303 -22304.42)" fill="#fff"/>
+                                  <rect id="Rectangle_2138" data-name="Rectangle 2138" width="2.841" height="19.692" transform="translate(-24394.012 -22285.189)" fill="#fff"/>
+                                  <path id="Path_358" data-name="Path 358" d="M53.256,38.922H50.415V23.054q0-4.135,4.075-4.135t4.084,4.135V38.922h-2.84V23.054q0-1.325-1.235-1.335h-.02q-1.224,0-1.225,1.335Z" transform="translate(-24439.379 -22304.42)" fill="#fff"/>
+                                  <path id="Path_359" data-name="Path 359" d="M59.653,23.054q0-4.135,4.075-4.135t4.084,4.135V25.7H64.972v-2.65q0-1.325-1.235-1.335h-.019q-1.226,0-1.225,1.335v1.787q0,1.315,2.659,3.221a5.5,5.5,0,0,1,2.66,4.547V35.1q0,4.145-4.075,4.145T59.653,35.1v-2.65h2.841V35.1q0,1.335,1.244,1.335T64.972,35.1V32.85q0-1.426-2.659-3.332a5.552,5.552,0,0,1-2.66-4.617Z" transform="translate(-24438.248 -22304.42)" fill="#fff"/>
+                                  <path id="Path_347" data-name="Path 347" d="M72.963,19.892h2.2v2.8h-2.2V62.255H70.123V22.692H68.086v-2.8h2.037V13.509h2.841Z" transform="translate(-24437.217 -22305.082)" fill="#fff"/>
+                                  <path id="Path_348" data-name="Path 348" d="M75.622,43.042q0-4.135,4.075-4.135t4.084,4.135v2.65H80.941v-2.65q0-1.325-1.235-1.335h-.019q-1.226,0-1.225,1.335v1.787q0,1.315,2.659,3.221a5.5,5.5,0,0,1,2.66,4.547v2.489q0,4.145-4.075,4.145t-4.084-4.145v-2.65h2.841v2.65q0,1.335,1.244,1.335t1.235-1.335V52.838q0-1.426-2.659-3.332a5.552,5.552,0,0,1-2.66-4.617Z" transform="translate(-24436.293 -22301.973)" fill="#fff"/>
+                                  <path id="Path_360" data-name="Path 360" d="M59.065,50.469V43.042q0-4.135-4.084-4.135t-4.075,4.135V55.086q0,4.145,4.075,4.145t4.084-4.145v-2.65H56.224v2.65q0,1.335-1.244,1.335t-1.235-1.335V50.469Zm-5.87-2.555h0a5.087,5.087,0,0,1,3.58-6.239,5.087,5.087,0,0,1-3.58,6.239" transform="translate(-24439.318 -22301.973)" fill="#fff"/>
+                                </g>
+                              </svg>
+                        </td>
+                        <td>
+                            <p style="margin: 0px;text-align:center;font-size: 14px;"><strong>IMPORTANT INFORMATION!</strong> This test is for informational purposes only and is not intended to be, nor should be construed as 
+                                a substitute for advice, diagnosis, and/or treatment from a qualified medical professional. If you have any kind of medical 
+                                condition whatsoever, or are experiencing symptoms of a medical condition, consult your doctor.</p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <!-- <div style="background:#5BB974; text-align: center; padding: 10px;">
+                <p style="margin: 0; color:#fff;"><strong>Address :</strong>Urban Nutrition Pvt Ltd Building No. 1505, 2nd Floor Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi 110003 INDIA</p>
+            </div> -->
+        </div>
+        
+        <br>
+        <br>
+
+        <div style="margin: 50px 0px 20px 0px; page-break-before: always;">
+            <h2 style="font-size: 24px; text-transform:uppercase; margin: 0px;"><span
+                    style="display: block; color: #43A736; font-size: 20px; font-weight: 600;">Advisory</span>Our
+                Recommendations</h2>
+        </div>
+
+        {% if recommended_product %}
+        <div style="background:#D4EEC1;padding:10px 20px; font-size: 14px;">
+            <table>
+                <tr>
+                    <td style="width: 17%;">
+                        <div style="background-color: #A4DE9C; width:250px; height: 250px;">
+                            <h2
+                                style="text-transform: uppercase;color: #43A736; font-size: 24px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Diet</span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 20px;">
+                        <img src="{% static 'new_templates_assets/images/green.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #43A736; font-weight: 500; margin-left: 10px;">
+                            Diet Modification</h4>
+                        <table style="padding-top:0px;" class="diet-modification-content">
+                            <tr>
+                                <td style="width: 82%;">
+                                    <!-- <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;"></p> -->
+                                    {{recommended_product.diet_modification_dos|safe}}
+                                </td>
+
+                                <!-- <td style="padding-left: 40px; width: 41%;">
+                                    <p style="margin: 0; background:#fff; padding:10px 20px;display: inline;">Dont's</p>
+                                    {{recommended_product.diet_modification_donts|safe}}
+                                </td> -->
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+       
+        <div style="background:#fff;padding:10px 20px; font-size: 14px;">
+            <table>
+                <tr>
+                    <td style="width: 17%;">
+                        <div style="background-color: #CFEFEB; width:250px; height: 250px;">
+                            <h2
+                                style="text-transform: uppercase;color: #02BAA1; font-size: 24px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Lifestyle</span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 20px;">
+                        <img src="{% static 'new_templates_assets/images/blue.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #02BAA1; font-weight: 500; margin-left: 10px;">
+                            Lifestyle Modification</h4>
+                        <table style="padding-top:0px;" class="diet-modification-content">
+                            <tr>
+                                <td style="width: 82%;">
+                                    <!-- <p style="margin: 0; background:#F2F2F2; padding:10px 20px;display: inline;">Do's
+                                    </p> -->
+                                    {{recommended_product.lifestyle_modification_dos|safe}}
+                                </td>
+
+                                <!-- <td style="padding-left: 40px; width: 41%;">
+                                    <p style="margin: 0; background:#F2F2F2; padding:10px 20px;display: inline;">Dont's
+                                    </p>
+                                    {{recommended_product.lifestyle_modification_donts|safe}}
+                                </td> -->
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="background:#FFEBB0;padding:10px 20px; font-size: 14px;">
+            <table style="width: 100%;">
+               
+                <tr>
+                    <td style="width: 17%; vertical-align: top;">
+                        <div style="background-color: #D8CCAB; width:250px; height: 250px;">
+                            <h2
+                                style="text-transform: uppercase;color: #D4A11C; font-size: 24px; text-align: center;padding-top: 103px;margin: 0px;">
+                                <span style="color: #000; display:block">Nutritional
+                                </span>
+                                Modification</h2>
+                        </div>
+                    </td>
+
+                    <td style="padding-left: 20px;vertical-align: top;">     
+                        <img src="{% static 'new_templates_assets/images/brown.png' %}" alt="" style="display: inline;width: 25px;">
+                        <h4
+                            style="display: inline; font-size:30px;text-transform:uppercase;margin:0px; margin: 0px; color: #D4A11C; font-weight: 500; margin-left: 10px;">
+                            Nutritional Recommendations</h4>                   
+                            <table style="width: 100%;">
+                            <tr >
+                                <td style="vertical-align: top;">
+                                    {{recommended_product.nutritional_recommendation|safe}}
+                                </td>
+
+                                <td style="padding-left: 40px; text-align: center;width: 35%; min-width: 150px;vertical-align: top;">
+                                    <img src="{{ MEDIA_URL }}{{recommended_product.primary_image.original}}" alt="" style="width: 100%;">
+                                    <div style="text-align: center;">
+                                        <a href="{{prod}}{{recommended_product.get_absolute_url}}"
+                                            style="background-color: #FB641B;color:#fff; padding: 10px 20px; border-radius:10px; text-decoration: none;">Buy
+                                            Now</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <div style="background-color: #E4FFE1; padding:10px 20px; font-size: 14px;">
+            <table>
+                <tr>
+                    <td style="width: 25%;"><img style="width: 100%;" src="/static/new_templates_assets/images/girls.png" alt=""></td>
+                    <td style="width: 50%;">
+                        <p style="color: #183B56; font-size:20px; font-weight:500; padding-bottom: 20px;">Micronutrient deficiencies affect up to 2 billion people globally-nearly 30% of the world's population. What if? You might be one of them. Consult with our experts before it's too late.</p>
+                            <a href="{{prod}}{% url 'website:contact_us' %}" style="background-color: #5BB974; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Book Free Consultation</a>
+                    </td>
+                    <td style="width: 25%;">
+                        <div style="border-left: 1px solid #ccc;padding-left: 13px;">
+                            <img src="/static/new_templates_assets/images/qr.png" alt="" style="width: 150px;">
+                            <p>Open camera and scan Our QR Code to Book Free Consultation</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="border-top:2px solid #43A736; font-size: 14px;">
+            <div style="margin: 10px 60px;">
+                <table style="width: 100%;">
+                    <tr>                        
+                        <td style="text-align: center;">
+                            <p style="margin: 0px;padding-bottom: 10px;"><strong>If you like it, recommend our site to your friends</strong></p>
+                            <img style="height: 35px" src="{% static 'new_templates_assets/images/social.png' %}" alt="">
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div style="background:#5BB974; text-align: center; padding: 10px; font-size: 14px;">
+            <p style="margin: 0; color:#fff;"><strong>Address :</strong>Urban Nutrition Pvt Ltd Building No. 1505, 2nd Floor Lane No. 3, Wazir Nagar, South Extension I, New Delhi, Delhi 110003 INDIA</p>
+        </div>
+        
+
+    </div>
+
+</body>
+
+</html>

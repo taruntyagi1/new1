@@ -1,0 +1,179 @@
+{% extends "website/frame.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load image_tags %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+{% load arithmatic_ope %}
+
+{% block customheadend %}
+<style>   
+    header.header{display: none !important;}
+    #navbarCollapse{display: none !important;} 
+    footer.footer{display: none !important;}
+    #navbarCollapse{display: none !important;}
+    body{background: #F7F8FA !important;}
+</style>
+{% endblock %}
+{% block page-content %}
+
+
+
+
+
+<section class="tk_section">
+    <div class="container">
+        <a href="javascript:void(0);" onclick="window.print()" class="print-btn">Print Receipt</a>
+        <div class="thankupage">
+            <div class="tklogo">
+                <a href="{{homepage_url}}">
+                    <img class="img-fluid" src="{% static 'website/images/logo.png' %}" alt="">                
+                </a>
+            </div>
+            <div class="tk_pc">
+                <h3>
+                    <span class="tk_icon"><i class="ri-check-line"></i></span>
+                    Payment Confirmed
+                </h3>
+                
+            </div>
+            
+            <div class="pay-confirm-head">
+                <div class="tk_pch">
+                    <span>Date Of Order</span>
+                   
+                    <span>{{order.date_placed}}</span>
+                </div>
+                <div class="tk_pch">
+                    <span>ORDER Id</span>
+                   
+                    <span>#{{order.number}}</span>
+                </div>
+                <div class="tk_pch">
+                    <span>Name</span>
+                    <span>{{order.user.get_full_name}}</span>
+                </div>
+                <div class="tk_pch">
+                    <span>Email id</span>
+                    <span>{{order.email}}</span>
+                </div>
+                <div class="tk_pch">
+                    <span>Phone Number</span>
+                    <span> {{order.shipping_address.phone_number}}</span>                    
+                </div>
+                <div class="tk_pch">
+                    <span>Address</span>
+                    <span>{{order.shipping_address}}</span>
+                </div>
+                <div class="tk_pch">
+                    <span style="color: black; font-weight: 500;">Expected Delivery</span>
+                    <span>2-5 Days</span>
+                </div>
+                <div class="cart_section">
+                    {% for line in order.lines.all %}
+                    <div class="cartbx">
+                        <div class="media-amt">
+                            <img class="img-fluid" src="{{ MEDIA_URL }}{{ line.product.primary_image.original }}" alt="">
+                        </div>
+                        <div class="crt_data">
+                            <h3>{{line.product.get_complete_title}}</h3>
+                            <p>({{ line.quantity }})</p>
+                            <!-- {% if line.product.get_tag_line %}
+                            <p>({{ line.product.get_tag_line|safe }})</p>
+                            {% endif %} -->
+                            <!-- <div class="review">
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-s-fill"></i>
+                                <i class="ri-star-half-s-fill"></i>
+                                (121)
+                            </div> -->
+                        </div>
+                        <div class="crtprs">
+                            {% if line.line_price_before_discounts_excl_tax != line.line_price_before_discounts_incl_tax %}
+                            <h3>&#8377;{{line.line_price_before_discounts_excl_tax}}</h3>&nbsp;&nbsp;
+                            {% endif %}
+                            <h3>&#8377;{{line.line_price_before_discounts_incl_tax }}</h3>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+                <div class="total-amout-wrapper pb-3 border-bottom mb-3">
+                    <h2>
+                        <span>Subtotal</span>
+                        <span>&#8377;{{ order.basket_total_before_discounts_incl_tax}}</span>
+                    </h2>
+                    <h2 style="margin-bottom: 10px;">
+                        <span>Discount </span>
+                        <span class="text-dark fw-normal">{{ order.total_discount_incl_tax }}</span>
+                    </h2>
+                    <h2>
+                        <span>Shipping </span>
+                        <span class="text-dark fw-normal">Free</span>
+                    </h2>
+                </div>
+                <div class="total-amount">
+                    <h2>
+                        <span class="paid-color">Total Paid</span>
+                        <span>&#8377;{{ order.total_incl_tax }}</span>
+                    </h2>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="cont_btn">                                    
+            <a href="{{homepage_url}}" class="">Back to Shopping  </a>            
+            <p>Thank you {{request.user.get_full_name}} for buying Instaeats. The nature is grateful to you. Now that your order is confirmed it will be ready to ship in 2 days. Please check your inbox in the future for your order updates.</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- <div class="ship_wrapper">
+    <div class="container ship_container_wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 px-0">
+                    <div class="user_details">
+                        <div class="">
+                             <img src="{% static 'website/images/logo.png' %}" alt="">
+                             <div class="">
+                                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                                    aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{% url 'basket:summary' %}">Cart</a></li>
+                                        <li class="breadcrumb-item " aria-current="page"><a href="{% url 'checkout:preview' %}">Details</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'checkout:preview' %}">Shipping</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div> -->
+
+{% block tracking %}
+{% if send_analytics_event %}
+{% include "oscar/partials/google_analytics_transaction.html" %}
+{% endif %}
+{% endblock %}
+
+{% endblock page-content %}
+
+{% block custombodyend %}
+<script>
+    $(document).ready(function(){
+        $("header").removeClass("header-creative-wrap");
+        $("header").removeClass("context-dark");
+    });
+</script>
+
+{% endblock %}

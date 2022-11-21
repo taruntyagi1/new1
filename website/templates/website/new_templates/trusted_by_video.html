@@ -1,0 +1,39 @@
+{% load static %}
+{% load image_tags %}
+
+<div class="head_center">
+    <h3>Trusted by <br>
+        <span>Expert Dietitians</span> and <span>Nutritionists</span>
+    </h3>
+    <p>
+        InstaEats Scientifically Formulated Products are 100% natural, Validated, Tested and Recommended by the Dietitian's and Nutritionists all over India.</p>
+</div>
+
+<div id="tdn_slider" class="tednslider">
+    {% for object in dietitions_and_nutritionists %}
+                <div class="item">
+                    <div class="tdn_slbx">
+                        <div class="med_img">
+                            <!-- <img src="{{MEDIA_URL}}{{object.image}}" alt=""> -->
+                            {% with image=object.image %}
+                                    {% oscar_thumbnail image "337x168" upscale=True as thumb %}
+                                   <img class="prd_itm_img" src="{{thumb.url}}" data-image="{{thumb.url}}"
+                                    data-zoom-image="{{thumb.url}}" />
+                            {%endwith%}
+                            <a class="btn_yt video-show-btn" href="javascript:void(0);" data-video-url="https://www.youtube.com/embed/{{object.video_id}}"><img src="{% static 'website/images/ic_yt.png' %}"></a>
+                            <!-- <a class="btn_yt" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#videomodal"><img src="{% static 'website/images/ic_yt.png' %}"></a> -->
+                        </div>
+                        {% if object.description%}
+                        <div class="data_txt">                    
+                            <h3>{{object.description|safe|striptags}}</h3>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {%endfor%}
+    
+    
+    
+</div>
+
+

@@ -1,0 +1,116 @@
+
+{% extends "customer/profile/profile.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load display_tags %}
+{% load currency_filters %}
+{% block customheadend %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block profile_breadcrumbs %}
+<section class="breadcrumb">
+    <div class="container">
+        <div class="brdcmbx">
+            <div class="brd-d">
+                <h3>My Orders</h3>
+                <ul class="br_submenu">
+                    <li><a href="{{homepage_url}}">Home</a></li>    
+                    <li><a href="{% url 'customer:summary' %}">Profile</a></li>                    
+                    <li>My Orders</li>
+                </ul>
+            </div>                                     
+        </div>
+    </div>
+</section>
+
+{% endblock profile_breadcrumbs %}
+
+{% block profile_content %}
+ 
+    <div class="edt_form ordrhstybx">
+
+        <div class="edt_head mb-2">
+            <div class="eh_name"><h3 class="ttl_name">Order History</h3></div>
+            <div class="eh_btn"> </div>
+        </div>
+
+
+        <div class="row m-0">
+            <div class="col-12 p-0">
+                {% include "oscar/partials/alert_messages.html" %}
+                {% if orders %}
+                <table class="table tbl_cstm">
+                    <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Payment Status</th>
+                        <th>Total</th>
+                    </tr>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.number }}</td>
+                        <td>{{ order.date_placed|date:'SHORT_DATE_FORMAT' }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>{{ order.total_incl_tax|currency:order.currency }}</td>
+                        
+                    </tr>
+                    {%endfor%}
+                    
+                </table>
+                {% include "partials/pagination.html" %}
+            {% else %}
+                {% if form.is_bound %}
+
+                <div class="norecordbx pt-2">
+                    <p><img class="img-fluid" src="{% static 'website/images/no_record.png' %}" alt=""></p>
+                    <h3>{% trans "No orders match your search." %}</h3>        
+                </div>
+
+                    <p></p>
+                {% else %}
+                <div class="norecordbx pt-2">
+                    <p><img class="img-fluid" src="{% static 'website/images/no_record.png' %}" alt=""></p>
+                    <h3>{% trans "You haven't placed any orders." %}</h3>        
+                </div>
+                {% endif %}
+            {% endif %}
+            </div>
+            <!-- <div class="col-4">
+                <div class="dtlho">
+                    <h3>Account Details</h3>
+                    <div class="dtlhbx">
+                        <h4>{{user.get_full_name}}</h4>
+                        <p><span>Email  : </span>{{user.email}}</p>
+                        <p><span>Address : </span>{{user.addresses.first}}</p>
+                        <p><span>Phone  : </span>{{user.mobile_number}}</p>
+                    </div>
+                    <div class="btn_btn-a">
+                        <a href="{% url 'customer:address-list' %}">View All Address</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+   
+
+
+
+{% endblock profile_content %}
+
+{% block custombodyend %}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+            $('#id_date_from').prop('type','date');
+            $('#id_date_to').prop('type','date');
+            $('.profile-content button').addClass('btn-red');
+            $('.profile-content button').removeClass('btn-lg');
+            $('.form-horizontal').addClass("d-flex");
+            $('.form-group').addClass("col-lg-3 col-12");
+            $('.form-group div.col-sm-7').removeClass("col-sm-7");
+            $('.form-group label.col-sm-4').removeClass("col-sm-4");
+            $('.form-group div.col-sm-offset-4').removeClass("col-sm-offset-4");
+            $('.form-group div.col-sm-8').removeClass("col-sm-8");
+            
+        });
+    </script>
+{% endblock %}
